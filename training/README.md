@@ -18,3 +18,7 @@ This training inspired by [hello-skynet](https://github.com/ximenpo/hello-skynet
 3. [snax-console](https://github.com/qinhanlei/terminator/tree/master/training/snax-console)
     - [Snax](https://github.com/cloudwu/skynet/wiki/Snax)
     - [DebugConsole](https://github.com/cloudwu/skynet/wiki/DebugConsole)
+    - [Timer](https://github.com/cloudwu/skynet/wiki/LuaAPI) in common/abort.lua
+4. [echo](https://github.com/qinhanlei/terminator/tree/master/training/echo)
+    - [Socket](https://github.com/cloudwu/skynet/wiki/Socket)
+    - [SocketChannel](https://github.com/cloudwu/skynet/wiki/Socket)
