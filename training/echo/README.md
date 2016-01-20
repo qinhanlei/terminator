@@ -15,5 +15,5 @@ echo server and client.
 #### Mac OS X
 1. run two shells `$ skynet/skynet training/echo/config.lua`
 2. one shell type `server` in console
-3. other type `client xxx`
+3. other shell type `client xxx`
 4. see what happened.

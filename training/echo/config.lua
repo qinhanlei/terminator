@@ -8,6 +8,9 @@ local common_lib = './training/common/'
 
 -- need export, not a local variable anymore
 echo_server = "0.0.0.0:7000"
+-- for socketchannel 
+echo_server_ip = "0.0.0.0"
+echo_server_port = "7000"
 
 -- --------------------  Boostrap --------------------
 thread = 2

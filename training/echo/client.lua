@@ -40,14 +40,41 @@ end
 
 
 local function _do_socket_channel()
-    -- TODO: ...
+    local chan = socketchannel.channel {
+        host = skynet.getenv"echo_server_ip",
+        port = skynet.getenv"echo_server_port",
+    }
+
+    while true do
+        local msg = chan:request("hello, "..name, function(sock)
+            local str = sock:read()
+            if not str then
+                logger("sock:read() failed !")
+                return false
+            end
+            --logger("sock:read() succeed:", str)
+            return true, str
+        end)
+
+        if not msg then
+            logger("error: server MSG nil.")
+            break
+        end
+        logger("server MSG:", msg)
+        skynet.sleep(2*SKYNET_ONE_SECOND)
+    end
+
+    chan:close()
+    skynet.exit()
 end
 
 
 skynet.start(function()
     logger("my name is", name)
-    --skynet_manager.name(".dbgconsole", skynet.newservice("debug_console", DEBUG_CONSOLE_PORT+1))
+    local dbgc_service = skynet.newservice("debug_console", DEBUG_CONSOLE_PORT+1)
+    skynet_manager.name(".dbgconsole", dbgc_service)
 
-    _do_socket()
-    --_do_socket_channel()
+    -- _do_socket()
+
+    skynet.fork(_do_socket_channel)
 end)

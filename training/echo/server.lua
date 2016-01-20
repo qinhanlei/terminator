@@ -21,7 +21,8 @@ local function echo(id, addr)
 end
 
 skynet.start(function()
-    skynet_manager.name(".dbgconsole", skynet.newservice("debug_console", DEBUG_CONSOLE_PORT))
+    local dbgc_service = skynet.newservice("debug_console", DEBUG_CONSOLE_PORT)
+    skynet_manager.name(".dbgconsole", dbgc_service)
 
     local addr = skynet.getenv"echo_server"
     logger("getenv:echo_server is", addr)
