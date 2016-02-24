@@ -17,8 +17,12 @@ harbor = 0
 
 
 -- --------------------  Logger --------------------
-logger = nil -- output log to console.
 logpath = './training/logs' -- for debug_console do cmd:'logon address'
+
+logger = nil -- output log to console
+--logger = logpath..'/'..proj_name..'.log' -- try this logger destination
+logservice = 'logger' -- default is 'logger'
+
 
 -- -------------------- Path --------------------
 cpath = root.."cservice/?.so"
