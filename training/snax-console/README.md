@@ -44,7 +44,7 @@
 12. type `abort` in `shell1` to exit.
 13. more about `clearcache` see [`abort`](https://github.com/qinhanlei/terminator/blob/master/training/common/abort.lua)  
 14. try some other commands like 'logon/logoff address' ...
-15. uncomment `LOG DESTINATION` in config.lua, use `tail -f snax-console.log` trace logging.
+15. change `logger` in config.lua, use `tail -f snax-console.log` trace logging.
 
 ###### quit telnet
 1. press `ctrl+']'`
