@@ -3,7 +3,7 @@ local skynet_manager = require "skynet.manager"
 local socket = require "socket"
 
 local logger = require "simple-logger"
-require "constants"
+local consts = require "constants"
 
 local function echo(id, addr)
     socket.start(id)
@@ -21,16 +21,16 @@ local function echo(id, addr)
 end
 
 skynet.start(function()
-    local dbgc_service = skynet.newservice("debug_console", DEBUG_CONSOLE_PORT)
+    local dbgc_service = skynet.newservice("debug_console", consts.DEBUG_CONSOLE_PORT)
     skynet_manager.name(".dbgconsole", dbgc_service)
 
     local addr = skynet.getenv"echo_server"
     logger("getenv:echo_server is", addr)
 
     local id = assert(socket.listen(addr))
-
     socket.start(id, function(id, addr)
         logger("client"..id, "["..addr.."] connected.")
         skynet.fork(echo, id, addr)
     end)
+    
 end)

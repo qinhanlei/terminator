@@ -22,3 +22,6 @@ This training inspired by [hello-skynet](https://github.com/ximenpo/hello-skynet
 4. [echo](https://github.com/qinhanlei/terminator/tree/master/training/echo)
     - [Socket](https://github.com/cloudwu/skynet/wiki/Socket)
     - [SocketChannel](https://github.com/cloudwu/skynet/wiki/Socket)
+5. [cluster](https://github.com/qinhanlei/terminator/tree/master/training/cluster)
+    - [Cluster](https://github.com/cloudwu/skynet/wiki/Cluster)
+6. [chat-room](https://github.com/qinhanlei/terminator/tree/master/training/chat-room)

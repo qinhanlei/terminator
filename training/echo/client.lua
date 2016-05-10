@@ -5,7 +5,7 @@ local socket = require "socket"
 local socketchannel = require "socketchannel"
 
 local logger = require "simple-logger"
-require "constants"
+local consts = require "constants"
 
 
 local name = ... or ""
@@ -61,7 +61,7 @@ local function _do_socket_channel()
             break
         end
         logger("server MSG:", msg)
-        skynet.sleep(2*SKYNET_ONE_SECOND)
+        skynet.sleep(2 * consts.SKYNET_ONE_SECOND)
     end
 
     chan:close()
@@ -71,7 +71,7 @@ end
 
 skynet.start(function()
     logger("my name is", name)
-    local dbgc_service = skynet.newservice("debug_console", DEBUG_CONSOLE_PORT+1)
+    local dbgc_service = skynet.newservice("debug_console", consts.DEBUG_CONSOLE_PORT+1)
     skynet_manager.name(".dbgconsole", dbgc_service)
 
     -- _do_socket()

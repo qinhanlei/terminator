@@ -17,15 +17,26 @@ local function get_logger()
     return _logger
 end
 
-return function(...)
+local function logging(...)
     local t = {...}
 	for i=1,#t do
 		t[i] = tostring(t[i])
 	end
+    local msg = table.concat(t, " ")
+    
+    local info = debug.getinfo(2)
+	if info then
+		-- local filename = string.match(info.short_src, "[^/.]+.lua")
+        local filename = info.short_src
+		msg = string.format("[%s:%d] %s", filename, info.currentline, msg)
+	end
+    
     local logger = get_logger()
     if logger then
-        skynet_core.send(logger, skynet.PTYPE_TEXT, 0, table.concat(t, " "))
+        skynet_core.send(logger, skynet.PTYPE_TEXT, 0, msg)
     else
         print(table.concat(t, " "))
     end
 end
+
+return logging
