@@ -23,6 +23,6 @@ skynet.start(function()
     logger("master service dispatching...")
 
     master_service.mc = mc.new()
-    dc.set(PROJECT, CHANNEL, master_service.mc.channel)
+    dc.set("master-slave", "multicast-channel", master_service.mc.channel)
     logger("MASTER channel:"..master_service.mc.channel, "established.")
 end)

@@ -21,7 +21,7 @@ skynet.start(function()
     skynet.dispatch("lua", slave_service.handler)
 
     slave_service.mc = mc.new{
-        channel = dc.get(PROJECT, CHANNEL),
+        channel = dc.get("master-slave", "multicast-channel"),
         dispatch = function (channel, source, ...)
             local id = channel.channel
             logger("["..skynet.address(source).."] channel"..id, "MSG:", ...)
@@ -36,5 +36,5 @@ skynet.start(function()
     skynet.send(slave_service.master, "lua", "SLAVE", skynet.getenv"harbor")
 
     -- send by alias
-    --skynet.send(MASTER_ALIAS, "lua", "SLAVE", skynet.getenv"harbor")
+    --skynet.send("the_master_node", "lua", "SLAVE", skynet.getenv"harbor")
 end)

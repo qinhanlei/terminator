@@ -10,7 +10,7 @@ skynet.start(function()
     logger("launch uniqueservice MASTER done.")
 
     -- give an alias, send message will more convenience
-    skynet_manager.name(MASTER_ALIAS, master_service)
+    skynet_manager.name("the_master_node", master_service)
 
     -- start finish
     skynet.exit()
