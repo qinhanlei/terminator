@@ -27,9 +27,9 @@ local function hello()
 end
 
 local function tick_tock()
-    local ok = pcall(hello)
+    local ok, ret = pcall(hello)
     if not ok then
-        logger("tick_tock hello failed!")
+        logger("tick_tock hello failed!", tostring(ret))
         skynet.timeout(100 * 1, tick_tock)
     end
 end
