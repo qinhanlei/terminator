@@ -14,3 +14,12 @@
    ```
    
 4. run more `slave service` set different `slave_harbor` see what happened
+
+## NOTICE
+- master-slave was deprecated now.
+- cluster was recommended.
+- details:  
+  http://blog.codingnow.com/2014/06/skynet_cluster.html  
+  http://blog.codingnow.com/2014/06/skynet_harbor_redesign.html  
+  https://github.com/cloudwu/skynet/wiki/GettingStarted  
+  
