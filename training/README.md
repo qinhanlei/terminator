@@ -49,7 +49,7 @@ This training inspired by [hello-skynet](https://github.com/ximenpo/hello-skynet
 * ~~GettingStarted~~
 * Http
 * LoginServer
-* LuaAPI
+* ~~LuaAPI~~
 * MemoryHook
 * MongoDB
 * MsgServer
