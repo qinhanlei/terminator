@@ -40,14 +40,14 @@ This training inspired by [hello-skynet](https://github.com/ximenpo/hello-skynet
 * ~~CodeCache~~
 * ~~Community~~
 * ~~Config~~
-* Coroutine
+* ~~Coroutine~~
 * CriticalSection
 * ~~DataCenter~~
 * ~~DebugConsole~~
 * ~~FAQ~~
 * GateServer
 * ~~GettingStarted~~
-* Http
+* ~~Http~~
 * LoginServer
 * ~~LuaAPI~~
 * MemoryHook
