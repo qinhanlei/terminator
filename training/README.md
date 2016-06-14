@@ -59,7 +59,7 @@ This training inspired by [hello-skynet](https://github.com/ximenpo/hello-skynet
 * ~~Multicast~~
 * MySQL
 * Profile
-* ShareData
+* ~~ShareData~~
 * ~~Snax~~
 * ~~Socket~~
 * ~~SocketChannel~~
