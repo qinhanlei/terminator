@@ -29,6 +29,9 @@ This training inspired by [hello-skynet](https://github.com/ximenpo/hello-skynet
     - [Cluster](https://github.com/cloudwu/skynet/wiki/Cluster)
 - [websvr](https://github.com/qinhanlei/terminator/tree/master/training/websvr)
     - [Http](https://github.com/cloudwu/skynet/wiki/Http)
+- [data-share](https://github.com/qinhanlei/terminator/tree/master/training/data-share)
+    - [ShareData](https://github.com/cloudwu/skynet/wiki/ShareData)
+    - [DataCenter](https://github.com/cloudwu/skynet/wiki/DataCenter)
 - [chat-room](https://github.com/qinhanlei/terminator/tree/master/training/chat-room)
 
 # Skynet Wiki pages cover
