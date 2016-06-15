@@ -8,7 +8,7 @@ This training inspired by [hello-skynet](https://github.com/ximenpo/hello-skynet
 - something wrong? read [skynet FAQ](https://github.com/cloudwu/skynet/wiki/FAQ)
 
 
-# Course & Points
+# Subjects
 - [hello-world](https://github.com/qinhanlei/terminator/tree/master/training/hello-world)
     - [Config](https://github.com/cloudwu/skynet/wiki/Config)
     - [Bootstrap](https://github.com/cloudwu/skynet/wiki/Bootstrap)
@@ -25,44 +25,25 @@ This training inspired by [hello-skynet](https://github.com/ximenpo/hello-skynet
 - [echo](https://github.com/qinhanlei/terminator/tree/master/training/echo)
     - [Socket](https://github.com/cloudwu/skynet/wiki/Socket)
     - [SocketChannel](https://github.com/cloudwu/skynet/wiki/Socket)
-- [cluster](https://github.com/qinhanlei/terminator/tree/master/training/cluster)
+- [cluster](https://github.com/qinhanlei/terminator/tree/master/training/cluster) doing
     - [Cluster](https://github.com/cloudwu/skynet/wiki/Cluster)
+    - [GateServer]
+    - [LoginServer]
+    - [Sproto]
 - [websvr](https://github.com/qinhanlei/terminator/tree/master/training/websvr)
     - [Http](https://github.com/cloudwu/skynet/wiki/Http)
-- [data-share](https://github.com/qinhanlei/terminator/tree/master/training/data-share)
-    - [ShareData](https://github.com/cloudwu/skynet/wiki/ShareData)
-    - [DataCenter](https://github.com/cloudwu/skynet/wiki/DataCenter)
-- [chat-room](https://github.com/qinhanlei/terminator/tree/master/training/chat-room)
+- [data-share](https://github.com/qinhanlei/terminator/tree/master/training/data-share) todo
+    - [ShareData]
+    - [DataCenter]
+- [database] todo
+    - [MySQL]
+    - [MongoDB]
+    - [Redis]
+- [chat-room](https://github.com/qinhanlei/terminator/tree/master/training/chat-room) todo
 
-# Skynet Wiki pages cover
-* ~~Home~~
-* ~~Blogs~~
-* ~~Bootstrap~~
-* ~~Build~~
-* ~~Cluster~~
-* ~~CodeCache~~
-* ~~Community~~
-* ~~Config~~
-* ~~Coroutine~~
+# TODO
+* Coroutine
 * CriticalSection
-* ~~DataCenter~~
-* ~~DebugConsole~~
-* ~~FAQ~~
-* GateServer
-* ~~GettingStarted~~
-* ~~Http~~
-* LoginServer
-* ~~LuaAPI~~
 * MemoryHook
-* MongoDB
 * MsgServer
-* ~~Multicast~~
-* MySQL
 * Profile
-* ~~ShareData~~
-* ~~Snax~~
-* ~~Socket~~
-* ~~SocketChannel~~
-* Sproto
-* ~~UniqueService~~
-* ~~Uses~~
