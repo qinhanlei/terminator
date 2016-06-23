@@ -6,6 +6,6 @@ local logger = require "simple-logger"
 
 skynet.start(function()
     codecache.clear()
-    logger("TRAINING: clear codecache ...")
+    logger("clear codecache ...")
     skynet.exit()
 end)
