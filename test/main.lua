@@ -1,5 +1,4 @@
 local skynet = require "skynet"
-local logger = require "simple-logger"
 
 skynet.start(function()
     tlog.info("welcome to test.")

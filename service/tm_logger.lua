@@ -1,13 +1,13 @@
 local skynet = require "skynet"
 require "skynet.manager"
+
 local queue = require "skynet.queue"
 local cs = queue()
 
 local nodename = skynet.getenv("nodename")
 
 local MB = 1024 * 1024
-local GB = 1024 * MB
-local FILE_LIMIT = 2 * MB
+local FILE_LIMIT = 32 * MB
 
 local CMD = {}
 local logfile = nil

@@ -3,7 +3,6 @@ local queue = require "skynet.queue"
 local cs = queue()
 local nodename = skynet.getenv("nodename")
 
-
 local logkv = {
     debug = 1,
     info = 2,
