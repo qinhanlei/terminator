@@ -5,10 +5,13 @@ local proj_path = "./" .. proj_name .. "/"
 local common_lib = "./lualib/"
 local common_svr = "./service/"
 
+nodename = proj_name
+
 -- --------------------  Boostrap --------------------
 thread = 4
 bootstrap = "snlua bootstrap"	-- The service for bootstrap
 start = "main"	-- main script
+preload = "./lualib/preload.lua"	-- run preload.lua before every lua service run
 
 
 -- --------------------  Connection --------------------
@@ -17,8 +20,8 @@ harbor = 0
 
 -- --------------------  Logger --------------------
 logpath = "./logs"
--- logger = "tm_logger"
--- logservice = "snlua"
+logger = "tm_logger"
+logservice = "snlua"
 
 
 -- -------------------- Path --------------------
