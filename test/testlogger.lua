@@ -4,7 +4,7 @@ local skynet = require "skynet"
 skynet.start(function()
     tlog.debug("this is test of logger.")
     
-    local n = 100000
+    local n = 20000
     local begin_time = skynet.now()
     for i = 1, n do
         tlog.debug("here is logging the log:" .. i)

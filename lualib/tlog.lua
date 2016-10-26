@@ -21,21 +21,21 @@ local function send_log(typ, level, fmt, ...)
     end
     
     local log = string.format(fmt, ...)
-	local info = debug.getinfo(2)
+	local info = debug.getinfo(3)
 	if info then
-		log = string.format("[%s:%d] %s", 
-                info.short_src, info.currentline, log)
+        -- local filename = info.short_src
+        local filename = string.match(info.short_src, "[^/.]+.lua")
+		log = string.format("[%s:%d] %s", filename, info.currentline, log)
 	end
     
     skynet.send(".logger", "lua", "logging", typ, log)
-	return log
 end
 
 
 for k, v in pairs(logkv) do
     local typ = string.upper(k)
     tlog[k] = function(fmt, ...)
-        return send_log(typ, v, fmt, ...)
+        send_log(typ, v, fmt, ...)
     end
 end
 
