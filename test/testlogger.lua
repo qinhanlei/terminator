@@ -2,14 +2,18 @@ local skynet = require "skynet"
 
 
 skynet.start(function()
-    tlog.debug("this is test of logger.")
+    tlog.debug("Test of logger.")
     
-    local n = 20000
+    local n = 10000
     local begin_time = skynet.now()
     for i = 1, n do
-        tlog.debug("here is logging the log:" .. i)
+        tlog.debug("here is log:" .. i)
     end
     local end_time = skynet.now()
-    tlog.debug("logging %d logs, cost time:%fs", n, (end_time - begin_time)/100.0)
     
+    --NOTE: incorrect!
+    local cost = (end_time - begin_time)/100.0
+    tlog.debug("process %d logs, cost time:%fs", n, cost)
+    
+    -- skynet.exit()
 end)
