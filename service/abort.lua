@@ -4,21 +4,15 @@ require "skynet.manager"	-- import skynet.abort
 
 
 skynet.init(function()
-    tlog.info("aborting...", os.time(), skynet.now(), 100/40)
+    tlog.info("aborting...")
 end)
 
 
 skynet.start(function()
-    local one_second = 100
-    local count_down = 2*one_second
+    local count_down = 100 * 1
 
-    -- remove cast(math.floor), run abort in console. # got error
-    -- then recover, run abort in console again. # still got error, cause codecached.
-    -- run clearcache then ruan abort in console. # works !
-    local done_sleep = count_down - math.floor(one_second/40)
-
-    skynet.timeout(count_down - done_sleep, function()
-        tlog.info("abort done.", os.time(), skynet.now())
+    skynet.timeout(count_down-3, function()
+        tlog.info("abort done.")
     end)
     skynet.sleep(count_down)
     skynet.abort()
