@@ -1,7 +1,4 @@
 local skynet = require "skynet"
-local queue = require "skynet.queue"
-local cs = queue()
-local nodename = skynet.getenv("nodename")
 
 local logkv = {
     debug = 1,
@@ -15,12 +12,32 @@ tlog = {}
 LOG_LEVEL = logkv.debug
 
 
+local function concat(t)
+    if #t == 0 then return "nil" end
+    local ret = ""
+    for _, v in pairs(t) do
+        if string.len(ret) == 0 then
+            ret = tostring(v)
+        else
+            ret = ret .. " " .. tostring(v)
+        end
+    end
+    return ret
+end
+
+
 local function send_log(typ, level, fmt, ...)
     if level < LOG_LEVEL then 
         return 
     end
     
-    local log = string.format(fmt, ...)
+    -- local log = string.format(fmt, ...)
+    local ok, log = pcall(string.format, fmt, ...)
+    if not ok then
+        typ = "ERROR"
+        -- log = log .. ":\n" .. concat({fmt, "|", ...})
+    end
+    
 	local info = debug.getinfo(3)
 	if info then
         -- local filename = info.short_src

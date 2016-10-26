@@ -7,7 +7,7 @@ skynet.start(function()
     local n = 10000
     local begin_time = skynet.now()
     for i = 1, n do
-        tlog.debug("here is log:" .. i)
+        tlog.debug("here is log:%d", i)
     end
     local end_time = skynet.now()
     
