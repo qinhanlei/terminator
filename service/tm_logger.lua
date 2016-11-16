@@ -5,14 +5,17 @@ local queue = require "skynet.queue"
 local cs = queue()
 
 local nodename = skynet.getenv("nodename")
+local logpath = skynet.getenv("logpath")
 
 local MB = 1024 * 1024
 local FILE_LIMIT = 32 * MB
 
 local CMD = {}
-local logfile = nil
-local filesize = 0
-local fileidx = 0
+
+local _log_file = nil
+local _log_name = ""
+local _log_size = 0
+local _log_idx = 0
 
 
 local function str_datetime(t, p)
@@ -31,19 +34,26 @@ local function logging(source, typ, log)
 		local log = string.format("[%s] [%s] [%s:%x] %s", tm, typ, nodename, source, log)
 		print(log)
 		
-		if not logfile then
-			local logpath = string.format("./logs/%s_%04d%02d%02d_%02d%02d%02d_%02d.log",
-					nodename, t.year, t.month, t.day, t.hour, t.min, t.sec, fileidx)
-			logfile = io.open(logpath, "a+")
+		if not _log_file then
+			_log_name = string.format("%s/%s_%04d%02d%02d_%02d%02d%02d_%02d.log", 
+				logpath, nodename, t.year, t.month, t.day, t.hour, t.min, t.sec, _log_idx)
+			local f, e = io.open(_log_name, "a+")
+			if not f then
+				print("logger error:", tostring(e))
+				-- skynet.abort()
+				return
+			end
+			_log_file = f
 		end
-		logfile:write(log .. "\n")
-	    logfile:flush()
-		filesize = filesize + string.len(log) + 1
-		if logfile and filesize >= FILE_LIMIT then
-			logfile:close()
-			logfile = nil
-			filesize = 0
-			fileidx = fileidx + 1
+		_log_file:write(log .. "\n")
+	    _log_file:flush()
+		
+		_log_size = _log_size + string.len(log) + 1
+		if _log_size >= FILE_LIMIT then
+			_log_file:close()
+			_log_file = nil
+			_log_size = 0
+			_log_idx = _log_idx + 1
 		end
 	end)
 end
@@ -71,5 +81,5 @@ skynet.start(function()
 	end)
 
 	skynet.register(".logger")
-	logging(skynet.self(), "INFO", "terminator-logger ready.")
+	logging(skynet.self(), "INFO", "terminator logger is ready.")
 end)
