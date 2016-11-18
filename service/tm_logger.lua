@@ -64,6 +64,12 @@ function CMD.logging(source, typ, log)
 end
 
 
+function CMD.logging_ret(source, typ, log)
+	logging(source, typ, log)
+	skynet.retpack()
+end
+
+
 skynet.register_protocol {
 	name = "text",
 	id = skynet.PTYPE_TEXT,

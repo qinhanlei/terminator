@@ -31,7 +31,6 @@ local function send_log(typ, level, fmt, ...)
         return 
     end
     
-    -- local log = string.format(fmt, ...)
     local ok, log = pcall(string.format, fmt, ...)
     if not ok then
         typ = "ERROR"
@@ -40,12 +39,15 @@ local function send_log(typ, level, fmt, ...)
     
 	local info = debug.getinfo(3)
 	if info then
-        -- local filename = info.short_src
         local filename = string.match(info.short_src, "[^/.]+.lua")
 		log = string.format("[%s:%d] %s", filename, info.currentline, log)
 	end
     
-    skynet.send(".logger", "lua", "logging", typ, log)
+    if TEST_LOGGER then
+        skynet.call(".logger", "lua", "logging_ret", typ, log)
+    else
+        skynet.send(".logger", "lua", "logging", typ, log)
+    end
 end
 
 

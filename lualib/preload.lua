@@ -1,1 +1,3 @@
 require "tlog"
+
+DEBUG = true
