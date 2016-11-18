@@ -76,7 +76,7 @@ skynet.register_protocol {
 
 skynet.start(function()
 	skynet.dispatch("lua", function(session, source, cmd, ...)
-		local f = assert(CMD[cmd], cmd .. "not found")
+		local f = assert(CMD[cmd], cmd .. " not found")
 		f(source, ...)
 	end)
 
