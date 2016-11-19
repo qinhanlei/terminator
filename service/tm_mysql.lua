@@ -43,8 +43,8 @@ end
 
 local function clear()
 	for _, t in pairs(_conn) do
-		for _, v in pairs(t) do
-			v:disconnect()
+		for _, c in pairs(t) do
+			c:disconnect()
 		end
 	end
 	_conn = nil
@@ -69,6 +69,22 @@ local function init()
 		end
 	end
 	tlog.debug("init done.")
+end
+
+
+local function keep_alive()
+	while true do
+		skynet.sleep(1.5*100)
+		if _conn then
+			for db, t in pairs(_conn) do
+				for i, c in pairs(t) do
+					tlog.debug("keep alive %s:%d connection...", db, i)
+					c:query("set charset utf8")  --TODO: verify this
+					skynet.sleep(0.5*100)
+				end
+			end
+		end
+	end
 end
 
 
@@ -109,4 +125,6 @@ skynet.start(function()
     
 	skynet.register(".tm_mysql")
 	init()
+	
+	skynet.fork(keep_alive)
 end)
