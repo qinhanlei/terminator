@@ -1,4 +1,5 @@
 local skynet = require "skynet"
+local util = require "util"
 
 local _cmd = table.pack(...)
 
