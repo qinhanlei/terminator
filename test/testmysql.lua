@@ -28,8 +28,7 @@ end
 skynet.start(function()
     tlog.debug("Test of MySQL.")
     
-    skynet.newservice("tm_mysql")
-    skynet.call(".db_mysql", "lua", "start")
+    skynet.uniqueservice("tm_mysql")
     
     test_insert()
     test_query()

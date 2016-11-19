@@ -1,4 +1,4 @@
-print("this is test config_db.")
+-- print("this is test config_db.")
 
 local conf = {}
 
@@ -28,7 +28,6 @@ conf.mongodb = {
 
 
 conf.redis = {
-    
 }
 
 

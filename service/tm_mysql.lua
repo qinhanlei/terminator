@@ -41,22 +41,6 @@ local function connect(dbname, t)
 end
 
 
-local function init()
-	_mconf = config.mysql
-	if not _mconf then
-		tlog.error("no mysql config!")
-		return false
-	end
-	
-	_conn = {}
-	for k, v in pairs(_mconf) do
-		if type(v) == "table" then
-			connect(k, v)
-		end
-	end
-end
-
-
 local function clear()
 	for _, t in pairs(_conn) do
 		for _, v in pairs(t) do
@@ -67,11 +51,28 @@ local function clear()
 end
 
 
--- uniqueservice is lazy initialization 
-function CMD.start()
+local function init()
 	if _conn then
 		clear()
 	end
+	
+	_mconf = config.mysql
+	if not _mconf then
+		tlog.error("no mysql config!")
+		return
+	end
+	
+	_conn = {}
+	for k, v in pairs(_mconf) do
+		if type(v) == "table" then
+			connect(k, v)
+		end
+	end
+	tlog.debug("init done.")
+end
+
+
+function CMD.start()
 	init()
 end
 
@@ -106,5 +107,6 @@ skynet.start(function()
 		skynet.retpack(f(...))
 	end)
     
-	skynet.register(".db_mysql")
+	skynet.register(".tm_mysql")
+	init()
 end)
