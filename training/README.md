@@ -1,14 +1,15 @@
+# Training
 Welcome to training with [skynet](https://github.com/cloudwu/skynet/wiki).
 
 This training inspired by [hello-skynet](https://github.com/ximenpo/hello-skynet).  
 
-# Prepare
+## Prepare
 - read [skynet/README.md](https://github.com/cloudwu/skynet/blob/master/README.md)
 - build [skynet](https://github.com/cloudwu/skynet/wiki/Build)
 - something wrong? read [skynet FAQ](https://github.com/cloudwu/skynet/wiki/FAQ)
 
 
-# Subjects
+## Subjects
 - [hello-world](https://github.com/qinhanlei/terminator/tree/master/training/hello-world)
     - [Config](https://github.com/cloudwu/skynet/wiki/Config)
     - [Bootstrap](https://github.com/cloudwu/skynet/wiki/Bootstrap)
@@ -41,7 +42,7 @@ This training inspired by [hello-skynet](https://github.com/ximenpo/hello-skynet
     - [Redis]
 - [chat-room](https://github.com/qinhanlei/terminator/tree/master/training/chat-room) todo
 
-# TODO
+## TODO
 * Coroutine
 * CriticalSection
 * MemoryHook
