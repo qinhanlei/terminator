@@ -45,8 +45,6 @@ end
 skynet.start(function()
     tlog.debug("Test of logger.")
     
-    -- by_num(50000)
-    -- by_time(1*100)
     util.process(CMD, table.unpack(_cmd))
     
     -- skynet.exit()
