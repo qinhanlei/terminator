@@ -1,4 +1,5 @@
 local skynet = require "skynet"
+local util = require "util"
 
 local _cmd = table.pack(...)
 
@@ -7,7 +8,7 @@ local CMD = {}
 TEST_LOGGER = true
 
 
-function CMD.by_num(n)
+function CMD.number(n)
     local begin_time = skynet.now()
     
     for i = 1, n do
@@ -20,7 +21,7 @@ function CMD.by_num(n)
 end
 
 
-function CMD.by_time(sec)
+function CMD.time(sec)
     local cnt = 0
     local is_time_up = false
     local begin_time = skynet.now()
@@ -41,18 +42,12 @@ function CMD.by_time(sec)
 end
 
 
-local function process(cmd, ...)
-    local f = assert(CMD[cmd], cmd .. " not found")
-    f(...)
-end
-
-
 skynet.start(function()
     tlog.debug("Test of logger.")
     
     -- by_num(50000)
     -- by_time(1*100)
-    process(table.unpack(_cmd))
+    util.process(CMD, table.unpack(_cmd))
     
     -- skynet.exit()
 end)

@@ -40,7 +40,6 @@ local function logging(source, typ, log)
 			local f, e = io.open(_log_name, "a+")
 			if not f then
 				print("logger error:", tostring(e))
-				-- skynet.abort()
 				return
 			end
 			_log_file = f
