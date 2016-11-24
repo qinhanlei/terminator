@@ -23,7 +23,7 @@ end
 skynet.start(function()
     skynet.dispatch("lua", function(session, source, cmd, ...)
 		local f = assert(CMD[cmd], cmd .. " not found")
-		f(source, ...)
+		skynet.retpack(f(source, ...))
 	end)
     
     tlog.debug("Test of event pool.")
