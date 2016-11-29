@@ -26,6 +26,7 @@ end
 
 
 function util.newtimer()
+    local timer = {}
     local handles = {}
     
     function timer.timeout(ti, f)
