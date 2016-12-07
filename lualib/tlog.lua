@@ -27,8 +27,8 @@ end
 
 
 local function send_log(typ, level, fmt, ...)
-    if level < LOG_LEVEL then 
-        return 
+    if level < LOG_LEVEL then
+        return
     end
     
     local ok, log = pcall(string.format, fmt, ...)
@@ -57,4 +57,3 @@ for k, v in pairs(logkv) do
         send_log(typ, v, fmt, ...)
     end
 end
-

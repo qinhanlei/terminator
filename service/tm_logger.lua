@@ -21,7 +21,7 @@ local _log_idx = 0
 local function str_datetime(t, p)
 	t = t or os.date("*t")
 	p = p or math.floor(skynet.time()*100%100)
-	return string.format("%04d-%02d-%02d %02d:%02d:%02d.%02d", 
+	return string.format("%04d-%02d-%02d %02d:%02d:%02d.%02d",
         t.year, t.month, t.day, t.hour, t.min, t.sec, p)
 end
 
@@ -35,7 +35,7 @@ local function logging(source, typ, log)
 		print(log)
 		
 		if not _log_file then
-			_log_name = string.format("%s/%s_%04d%02d%02d_%02d%02d%02d_%02d.log", 
+			_log_name = string.format("%s/%s_%04d%02d%02d_%02d%02d%02d_%02d.log",
 				logpath, nodename, t.year, t.month, t.day, t.hour, t.min, t.sec, _log_idx)
 			local f, e = io.open(_log_name, "a+")
 			if not f then

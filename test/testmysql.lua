@@ -11,7 +11,7 @@ local function test_insert()
     local t = dbutil.execute_sql("tm_game", "delete from user;")
     for i = 1, 10 do
         local sql = dbutil.sql_insert("user", {
-            username = "test"..i, 
+            username = "test"..i,
             record_time = util.nowstr(),
         })
         local t = dbutil.execute_sql("tm_game", sql)
