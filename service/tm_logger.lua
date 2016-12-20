@@ -10,6 +10,17 @@ local logpath = skynet.getenv("logpath")
 local MB = 1024 * 1024
 local FILE_LIMIT = 32 * MB
 
+-- Also works on 'print' of C and Python, 'echo' of Unix like Shell, etc.
+local DEFAULT_COLOR = "\x1b[m"
+local LOG_COLOR_MAP = {
+	DEBUG = DEFAULT_COLOR,
+	INFO = "\x1b[32m",
+	WARN = "\x1b[33m",
+	ERROR = "\x1b[31m",
+	FATAL = "\x1b[35m",
+	SKY = "\x1b[34m",
+}
+
 local CMD = {}
 
 local _log_file = nil
@@ -32,7 +43,7 @@ local function logging(source, typ, log)
 		local p = math.floor(skynet.time()*100%100)
 		local tm = str_datetime(t,p)
 		local log = string.format("[%s] [%s] [%s:%x] %s", tm, typ, nodename, source, log)
-		print(log)
+		print(LOG_COLOR_MAP[typ]..log..DEFAULT_COLOR)
 		
 		if not _log_file then
 			_log_name = string.format("%s/%s_%04d%02d%02d_%02d%02d%02d_%02d.log",
