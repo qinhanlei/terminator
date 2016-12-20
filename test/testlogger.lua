@@ -45,6 +45,10 @@ end
 skynet.start(function()
     tlog.debug("Test of logger.")
     
+    for k, logger in pairs(tlog) do
+        logger("this is logging of `%s`", k)
+    end
+    
     util.process(CMD, table.unpack(_cmd))
     
     -- skynet.exit()

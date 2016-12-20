@@ -97,5 +97,5 @@ skynet.start(function()
 	end)
 
 	skynet.register(".logger")
-	logging(skynet.self(), "INFO", "terminator logger is ready.")
+	tlog.info("terminator logger is ready.")
 end)
