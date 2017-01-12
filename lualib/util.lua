@@ -27,7 +27,7 @@ end
 
 function util.newtimer()
     local timer = {}
-    local handles = {}
+    local handles = setmetatable({}, {__mode = "kv"})
     
     function timer.timeout(ti, f)
     	local function tf()
