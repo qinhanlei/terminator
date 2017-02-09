@@ -30,7 +30,7 @@ function util.newtimer()
     local handles = {} --setmetatable({}, {__mode = "kv"})
     
     function timer.timeout(ti, f)
-        if ti > 60*100 then
+        if ti > TM_TIMEOUT_LIMIT then
             tlog.warn("long timeout:%d! %s", ti, debug.traceback())
         end
     	local function tf()
