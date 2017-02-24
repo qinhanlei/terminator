@@ -36,6 +36,7 @@ function util.newtimer()
     	local function tf()
     		local f = handles[tf]
     		if f then
+                handles[tf] = nil
     			f()
     		end
     	end
