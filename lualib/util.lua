@@ -34,8 +34,7 @@ function util.newtimer()
             tlog.warn("long timeout:%d! %s", ti, debug.traceback())
         end
     	local function tf()
-    		local f = handles[tf]
-    		if f then
+    		if handles[tf] then
                 handles[tf] = nil
     			f()
     		end
