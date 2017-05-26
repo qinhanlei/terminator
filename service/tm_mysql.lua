@@ -1,13 +1,12 @@
 local skynet = require "skynet"
 require "skynet.manager"
-
 local mysql = require "mysql"
 local config = require "config_db"
 
 local nodename = skynet.getenv("nodename")
+local TM_PING_DB_INTERVAL = 60*100
 
 local CMD = {}
-
 local _mconf = nil
 local _conn = nil
 local _conn_params = nil
@@ -40,7 +39,7 @@ local function connect(dbname, t)
 			tlog.info("connect %s:%d succeed.", dbname, i)
 			table.insert(_conn[dbname], c)
 		else
-			tlog.error("connect %s:%d failed!", tostring(dbname), i)
+			tlog.error("connect %s:%d failed!", dbname, i)
 		end
 	end
 end
@@ -89,7 +88,7 @@ local function check_conn(db, t)
 				tlog.info("reconnect %s:%d succeed.", db, i)
 				t[i] = new_c
 			else
-				tlog.error("reconnect %s:%d failed!", tostring(db), i)
+				tlog.error("reconnect %s:%d failed!", db, i)
 			end
 		end
 	end
@@ -98,7 +97,7 @@ end
 
 local function keep_alive()
 	while true do
-		skynet.sleep(15*100)
+		skynet.sleep(TM_PING_DB_INTERVAL)
 		if _conn then
 			for db, t in pairs(_conn) do
 				check_conn(db, t)
@@ -134,7 +133,22 @@ function CMD.query(db, sql)
 	local idx = math.random(1, #t)
 	local c = t[idx]
 	
-	return c:query(sql)
+	local ok, ret = pcall(c.query, c, sql)
+	if ok then
+		return ret
+	end
+	tlog.warn("query %s:%d failed:%s", db, idx, ret)
+	
+	-- try reconnect once
+	local new_c = mysql.connect(_conn_params[db])
+	if not new_c then
+		tlog.error("reconnect %s:%d failed!", db, idx)
+		return
+	end
+	
+	tlog.info("reconnect %s:%d succeed.", db, idx)
+	t[idx] = new_c
+	return new_c:query(sql)
 end
 
 
@@ -144,8 +158,7 @@ skynet.start(function()
 		skynet.retpack(f(...))
 	end)
     
-	skynet.register(".tm_mysql")
 	init()
-	
+	skynet.register(".tm_mysql")
 	skynet.fork(keep_alive)
 end)
