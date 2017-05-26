@@ -81,9 +81,9 @@ end
 local function check_conn(db, t)
 	tlog.debug("keep alive %s, connections %d ...", db, #t)
 	for i, c in pairs(t) do
-		local ok, err = pcall(query, c, "set charset utf8mb4")
+		local ok, err = pcall(c.query, c, "set charset utf8mb4")
 		if not ok then
-			tlog.warn("ping %s:%d failed! try reconnect ...", db, i)
+			tlog.warn("ping %s:%d failed:%s", db, i, err)
 			local new_c = mysql.connect(_conn_params[db])
 			if new_c then
 				tlog.info("reconnect %s:%d succeed.", db, i)
