@@ -2,10 +2,6 @@ local skynet = require "skynet"
 local util = require "util"
 local dbutil = require "dbutil"
 
-local _cmd = table.pack(...)
-
-local CMD = {}
-
 
 local function test_insert()
     local t = dbutil.execute_sql("tm_game", "delete from user;")
@@ -20,8 +16,14 @@ end
 
 
 local function test_query()
+    skynet.timeout(6*100, test_query)
+    tlog.debug("run test query ...")
     local t = dbutil.execute_sql("tm_game", "select * from user;")
-    dump(t)
+    if t then
+        tlog.info("query succeed! row_count:%d ", #t)
+    else
+        tlog.error("query failed!")
+    end
 end
 
 
@@ -33,7 +35,4 @@ skynet.start(function()
     test_insert()
     test_query()
     
-    util.process(CMD, table.unpack(_cmd))
-    
-    skynet.exit()
 end)
