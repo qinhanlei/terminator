@@ -15,5 +15,7 @@ skynet.start(function()
         tlog.info("Still there?")
     end)
     
+    timer.timeout(1, no_func)
+    
     -- skynet.exit()
 end)

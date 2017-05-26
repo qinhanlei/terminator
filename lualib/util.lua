@@ -30,6 +30,10 @@ function util.newtimer()
     local handles = {} --setmetatable({}, {__mode = "kv"})
     
     function timer.timeout(ti, f)
+        if not f then
+            tlog.warn("timeout callback is nil %s", debug.traceback())
+            return
+        end
         if ti > TM_TIMEOUT_LIMIT then
             tlog.warn("long timeout:%d! %s", ti, debug.traceback())
         end
@@ -45,7 +49,9 @@ function util.newtimer()
     end
     
     function timer.cancel(tf)
-    	handles[tf] = nil
+        if tf then
+        	handles[tf] = nil
+        end
     end
     
     function timer.clear()
