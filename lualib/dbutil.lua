@@ -7,6 +7,7 @@ local dbutil = {}
 function dbutil.execute_sql(db, fmt, ...)
 	local ok, sql = pcall(string.format, fmt, ...)
     if not ok then
+		tlog.error("format sql failed:%s", tostring(sql))
         return nil, tostring(sql)
     end
 	
