@@ -35,7 +35,7 @@ luaservice = root.."service/?.lua;"..
             proj_path..'?.lua'
 
 lua_path = root.."lualib/?.lua;"..
-            root.."lualib/compat10/?.lua;"..
             common_svr.."?.lua;"..
             common_lib.."?.lua;"..
             proj_path..'?.lua'
+lua_path = root.."lualib/compat10/?.lua;"..lua_path --TODO: remove me
