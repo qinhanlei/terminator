@@ -1,7 +1,7 @@
 local skynet = require "skynet"
 local util = require "util"
 
-local timer = util.newtimer()
+local timer = util.newtimer(1)
 
 
 skynet.start(function()
@@ -9,6 +9,8 @@ skynet.start(function()
     
     timer.timeout(5, function()
         tlog.info("Hi there!")
+        timer.clear()
+        timer.watch(2)
     end)
     
     timer.timeout(TM_TIMEOUT_LIMIT, function()

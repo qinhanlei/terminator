@@ -25,9 +25,12 @@ function util.nowstr()
 end
 
 
-function util.newtimer()
+function util.newtimer(ti, cb)
     local timer = {}
     local handles = {} --setmetatable({}, {__mode = "kv"})
+    local watcher = nil
+    
+    timer.id = skynet.now()
     
     function timer.timeout(ti, f)
         if not f then
@@ -59,6 +62,33 @@ function util.newtimer()
     		handles[k] = nil
     	end
     end
+    
+    local function watching(ti, cb)
+        local id = skynet.now()
+        tlog.debug("this is timer:%d watcher:%d", timer.id, id)
+        while watcher do
+            skynet.sleep(ti*100)
+            tlog.debug("timer:%d task number:%d", timer.id, table.nums(handles))
+            if type(cb) == "function" then
+                cb()
+            end
+        end
+        tlog.debug("timer:%d watcher:%d finished.", timer.id, id)
+    end
+    
+    function timer.watch(ti, cb)
+        if watcher then  -- stop previous watcher
+            skynet.wakeup(watcher)
+            watcher = nil
+        end
+        if type(ti) == "number" then
+            skynet.timeout(42, function()
+                watcher = skynet.fork(watching, ti, cb)
+            end)
+        end
+    end
+    
+    timer.watch(ti, cb)
     
     return timer
 end
