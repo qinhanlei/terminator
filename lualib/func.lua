@@ -31,6 +31,15 @@ function string.trim(input)
 end
 
 
+function table.nums(t)
+    local count = 0
+    for k, v in pairs(t) do
+        count = count + 1
+    end
+    return count
+end
+
+
 function dump(value, desciption, nesting)
     local print = tlog.debug
     if type(nesting) ~= "number" then nesting = 3 end
