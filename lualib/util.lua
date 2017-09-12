@@ -43,7 +43,7 @@ function util.newtimer()
     			f()
     		end
     	end
-    	skynet.timeout(ti, tf)
+    	skynet.timeout(ti*100, tf)
         handles[tf] = f
     	return tf
     end

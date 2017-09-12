@@ -7,11 +7,11 @@ local timer = util.newtimer()
 skynet.start(function()
     tlog.debug("Test of Timer.")
     
-    timer.timeout(100, function()
+    timer.timeout(5, function()
         tlog.info("Hi there!")
     end)
     
-    timer.timeout(TM_TIMEOUT_LIMIT + 1, function()
+    timer.timeout(TM_TIMEOUT_LIMIT, function()
         tlog.info("Still there?")
     end)
     
