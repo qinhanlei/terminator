@@ -33,7 +33,7 @@ local function str_datetime(t, p)
 	t = t or os.date("*t")
 	p = p or math.floor(skynet.time()*100%100)
 	return string.format("%04d-%02d-%02d %02d:%02d:%02d.%02d",
-        t.year, t.month, t.day, t.hour, t.min, t.sec, p)
+		t.year, t.month, t.day, t.hour, t.min, t.sec, p)
 end
 
 
@@ -56,7 +56,7 @@ local function logging(source, typ, log)
 			_log_file = f
 		end
 		_log_file:write(log .. "\n")
-	    _log_file:flush()
+		_log_file:flush()
 		
 		_log_size = _log_size + string.len(log) + 1
 		if _log_size >= FILE_LIMIT then
@@ -70,7 +70,7 @@ end
 
 
 function CMD.logging(source, typ, log)
-    logging(source, typ, log)
+	logging(source, typ, log)
 end
 
 
@@ -85,7 +85,7 @@ skynet.register_protocol {
 	id = skynet.PTYPE_TEXT,
 	unpack = skynet.tostring,
 	dispatch = function(_, address, msg)
-        logging(address, "SKY", msg)
+		logging(address, "SKY", msg)
 	end
 }
 

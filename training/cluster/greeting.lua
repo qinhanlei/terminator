@@ -8,13 +8,13 @@ local util = require "util"
 local CMD = {}
 
 function CMD.hi(msg)
-    logger("receive msg:", msg.content)
+	logger("receive msg:", msg.content)
 end
 
 skynet.start(function()
-    skynet.dispatch("lua", function(session, source, cmd, ...)
+	skynet.dispatch("lua", function(session, source, cmd, ...)
 		local f = assert(CMD[cmd], cmd .. "not found")
 		skynet.retpack(f(...))
 	end)
-    
+	
 end)

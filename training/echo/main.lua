@@ -5,8 +5,8 @@ local skynet_manager = require "skynet.manager"
 
 skynet.start(function()
 
-    skynet_manager.name(".console", skynet.newservice("console"))
-    --skynet_manager.name(".dbgconsole", skynet.newservice("debug_console", consts.DEBUG_CONSOLE_PORT))
+	skynet_manager.name(".console", skynet.newservice("console"))
+	--skynet_manager.name(".dbgconsole", skynet.newservice("debug_console", consts.DEBUG_CONSOLE_PORT))
 
-    skynet.exit()
+	skynet.exit()
 end)

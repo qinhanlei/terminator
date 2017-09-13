@@ -5,7 +5,7 @@ local logger = require "simple-logger"
 
 
 skynet.start(function()
-    codecache.clear()
-    logger("TRAINING: clear codecache ...")
-    skynet.exit()
+	codecache.clear()
+	logger("TRAINING: clear codecache ...")
+	skynet.exit()
 end)
