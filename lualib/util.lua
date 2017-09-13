@@ -65,15 +65,15 @@ function util.newtimer(ti, cb)
     
     local function watching(ti, cb)
         local id = skynet.now()
-        tlog.debug("this is timer:%d watcher:%d", timer.id, id)
+        tlog.debug("this is timer:%x watcher:%x", timer.id, id)
         while watcher do
             skynet.sleep(ti*100)
-            tlog.debug("timer:%d task number:%d", timer.id, table.nums(handles))
+            tlog.debug("timer:%x task number:%d", timer.id, table.nums(handles))
             if type(cb) == "function" then
                 cb()
             end
         end
-        tlog.debug("timer:%d watcher:%d finished.", timer.id, id)
+        tlog.debug("timer:%x watcher:%x finished.", timer.id, id)
     end
     
     function timer.watch(ti, cb)
