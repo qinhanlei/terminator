@@ -12,6 +12,7 @@ local svr_list = nil
 local function hello()
 	for node, v in pairs(svr_list) do
 		if node ~= nodename then
+			-- node = node .. '-not-exist'
 			logger("say hi to svr:"..node)
 			local msg = {
 				from = nodename,
@@ -28,10 +29,19 @@ local function hello()
 end
 
 local function tick_tock()
+	local f = tick_tock
+	skynet.timeout(100 * 1, function() 
+		if f then 
+			f() 
+		end
+	end)
+	
 	local ok, ret = pcall(hello)
 	if not ok then
 		logger("tick_tock hello failed!", tostring(ret))
-		skynet.timeout(100 * 1, tick_tock)
+		-- skynet.timeout(100 * 1, tick_tock)
+	else
+		f = nil
 	end
 end
 
