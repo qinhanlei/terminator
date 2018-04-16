@@ -5,6 +5,7 @@ local logger = require "simple-logger"
 local util = require "util"
 
 local nodename = skynet.getenv("nodename")
+local dbgc_port = skynet.getenv("debug_console_port")
 
 local svr_list = nil
 
@@ -43,7 +44,9 @@ skynet.start(function()
 	
 	svr_list = util.load_clusters(skynet.getenv "cluster")
 	util.dump(svr_list)
+
+	skynet.newservice("debug_console", dbgc_port)
+	skynet.newservice("console")
 	
 	skynet.fork(tick_tock)
-	
 end)
