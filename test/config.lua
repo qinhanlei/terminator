@@ -20,7 +20,7 @@ harbor = 0
 
 -- --------------------  Logger --------------------
 logpath = "./logs"
-logger = "tm_logger"
+logger = "tlogger"
 logservice = "snlua"
 
 

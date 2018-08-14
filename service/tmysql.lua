@@ -159,6 +159,6 @@ skynet.start(function()
 	end)
 	
 	init()
-	skynet.register(".tm_mysql")
+	skynet.register(".tmysql")
 	skynet.fork(keep_alive)
 end)

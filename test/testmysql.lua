@@ -4,13 +4,13 @@ local dbutil = require "dbutil"
 
 
 local function test_insert()
-	local t = dbutil.execute_sql("tm_game", "delete from user;")
+	local t = dbutil.execute_sql("tgame", "delete from user;")
 	for i = 1, 10 do
 		local sql = dbutil.sql_insert("user", {
 			username = "test"..i,
 			record_time = util.nowstr(),
 		})
-		local t = dbutil.execute_sql("tm_game", sql)
+		local t = dbutil.execute_sql("tgame", sql)
 	end
 end
 
@@ -18,7 +18,7 @@ end
 local function test_query()
 	skynet.timeout(6*100, test_query)
 	tlog.debug("run test query ...")
-	local t = dbutil.execute_sql("tm_game", "select * from user;")
+	local t = dbutil.execute_sql("tgame", "select * from user;")
 	if t then
 		tlog.info("query succeed! row_count:%d ", #t)
 	else
@@ -30,7 +30,7 @@ end
 skynet.start(function()
 	tlog.debug("Test of MySQL.")
 	
-	skynet.uniqueservice("tm_mysql")
+	skynet.uniqueservice("tmysql")
 	
 	test_insert()
 	test_query()

@@ -1,17 +1,17 @@
 
-CREATE DATABASE IF NOT EXISTS `tm_game` DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
-CREATE DATABASE IF NOT EXISTS `tm_logs` DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE IF NOT EXISTS `tgame` DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE IF NOT EXISTS `tlogs` DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
 
 
 CREATE USER 'terminator'@'localhost' IDENTIFIED BY 'I am not root';
-GRANT SELECT,UPDATE,INSERT,DELETE ON tm_game.* TO 'terminator'@'localhost';
-GRANT SELECT,UPDATE,INSERT,DELETE ON tm_logs.* TO 'terminator'@'localhost';
+GRANT SELECT,UPDATE,INSERT,DELETE ON tgame.* TO 'terminator'@'localhost';
+GRANT SELECT,UPDATE,INSERT,DELETE ON tlogs.* TO 'terminator'@'localhost';
 
 
 SET NAMES utf8;
 SET FOREIGN_KEY_CHECKS = 0;
 
-use tm_game;
+use tgame;
 
 CREATE TABLE `user` (
   `userid` int(11) NOT NULL AUTO_INCREMENT,
@@ -21,7 +21,7 @@ CREATE TABLE `user` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
-use tm_logs;
+use tlogs;
 
 CREATE TABLE `login` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

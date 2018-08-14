@@ -11,7 +11,7 @@ function dbutil.execute_sql(db, fmt, ...)
 		return nil, tostring(sql)
 	end
 	
-	local ok, t = pcall(skynet.call, ".tm_mysql", "lua", "query", db, sql)
+	local ok, t = pcall(skynet.call, ".tmysql", "lua", "query", db, sql)
 	if not ok then
 		tlog.error("call failed: %s", tostring(t))
 		return nil, tostring(t)
