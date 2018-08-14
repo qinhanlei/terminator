@@ -1,6 +1,6 @@
 -- -------------------- Variables --------------------
 local root = "./skynet/" -- root of skynet
-local proj_name = "test"
+local proj_name = "testing"
 local proj_path = "./" .. proj_name .. "/"
 local common_lib = "./lualib/"
 local common_svr = "./service/"
