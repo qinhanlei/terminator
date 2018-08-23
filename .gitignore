@@ -1,4 +1,10 @@
-# -------------------- Thanks to GitHub below ------------------
+
+*.log
+
+# atom editor
+.tags* 
+
+
 # Compiled Lua sources
 luac.out
 
@@ -39,6 +45,3 @@ luac.out
 *.i*86
 *.x86_64
 *.hex
-
-# --------------------- For atom editor ---------------------
-.tags*

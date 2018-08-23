@@ -1,7 +1,11 @@
 #!/bin/sh
 
-rm logs/*.log
+if [ ! -d ./logs ]; then
+	mkdir -p ./logs
+else	
+	rm logs/*.log
+fi
 
-export NODE_NAME=test
-echo "start "$NODE_NAME"..."
+
+echo "start testing..."
 skynet/skynet testing/config.lua
