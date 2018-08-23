@@ -26,23 +26,26 @@ This training inspired by [hello-skynet](https://github.com/ximenpo/hello-skynet
 - [echo](https://github.com/qinhanlei/terminator/tree/master/training/echo)
     - [Socket](https://github.com/cloudwu/skynet/wiki/Socket)
     - [SocketChannel](https://github.com/cloudwu/skynet/wiki/Socket)
-- [cluster](https://github.com/qinhanlei/terminator/tree/master/training/cluster) DOING
+- [websvr](https://github.com/qinhanlei/terminator/tree/master/training/websvr)
+    - [Http](https://github.com/cloudwu/skynet/wiki/Http)
+- database
+    - see mysql/mongodb/redis case in [terminator/testing](https://github.com/qinhanlei/terminator/tree/master/testing)
+
+
+## DOING
+- [cluster](https://github.com/qinhanlei/terminator/tree/master/training/cluster)
     - [Cluster](https://github.com/cloudwu/skynet/wiki/Cluster)
     - [GateServer]
     - [LoginServer]
     - [Sproto]
-- [websvr](https://github.com/qinhanlei/terminator/tree/master/training/websvr)
-    - [Http](https://github.com/cloudwu/skynet/wiki/Http)
-- [data-share](https://github.com/qinhanlei/terminator/tree/master/training/data-share) TODO
-    - [ShareData]
-    - [DataCenter]
-- [database]
-    - see mysql/mongodb/redis case in [terminator/testing](https://github.com/qinhanlei/terminator/tree/master/testing)
 
 
 ## TODO
-* Coroutine
-* CriticalSection
-* MemoryHook
-* MsgServer
-* Profile
+- [data-share](https://github.com/qinhanlei/terminator/tree/master/training/data-share)
+    - [ShareData]
+    - [DataCenter]
+- Coroutine
+- CriticalSection
+- MemoryHook
+- MsgServer
+- Profile
