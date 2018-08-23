@@ -34,5 +34,4 @@ skynet.start(function()
 	
 	test_insert()
 	test_query()
-	
 end)

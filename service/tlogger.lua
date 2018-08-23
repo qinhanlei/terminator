@@ -37,13 +37,13 @@ local function str_datetime(t, p)
 end
 
 
-local function logging(source, typ, log)
+local function logging(source, typ, str)
 	cs(function()
 		local t = os.date("*t")
 		local p = math.floor(skynet.time()*100%100)
 		local tm = str_datetime(t,p)
-		local log = string.format("[%s] [%s] [%s:%x] %s", tm, typ, nodename, source, log)
-		print(LOG_COLOR_MAP[typ]..log..DEFAULT_COLOR)
+		local str = string.format("[%s] [%s] [%s:%x] %s", tm, typ, nodename, source, str)
+		print(LOG_COLOR_MAP[typ]..str..DEFAULT_COLOR)
 		
 		if not _log_file then
 			_log_name = string.format("%s/%s_%04d%02d%02d_%02d%02d%02d_%02d.log",
@@ -55,10 +55,10 @@ local function logging(source, typ, log)
 			end
 			_log_file = f
 		end
-		_log_file:write(log .. "\n")
+		_log_file:write(str .. "\n")
 		_log_file:flush()
 		
-		_log_size = _log_size + string.len(log) + 1
+		_log_size = _log_size + string.len(str) + 1
 		if _log_size >= FILE_LIMIT then
 			_log_file:close()
 			_log_file = nil
@@ -69,13 +69,13 @@ local function logging(source, typ, log)
 end
 
 
-function CMD.logging(source, typ, log)
-	logging(source, typ, log)
+function CMD.logging(source, typ, str)
+	logging(source, typ, str)
 end
 
 
-function CMD.logging_ret(source, typ, log)
-	logging(source, typ, log)
+function CMD.logging_ret(source, typ, str)
+	logging(source, typ, str)
 	skynet.retpack()
 end
 

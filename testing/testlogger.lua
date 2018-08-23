@@ -12,7 +12,7 @@ function CMD.number(n)
 	local begin_time = skynet.now()
 	
 	for i = 1, n do
-		tlog.debug("here is log:%d", i)
+		tlog.debug("here is logging:%d", i)
 	end
 	
 	local end_time = skynet.now()
@@ -29,7 +29,7 @@ function CMD.time(sec)
 	skynet.fork(function()
 		while not is_time_up do
 			cnt = cnt + 1
-			tlog.debug("here is log:%d", cnt)
+			tlog.debug("here is logging:%d", cnt)
 		end
 		local end_time = skynet.now()
 		local cost = (end_time - begin_time)/100.0

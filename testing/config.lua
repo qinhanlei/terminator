@@ -1,41 +1,23 @@
--- -------------------- Variables --------------------
-local root = "./skynet/" -- root of skynet
-local proj_name = "testing"
-local proj_path = "./" .. proj_name .. "/"
-local common_lib = "./lualib/"
-local common_svr = "./service/"
 
-nodename = proj_name
+nodename = "test"
 
--- --------------------  Boostrap --------------------
 thread = 4
-bootstrap = "snlua bootstrap"	-- The service for bootstrap
-start = "main"	-- main script
-preload = "./lualib/preload.lua"	-- run preload.lua before every lua service run
-
-
--- --------------------  Connection --------------------
 harbor = 0
 
+start = "main"
+bootstrap = "snlua bootstrap"
+preload = "./lualib/preload.lua"
 
--- --------------------  Logger --------------------
 logpath = "./logs"
 logger = "tlogger"
 logservice = "snlua"
 
-
--- -------------------- Path --------------------
-cpath = root.."cservice/?.so"
-lua_cpath = root.."luaclib/?.so;"..proj_path.."?.so"
-
-lualoader = root.."lualib/loader.lua"
-
-luaservice = root.."service/?.lua;"..
-			common_svr.."?.lua;"..
-			proj_path..'?.lua'
-
-lua_path = root.."lualib/?.lua;"..
-			common_svr.."?.lua;"..
-			common_lib.."?.lua;"..
-			proj_path..'?.lua'
-lua_path = root.."lualib/compat10/?.lua;"..lua_path --TODO: remove me
+cpath = "./skynet/cservice/?.so"
+lua_cpath = "./skynet/luaclib/?.so;./testing/?.so"
+lualoader = "./skynet/lualib/loader.lua"
+luaservice = "./skynet/service/?.lua;./service/?.lua;./testing/?.lua"
+lua_path = "./skynet/lualib/?.lua;"..
+			"lualib/compat10/?.lua;"..  --TODO: remove this
+			"./service/?.lua;"..
+			"./lualib/?.lua;"..
+			"./testing/?.lua"

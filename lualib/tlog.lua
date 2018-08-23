@@ -31,22 +31,22 @@ local function send_log(typ, level, fmt, ...)
 		return
 	end
 	
-	local ok, log = pcall(string.format, fmt, ...)
+	local ok, str = pcall(string.format, fmt, ...)
 	if not ok then
 		typ = "ERROR"
-		-- log = log .. ":\n" .. concat({fmt, "|", ...})
+		-- str = str .. ":\n" .. concat({fmt, "|", ...})
 	end
 	
 	local info = debug.getinfo(3)
 	if info then
 		local filename = string.match(info.short_src, "[^/.]+.lua")
-		log = string.format("[%s:%d] %s", filename, info.currentline, log)
+		str = string.format("[%s:%d] %s", filename, info.currentline, str)
 	end
 	
 	if TEST_LOGGER then
-		skynet.call(".logger", "lua", "logging_ret", typ, log)
+		skynet.call(".logger", "lua", "logging_ret", typ, str)
 	else
-		skynet.send(".logger", "lua", "logging", typ, log)
+		skynet.send(".logger", "lua", "logging", typ, str)
 	end
 end
 
