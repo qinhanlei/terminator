@@ -1,9 +1,6 @@
 local skynet = require "skynet"
 require "skynet.manager"
 
-local queue = require "skynet.queue"
-local cs = queue()
-
 local nodename = skynet.getenv("nodename")
 local logpath = skynet.getenv("logpath")
 
@@ -38,34 +35,32 @@ end
 
 
 local function logging(source, typ, str)
-	cs(function()
-		local t = os.date("*t")
-		local p = math.floor(skynet.time()*100%100)
-		local tm = str_datetime(t,p)
-		local str = string.format("[%s] [%s] [%s:%x] %s", tm, typ, nodename, source, str)
-		print(LOG_COLOR_MAP[typ]..str..DEFAULT_COLOR)
-		
-		if not _log_file then
-			_log_name = string.format("%s/%s_%04d%02d%02d_%02d%02d%02d_%02d.log",
-				logpath, nodename, t.year, t.month, t.day, t.hour, t.min, t.sec, _log_idx)
-			local f, e = io.open(_log_name, "a+")
-			if not f then
-				print("logger error:", tostring(e))
-				return
-			end
-			_log_file = f
+	local t = os.date("*t")
+	local p = math.floor(skynet.time()*100%100)
+	local tm = str_datetime(t,p)
+	local str = string.format("[%s] [%s] [%s:%x] %s", tm, typ, nodename, source, str)
+	print(LOG_COLOR_MAP[typ]..str..DEFAULT_COLOR)
+	
+	if not _log_file then
+		_log_name = string.format("%s/%s_%04d%02d%02d_%02d%02d%02d_%02d.log",
+			logpath, nodename, t.year, t.month, t.day, t.hour, t.min, t.sec, _log_idx)
+		local f, e = io.open(_log_name, "a+")
+		if not f then
+			print("logger error:", tostring(e))
+			return
 		end
-		_log_file:write(str .. "\n")
-		_log_file:flush()
-		
-		_log_size = _log_size + string.len(str) + 1
-		if _log_size >= FILE_LIMIT then
-			_log_file:close()
-			_log_file = nil
-			_log_size = 0
-			_log_idx = _log_idx + 1
-		end
-	end)
+		_log_file = f
+	end
+	_log_file:write(str .. "\n")
+	_log_file:flush()
+	
+	_log_size = _log_size + string.len(str) + 1
+	if _log_size >= FILE_LIMIT then
+		_log_file:close()
+		_log_file = nil
+		_log_size = 0
+		_log_idx = _log_idx + 1
+	end
 end
 
 
