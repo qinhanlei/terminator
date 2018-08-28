@@ -43,7 +43,11 @@ local function send_log(typ, level, fmt, ...)
 		str = string.format("[%s:%d] %s", filename, info.currentline, str)
 	end
 	
-	skynet.send(".logger", "lua", "logging", typ, str)
+	if TEST_LOGGER then
+		skynet.call(".logger", "lua", "logtest", typ, str)
+	else
+		skynet.send(".logger", "lua", "logging", typ, str)
+	end
 end
 
 
