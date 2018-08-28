@@ -5,8 +5,6 @@ local _cmd = table.pack(...)
 
 local CMD = {}
 
-TEST_LOGGER = true
-
 
 function CMD.number(n)
 	local begin_time = skynet.now()
@@ -30,6 +28,7 @@ function CMD.time(sec)
 		while not is_time_up do
 			cnt = cnt + 1
 			tlog.debug("here is logging:%d", cnt)
+			skynet.yield()
 		end
 		local end_time = skynet.now()
 		local cost = (end_time - begin_time)/100.0
