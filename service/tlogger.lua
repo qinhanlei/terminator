@@ -19,11 +19,7 @@ local LOG_COLOR_MAP = {
 }
 
 local CMD = {}
-
-local _log_file = nil
-local _log_name = ""
-local _log_size = 0
-local _log_idx = 0
+local log = {file=nil, name="", size=0, idx=0}
 
 
 local function str_datetime(t, p)
@@ -41,25 +37,25 @@ local function logging(source, typ, str)
 	local str = string.format("[%s] [%s] [%s:%x] %s", tm, typ, nodename, source, str)
 	print(LOG_COLOR_MAP[typ]..str..DEFAULT_COLOR)
 	
-	if not _log_file then
-		_log_name = string.format("%s/%s_%04d%02d%02d_%02d%02d%02d_%02d.log",
-			logpath, nodename, t.year, t.month, t.day, t.hour, t.min, t.sec, _log_idx)
-		local f, e = io.open(_log_name, "a+")
+	if not log.file then
+		log.name = string.format("%s/%s_%04d%02d%02d_%02d%02d%02d_%02d.log",
+			logpath, nodename, t.year, t.month, t.day, t.hour, t.min, t.sec, log.idx)
+		local f, e = io.open(log.name, "a+")
 		if not f then
 			print("logger error:", tostring(e))
 			return
 		end
-		_log_file = f
+		log.file = f
 	end
-	_log_file:write(str .. "\n")
-	_log_file:flush()
+	log.file:write(str .. "\n")
+	log.file:flush()
 	
-	_log_size = _log_size + string.len(str) + 1
-	if _log_size >= FILE_LIMIT then
-		_log_file:close()
-		_log_file = nil
-		_log_size = 0
-		_log_idx = _log_idx + 1
+	log.size = log.size + string.len(str) + 1
+	if log.size >= FILE_LIMIT then
+		log.file:close()
+		log.file = nil
+		log.size = 0
+		log.idx = log.idx + 1
 	end
 end
 
@@ -78,13 +74,11 @@ skynet.register_protocol {
 	end
 }
 
-
 skynet.start(function()
 	skynet.dispatch("lua", function(session, source, cmd, ...)
 		local f = assert(CMD[cmd], cmd .. " not found")
 		f(source, ...)
 	end)
-
 	skynet.register(".logger")
 	tlog.info("terminator logger is ready.")
 end)
