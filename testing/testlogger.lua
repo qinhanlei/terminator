@@ -1,8 +1,6 @@
 local skynet = require "skynet"
 local util = require "util"
 
-TEST_LOGGER = true
-
 local _cmd = table.pack(...)
 
 local ms = 1/1000

@@ -3,6 +3,27 @@ local skynet = require "skynet"
 local util = {}
 
 
+function util.concat(t)
+	if #t == 0 then return "nil" end
+	local ret = ""
+	for _, v in pairs(t) do
+		if string.len(ret) == 0 then
+			ret = tostring(v)
+		else
+			ret = ret .. " " .. tostring(v)
+		end
+	end
+	return ret
+end
+
+
+function util.nowstr()
+	local t = os.date("*t")
+	return string.format("%04d-%02d-%02d %02d:%02d:%02d",
+			t.year, t.month, t.day, t.hour, t.min, t.sec)
+end
+
+
 function util.process(CMD, cmd, ...)
 	if not cmd then
 		return
@@ -15,13 +36,6 @@ function util.process(CMD, cmd, ...)
 	end
 	
 	f(...)
-end
-
-
-function util.nowstr()
-	local t = os.date("*t")
-	return string.format("%04d-%02d-%02d %02d:%02d:%02d",
-			t.year, t.month, t.day, t.hour, t.min, t.sec)
 end
 
 

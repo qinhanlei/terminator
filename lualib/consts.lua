@@ -1,2 +1,0 @@
-
-TM_TIMEOUT_LIMIT = 60

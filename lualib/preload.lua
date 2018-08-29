@@ -1,6 +1,5 @@
 
-require "tlog"
-require "func"
-require "consts"
+require "cdef"
 
-DEBUG = true
+require "func"
+require "tlog"
