@@ -1,4 +1,3 @@
--- print("this is test config_db.")
 
 local conf = {}
 
