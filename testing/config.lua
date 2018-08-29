@@ -17,7 +17,7 @@ lua_cpath = "./skynet/luaclib/?.so;./testing/?.so"
 lualoader = "./skynet/lualib/loader.lua"
 luaservice = "./skynet/service/?.lua;./service/?.lua;./testing/?.lua"
 lua_path = "./skynet/lualib/?.lua;"..
-			"lualib/compat10/?.lua;"..  --TODO: remove this
+			"./skynet/lualib/compat10/?.lua;"..  --TODO: remove this
 			"./service/?.lua;"..
 			"./lualib/?.lua;"..
 			"./testing/?.lua"
