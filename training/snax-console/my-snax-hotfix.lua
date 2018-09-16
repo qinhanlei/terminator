@@ -2,7 +2,6 @@ local snax = require "snax"
 
 
 local src_code = [[
-
 	local snax
 	local handler
 	function response.echo(...)
@@ -12,7 +11,6 @@ local src_code = [[
 	function hotfix(...)
 		snax.printf("perform hotfix ...")
 	end
-
 ]]
 
 

@@ -1,4 +1,5 @@
 local skynet = require "skynet"
+local tlog = require "tlog"
 
 local util = {}
 
@@ -28,13 +29,13 @@ function util.process(CMD, cmd, ...)
 	if not cmd then
 		return
 	end
-	
+
 	local f = CMD[cmd]
 	if not f then
 		tlog.error("cmd %s not found", tostring(cmd))
 		return
 	end
-	
+
 	f(...)
 end
 
@@ -43,9 +44,9 @@ function util.newtimer(ti, cb)
 	local timer = {}
 	local handles = {} --setmetatable({}, {__mode = "kv"})
 	local watcher = nil
-	
+
 	timer.id = skynet.now()
-	
+
 	function timer.timeout(ti, f)
 		if not f then
 			tlog.warn("timeout callback is nil %s", debug.traceback())
@@ -64,19 +65,19 @@ function util.newtimer(ti, cb)
 		handles[tf] = f
 		return tf
 	end
-	
+
 	function timer.cancel(tf)
 		if tf then
 			handles[tf] = nil
 		end
 	end
-	
+
 	function timer.clear()
 		for k, _ in pairs(handles) do
 			handles[k] = nil
 		end
 	end
-	
+
 	local function watching(ti, cb)
 		local id = skynet.now()
 		tlog.debug("this is timer:%x watcher:%x", timer.id, id)
@@ -89,7 +90,7 @@ function util.newtimer(ti, cb)
 		end
 		tlog.debug("timer:%x watcher:%x finished.", timer.id, id)
 	end
-	
+
 	function timer.watch(ti, cb)
 		if watcher then  -- stop previous watcher
 			skynet.wakeup(watcher)
@@ -101,9 +102,9 @@ function util.newtimer(ti, cb)
 			end)
 		end
 	end
-	
+
 	timer.watch(ti, cb)
-	
+
 	return timer
 end
 

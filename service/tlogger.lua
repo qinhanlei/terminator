@@ -27,14 +27,14 @@ end
 
 local function fullpath(t)
 	t = t or os.date("*t")
-	return string.format("%s/%s_%04d%02d%02d_%02d%02d%02d_%d.log", 
+	return string.format("%s/%s_%04d%02d%02d_%02d%02d%02d_%d.log",
 		logpath, nodename, t.year, t.month, t.day, t.hour, t.min, t.sec, lgidx)
 end
 
 local function logging(source, typ, str)
 	local t = os.date("*t")
 	local str = string.format("%s %s [%s:%x] %s", timetag(t), typ, nodename, source, str)
-	if LOG_CONSOLE then 
+	if LOG_CONSOLE then
 		print(LOG_COLOR_MAP[typ]..str..LOG_COLOR_MAP.DEBUG)
 	end
 	if not lgfile then

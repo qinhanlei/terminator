@@ -23,14 +23,14 @@ local function logging(...)
 		t[i] = tostring(t[i])
 	end
 	local msg = table.concat(t, " ")
-	
+
 	local info = debug.getinfo(2)
 	if info then
 		-- local filename = string.match(info.short_src, "[^/.]+.lua")
 		local filename = info.short_src
 		msg = string.format("[%s:%d] %s", filename, info.currentline, msg)
 	end
-	
+
 	local logger = get_logger()
 	if logger then
 		skynet_core.send(logger, skynet.PTYPE_TEXT, 0, msg)

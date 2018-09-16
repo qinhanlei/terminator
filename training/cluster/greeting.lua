@@ -2,7 +2,6 @@ local skynet = require "skynet"
 local cluster = require "cluster"
 
 local logger = require "simple-logger"
-local util = require "util"
 
 
 local CMD = {}
@@ -16,5 +15,4 @@ skynet.start(function()
 		local f = assert(CMD[cmd], cmd .. "not found")
 		skynet.retpack(f(...))
 	end)
-	
 end)

@@ -7,7 +7,7 @@ skynet.start(function()
 	for i= 1, 20 do
 		agent[i] = skynet.newservice("agent")
 	end
-	
+
 	local balance = 1
 	local id = socket.listen("0.0.0.0", 8001)
 	skynet.error("Listen web port 8001")

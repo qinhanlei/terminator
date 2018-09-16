@@ -32,5 +32,5 @@ skynet.start(function()
 		logger("client"..id, "["..addr.."] connected.")
 		skynet.fork(echo, id, addr)
 	end)
-	
+
 end)

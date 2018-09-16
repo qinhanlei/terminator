@@ -87,7 +87,7 @@ end
 
 function util.load_clusters(filepath, log)
 	local print = log or require "simple-logger"
-	
+
 	assert(filepath)
 	local f = io.open(filepath)
 	if not f then
@@ -96,7 +96,7 @@ function util.load_clusters(filepath, log)
 	end
 	local data = f:read("*a")
 	f:close()
-	
+
 	local t = {}
 	local func = load(data, "#"..filepath, 't', t)
 	if not func then
@@ -104,7 +104,7 @@ function util.load_clusters(filepath, log)
 		return nil
 	end
 	func()
-	
+
 	print("load clusters done.")
 	return t
 end

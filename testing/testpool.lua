@@ -1,5 +1,6 @@
 local skynet = require "skynet"
 require "skynet.manager"
+local tlog = require "tlog"
 
 local CMD = {}
 
@@ -25,9 +26,9 @@ skynet.start(function()
 		local f = assert(CMD[cmd], cmd .. " not found")
 		skynet.retpack(f(source, ...))
 	end)
-	
+
 	tlog.debug("Test of event pool.")
-	
+
 	skynet.register(".testpool")
 	-- skynet.exit()
 end)

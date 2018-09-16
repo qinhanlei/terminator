@@ -1,16 +1,17 @@
 local skynet = require "skynet"
 local util = require "util"
 local dbutil = require "dbutil"
+local tlog = require "tlog"
 
 
 local function test_insert()
-	local t = dbutil.execute_sql("tgame", "delete from user;")
+	dbutil.execute_sql("tgame", "delete from user;")
 	for i = 1, 10 do
 		local sql = dbutil.sql_insert("user", {
 			username = "test"..i,
 			record_time = util.nowstr(),
 		})
-		local t = dbutil.execute_sql("tgame", sql)
+		dbutil.execute_sql("tgame", sql)
 	end
 end
 
@@ -29,9 +30,9 @@ end
 
 skynet.start(function()
 	tlog.debug("Test of MySQL.")
-	
+
 	skynet.uniqueservice("tmysql")
-	
+
 	test_insert()
 	test_query()
 end)

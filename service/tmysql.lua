@@ -13,7 +13,7 @@ local db2opts, db2conns
 
 local function connect(db, conf)
 	if not db then return end
-	
+
 	db2opts[db] = {
 		host = conf.host or mconf.host,
 		port = conf.port or mconf.port,
@@ -26,7 +26,7 @@ local function connect(db, conf)
 		end
 	}
 	db2conns[db] = {}
-	
+
 	local n = conf.connects or mconf.connects or 4
 	for i = 1, n do
 		local c = mysql.connect(db2opts[db])
@@ -54,12 +54,12 @@ local function init()
 	if db2conns then
 		clear()
 	end
-	
+
 	if not mconf then
 		tlog.error("no mysql config!")
 		return
 	end
-	
+
 	db2opts = {}
 	db2conns = {}
 	for k, v in pairs(mconf) do
@@ -117,13 +117,13 @@ function CMD.query(db, sql)
 		tlog.error("not init yet!")
 		return
 	end
-	
+
 	local conns = db2conns[db]
 	if not conns or #conns == 0 then
 		tlog.error("no connect with db:%s !", tostring(db))
 		return
 	end
-	
+
 	local idx = math.random(1, #conns)
 	local c = conns[idx]
 	local ok, ret = pcall(c.query, c, sql)

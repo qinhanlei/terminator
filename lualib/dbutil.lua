@@ -1,5 +1,6 @@
 local skynet = require "skynet"
 local mysql = require "mysql"
+local tlog = require "tlog"
 
 local dbutil = {}
 
@@ -10,18 +11,18 @@ function dbutil.execute_sql(db, fmt, ...)
 		tlog.error("format sql failed:%s", tostring(sql))
 		return nil, tostring(sql)
 	end
-	
+
 	local ok, t = pcall(skynet.call, ".tmysql", "lua", "query", db, sql)
 	if not ok then
 		tlog.error("call failed: %s", tostring(t))
 		return nil, tostring(t)
 	end
-	
+
 	if t.badresult then
 		tlog.error("sql: %s. err: %d %s", sql, t.errno, t.err)
 		return nil, t.err
 	end
-	
+
 	return t
 end
 
