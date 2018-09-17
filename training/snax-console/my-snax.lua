@@ -1,5 +1,5 @@
 local skynet = require "skynet"
-local snax = require "snax"
+local snax = require "skynet.snax"
 
 local logger = require "simple-logger"
 

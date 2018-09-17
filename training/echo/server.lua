@@ -1,6 +1,6 @@
 local skynet = require "skynet"
 local skynet_manager = require "skynet.manager"
-local socket = require "socket"
+local socket = require "skynet.socket"
 
 local logger = require "simple-logger"
 local consts = require "constants"

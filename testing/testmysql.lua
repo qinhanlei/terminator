@@ -1,7 +1,7 @@
 local skynet = require "skynet"
+local tlog = require "tlog"
 local util = require "util"
 local dbutil = require "dbutil"
-local tlog = require "tlog"
 
 
 local function test_insert()

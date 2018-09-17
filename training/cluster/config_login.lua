@@ -33,6 +33,5 @@ lua_cpath = root.."luaclib/?.so;"..proj_path.."?.so"
 lualoader = root.."lualib/loader.lua"
 luaservice = root.."service/?.lua;"..common_lib.."?.lua;"..proj_path..'?.lua'
 lua_path = root.."lualib/?.lua;"..common_lib.."?.lua;"..proj_path..'?.lua'
-lua_path = root.."lualib/compat10/?.lua;"..lua_path --TODO: remove me
 
 debug_console_port = 9004

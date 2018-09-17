@@ -1,4 +1,4 @@
-local snax = require "snax"
+local snax = require "skynet.snax"
 
 snax_service = snax.self()
 snax_service.post.log("send --> begin call.")

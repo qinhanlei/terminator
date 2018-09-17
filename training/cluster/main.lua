@@ -1,5 +1,5 @@
 local skynet = require "skynet"
-local cluster = require "cluster"
+local cluster = require "skynet.cluster"
 
 local logger = require "simple-logger"
 local util = require "util"
@@ -10,7 +10,7 @@ local dbgc_port = skynet.getenv("debug_console_port")
 local svr_list = nil
 
 local function hello()
-	for node, v in pairs(svr_list) do
+	for node, _ in pairs(svr_list) do
 		if node ~= nodename then
 			-- node = node .. '-not-exist'
 			logger("say hi to svr:"..node)

@@ -1,10 +1,11 @@
 local skynet = require "skynet"
+
+local mc = require "skynet.multicast"
+local dc = require "skynet.datacenter"
+
 local logger = require "simple-logger"
-
-local mc = require "multicast"
-local dc = require "datacenter"
-
 require "constants"
+
 
 local master_service = {}
 master_service.handler = function(session, source, cmd, id, ...)

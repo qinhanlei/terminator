@@ -1,4 +1,4 @@
-local snax = require "snax"
+local snax = require "skynet.snax"
 
 
 local src_code = [[
