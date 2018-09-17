@@ -1,5 +1,5 @@
 local skynet = require "skynet"
-local mysql = require "mysql"
+local mysql = require "skynet.db.mysql"
 local tlog = require "tlog"
 
 local dbutil = {}
