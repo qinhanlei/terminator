@@ -31,7 +31,7 @@ local function fullpath(t)
 		logpath, nodename, t.year, t.month, t.day, t.hour, t.min, t.sec, lgidx)
 end
 
-local function logging(source, typ, str)
+local function dolog(source, typ, str)
 	local t = os.date("*t")
 	local str = string.format("%s %s [%s:%x] %s", timetag(t), typ, nodename, source, str)
 	if LOG_CONSOLE then
@@ -58,11 +58,11 @@ end
 
 
 function CMD.logging(source, typ, str)
-	logging(source, typ, str)
+	dolog(source, typ, str)
 end
 
 function CMD.logtest(source, typ, str)
-	logging(source, typ, str)
+	dolog(source, typ, str)
 	skynet.retpack()
 end
 
@@ -72,15 +72,18 @@ skynet.register_protocol {
 	id = skynet.PTYPE_TEXT,
 	unpack = skynet.tostring,
 	dispatch = function(_, address, msg)
-		logging(address, "SKY", msg)
+		local s = string.find(msg, "stack traceback:")
+		if s then dolog(address, "ERROR", ">>>>>>>>") end
+		dolog(address, "SKY", msg)
+		if s then dolog(address, "ERROR", "<<<<<<<<") end
 	end
 }
 
 skynet.start(function()
-	skynet.dispatch("lua", function(session, source, cmd, ...)
+	skynet.dispatch("lua", function(_, source, cmd, ...)
 		local f = assert(CMD[cmd], cmd .. " not found")
 		f(source, ...)
 	end)
 	skynet.register(".logger")
-	logging(skynet.self(), "SKY", "logger is ready")
+	dolog(skynet.self(), "SKY", "logger is ready")
 end)

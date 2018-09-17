@@ -1,5 +1,4 @@
 local skynet = require "skynet"
-
 local util = require "util"
 local tlog = require "tlog"
 
