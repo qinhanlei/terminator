@@ -25,9 +25,9 @@ local function send_log(typ, level, fmt, ...)
 	end
 
 	if TM_DEBUG then
-		skynet.call(".logger", "lua", "logtest", typ, str)
+		skynet.call(".tlogger", "lua", "logtest", typ, str)
 	else
-		skynet.send(".logger", "lua", "logging", typ, str)
+		skynet.send(".tlogger", "lua", "logging", typ, str)
 	end
 end
 

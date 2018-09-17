@@ -21,7 +21,7 @@ conf.mysql = {
 }
 
 
-conf.mongodb = {
+conf.mongo = {
 }
 
 

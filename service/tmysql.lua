@@ -1,15 +1,16 @@
 local skynet = require "skynet"
 require "skynet.manager"
-local tlog = require "tlog"
-local mysql = require "mysql"
-local config = require "config_db"
+local mysql = require "skynet.db.mysql"
 
-local mconf = config.mysql
+local tlog = require "tlog"
+local mconf = require("config_db").mysql
+
 
 local TM_DB_PING_INTERVAL = TM_DB_PING_INTERVAL or 60*100
 
 local CMD = {}
-local db2opts, db2conns
+local db2opts
+local db2conns
 
 
 local function connect(db, conf)
