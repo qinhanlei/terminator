@@ -75,7 +75,7 @@ skynet.register_protocol {
 		local s = string.find(msg, "stack traceback:")
 		if s then dolog(address, "ERROR", ">>>>>>>>") end
 		dolog(address, "SKY", msg)
-		if s then dolog(address, "ERROR", "<<<<<<<<") end
+		if s then dolog(address, "DEBUG", "<<<<<<<<") end
 	end
 }
 
