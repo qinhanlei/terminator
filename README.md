@@ -1,7 +1,8 @@
 # Terminator
-
 A project based on [skynet](https://github.com/cloudwu/skynet)
 
-[training](https://github.com/qinhanlei/terminator/tree/master/training) for novice
 
-unpurposed for now
+## Test
+- `sh runtest.sh`
+- type `testxxx` to run any `testxxx.lua` skynet service
+- run `db/test*.sql`, before you run `testmysql`
