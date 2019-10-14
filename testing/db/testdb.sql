@@ -13,7 +13,7 @@ CREATE TABLE `user` (
   `username` varchar(127) NOT NULL,
   `record_time` datetime NOT NULL,
   PRIMARY KEY (`userid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 use tlogs;
@@ -23,7 +23,7 @@ CREATE TABLE `login` (
   `userid` int(11) NOT NULL,
   `record_time` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 CREATE TABLE `logout` (
@@ -31,7 +31,7 @@ CREATE TABLE `logout` (
   `userid` int(11) NOT NULL,
   `record_time` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 SET FOREIGN_KEY_CHECKS = 1;
