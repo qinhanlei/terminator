@@ -4,8 +4,12 @@ require "skynet.manager"
 local nodename = skynet.getenv("nodename")
 local logpath = skynet.getenv("logpath")
 
-local FILE_LIMIT = LOG_FILE_LIMIT or 32*1024*1024
+local LOG_LEVEL = 1  -- see LOG_LEVEL_TYPE
+local LOG_CONSOLE = true  -- also print logs to screen console
+local LOG_FILE_LIMIT = 32 * 1024*1024
 
+local LOG_TYPE_LEVEL = {DEBUG=1, INFO=2, WARN=3, ERROR=4, FATAL=5, SKY=6}
+local LOG_LEVEL_TYPE = {"DEBUG", "INFO", "WARN", "ERROR", "FATAL", "SKY"}
 -- Also works on 'print' of C and Python, 'echo' of Unix like Shell, etc.
 local LOG_COLOR_MAP = {
 	DEBUG = "\x1b[0m",  -- default black
@@ -31,9 +35,13 @@ local function fullpath(t)
 		logpath, nodename, t.year, t.month, t.day, t.hour, t.min, t.sec, lgidx)
 end
 
-local function dolog(source, typ, str)
+local function dolog(source, level, str)
+	if level < LOG_LEVEL then
+		return
+	end
+	local typ = LOG_LEVEL_TYPE[level]
 	local t = os.date("*t")
-	local str = string.format("%s %s [%s:%x] %s", timetag(t), typ, nodename, source, str)
+	str = string.format("%s %s [%s:%x] %s", timetag(t), typ, nodename, source, str)
 	if LOG_CONSOLE then
 		print(LOG_COLOR_MAP[typ]..str..LOG_COLOR_MAP.DEBUG)
 	end
@@ -48,7 +56,7 @@ local function dolog(source, typ, str)
 	lgfile:write(str..'\n')
 	lgfile:flush()
 	lgsize = lgsize + string.len(str) + 1
-	if lgsize >= FILE_LIMIT then
+	if lgsize >= LOG_FILE_LIMIT then
 		lgsize = 0
 		lgidx = lgidx + 1
 		lgfile:close()
@@ -57,13 +65,8 @@ local function dolog(source, typ, str)
 end
 
 
-function CMD.logging(source, typ, str)
-	dolog(source, typ, str)
-end
-
-function CMD.logtest(source, typ, str)
-	dolog(source, typ, str)
-	skynet.retpack()
+function CMD.logging(source, level, str)
+	dolog(source, level, str)
 end
 
 
@@ -74,8 +77,8 @@ skynet.register_protocol {
 	dispatch = function(_, address, msg)
 		local s = string.find(msg, "stack traceback:")
 		if s then dolog(address, "ERROR", ">>>>>>>>") end
-		dolog(address, "SKY", msg)
-		if s then dolog(address, "DEBUG", "<<<<<<<<") end
+		dolog(address, LOG_TYPE_LEVEL.SKY, msg)
+		if s then dolog(address, "ERROR", "<<<<<<<<") end
 	end
 }
 
@@ -85,5 +88,5 @@ skynet.start(function()
 		f(source, ...)
 	end)
 	skynet.register(".logger")
-	dolog(skynet.self(), "SKY", "logger is ready")
+	dolog(skynet.self(), LOG_TYPE_LEVEL.SKY, "logger is ready")
 end)

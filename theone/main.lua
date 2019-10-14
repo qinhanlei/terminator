@@ -11,7 +11,12 @@ end
 
 skynet.start(function()
 	skynet.dispatch("lua", function(session, source, cmd, ...)
-		local f = assert(CMD[cmd], cmd .. "not found")
-		skynet.retpack(f(...))
+		local f = CMD[cmd]
+		if f then
+			skynet.retpack(f(...))
+		else
+			tlog.error("from[%s:%s] cmd:%s not found", session, source, cmd)
+			assert(false, "dispatch failed!")
+		end
 	end)
 end)

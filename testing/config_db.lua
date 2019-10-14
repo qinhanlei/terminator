@@ -8,6 +8,7 @@ conf.mysql = {
 	user = "terminator", -- "root"
 	pass = "I am not root",
 	connects = 8,
+
 	tgame = { -- database
 		host = "127.0.0.1",
 		port = 3306,
@@ -15,6 +16,7 @@ conf.mysql = {
 		pass = "I am not root",
 		connects = 4,
 	},
+
 	tlogs = {
 		-- all as default value
 	},

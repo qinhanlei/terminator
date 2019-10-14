@@ -1,3 +1,2 @@
 
-require "cdef"
 require "func"

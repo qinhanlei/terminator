@@ -14,7 +14,7 @@ skynet.start(function()
 		timer.watch(2)
 	end)
 
-	timer.timeout(TM_TIMEOUT_LIMIT, function()
+	timer.timeout(60, function()
 		tlog.info("Still there?")
 	end)
 

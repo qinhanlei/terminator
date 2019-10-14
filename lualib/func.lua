@@ -1,3 +1,6 @@
+local table = table
+local string = string
+
 
 function string.split(input, delimiter)
 	input = tostring(input)
@@ -33,9 +36,8 @@ end
 
 function table.nums(t)
 	local count = 0
-	for k, v in pairs(t) do
+	for _, _ in pairs(t) do
 		count = count + 1
 	end
 	return count
 end
-

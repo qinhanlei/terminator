@@ -6,13 +6,14 @@ local dbutil = {}
 
 
 function dbutil.execute_sql(db, fmt, ...)
-	local ok, sql = pcall(string.format, fmt, ...)
+	local ok, sql, t
+	ok, sql = pcall(string.format, fmt, ...)
 	if not ok then
 		tlog.error("format sql failed:%s", tostring(sql))
 		return nil, tostring(sql)
 	end
 
-	local ok, t = pcall(skynet.call, ".tmysql", "lua", "query", db, sql)
+	ok, t = pcall(skynet.call, ".tmysql", "lua", "query", db, sql)
 	if not ok then
 		tlog.error("call failed: %s", tostring(t))
 		return nil, tostring(t)

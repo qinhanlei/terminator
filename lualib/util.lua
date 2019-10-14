@@ -3,6 +3,8 @@ local tlog = require "tlog"
 
 local util = {}
 
+local TM_TIMEOUT_LIMIT = 60
+
 
 function util.concat(t)
 	if #t == 0 then return "nil" end

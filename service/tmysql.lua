@@ -6,7 +6,7 @@ local tlog = require "tlog"
 local mconf = require("config_db").mysql
 
 
-local TM_DB_PING_INTERVAL = TM_DB_PING_INTERVAL or 60*100
+local TM_DB_PING_INTERVAL = 60*100
 
 local CMD = {}
 local db2opts
