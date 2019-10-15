@@ -2,7 +2,7 @@ local skynet = require "skynet"
 require "skynet.manager"
 local redis = require "skynet.db.redis"
 
-local tlog = require "tlog"
+local log = require "log"
 local rconf = require("config_db").redis
 
 local CMD = {}
@@ -16,6 +16,6 @@ skynet.start(function()
 		local f = assert(CMD[cmd], cmd .. " not found")
 		skynet.retpack(f(...))
 	end)
-	tlog.info("redis service start")
+	log.info("redis service start")
 	skynet.register(".tredis")
 end)

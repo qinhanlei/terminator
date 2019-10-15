@@ -4,6 +4,7 @@ require "skynet.manager"
 local nodename = skynet.getenv("nodename")
 local logpath = skynet.getenv("logpath")
 
+--TODO: let configurable or update dynamically
 local LOG_LEVEL = 1  -- see LOG_LEVEL_TYPE
 local LOG_CONSOLE = true  -- also print logs to screen console
 local LOG_FILE_LIMIT = 32 * 1024*1024
@@ -20,7 +21,6 @@ local LOG_COLOR_MAP = {
 	SKY   = "\x1b[34m", -- blue
 }
 
-local CMD = {}
 local lgidx, lgfile, lgsize = 0, nil, 0
 
 local function timetag(t)
@@ -35,7 +35,7 @@ local function fullpath(t)
 		logpath, nodename, t.year, t.month, t.day, t.hour, t.min, t.sec, lgidx)
 end
 
-local function dolog(source, level, str)
+local function logging(source, level, str)
 	if level < LOG_LEVEL then
 		return
 	end
@@ -65,22 +65,19 @@ local function dolog(source, level, str)
 end
 
 
-function CMD.logging(source, level, str)
-	dolog(source, level, str)
-end
-
-
 skynet.register_protocol {
 	name = "text",
 	id = skynet.PTYPE_TEXT,
 	unpack = skynet.tostring,
 	dispatch = function(_, address, msg)
 		local s = string.find(msg, "stack traceback:")
-		if s then dolog(address, "ERROR", ">>>>>>>>") end
-		dolog(address, LOG_TYPE_LEVEL.SKY, msg)
-		if s then dolog(address, "ERROR", "<<<<<<<<") end
+		if s then logging(address, LOG_TYPE_LEVEL.ERROR, ">>>>>>>>") end
+		logging(address, LOG_TYPE_LEVEL.SKY, msg)
+		if s then logging(address, LOG_TYPE_LEVEL.ERROR, "<<<<<<<<") end
 	end
 }
+
+local CMD = {logging = logging}
 
 skynet.start(function()
 	skynet.dispatch("lua", function(_, source, cmd, ...)
@@ -88,5 +85,5 @@ skynet.start(function()
 		f(source, ...)
 	end)
 	skynet.register(".logger")
-	dolog(skynet.self(), LOG_TYPE_LEVEL.SKY, "logger is ready")
+	logging(skynet.self(), LOG_TYPE_LEVEL.SKY, "logger is ready")
 end)

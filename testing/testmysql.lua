@@ -1,38 +1,44 @@
 local skynet = require "skynet"
-local tlog = require "tlog"
-local util = require "util"
-local dbutil = require "dbutil"
+local log = require "log"
+local time = require "time"
+local sqlaux = require "sqlaux"
+local mconf = require("config_db").mysql
 
 
 local function test_insert()
-	dbutil.execute_sql("tgame", "delete from user;")
-	for i = 1, 10 do
-		local sql = dbutil.sql_insert("user", {
+	sqlaux.exec("tgame", "delete from user;")
+	for i = 1, 42 do
+		local userinfo = {
 			username = "test"..i,
-			record_time = util.nowstr(),
-		})
-		dbutil.execute_sql("tgame", sql)
+			record_time = time.nowstr(),
+		}
+		sqlaux.insert("tgame", "user", userinfo)
 	end
 end
 
 
 local function test_query()
 	skynet.timeout(6*100, test_query)
-	tlog.debug("run test query ...")
-	local t = dbutil.execute_sql("tgame", "select * from user;")
+	log.debug("run test query ...")
+	local t = sqlaux.exec("tgame", "select * from user;")
 	if t then
-		tlog.info("query succeed! row_count:%d ", #t)
+		log.info("query succeed! row_count:%d ", #t)
 	else
-		tlog.error("query failed!")
+		log.error("query failed!")
 	end
 end
 
 
 skynet.start(function()
-	tlog.debug("Test of MySQL.")
+	log.debug("Test of MySQL")
 
-	skynet.uniqueservice("tmysql")
+	local tmysql, e = skynet.uniqueservice("tmysql")
+	if not tmysql then
+		log.error("failed:%s", e)
+	end
+	skynet.call(tmysql, "lua", "start", mconf)
 
 	test_insert()
 	test_query()
+	log.debug("Test of MySQL done")
 end)

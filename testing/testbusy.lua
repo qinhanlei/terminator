@@ -1,24 +1,24 @@
 local skynet = require "skynet"
-local tlog = require "tlog"
+local log = require "log"
 
 
 skynet.start(function()
-	tlog.debug("Test of Reentry.")
+	log.debug("Test of Reentry.")
 
 	skynet.newservice("testpool")
 
 	skynet.timeout(100, function()
-		tlog.debug("busy call")
+		log.debug("busy call")
 		skynet.call(".testpool", "lua", "busy")
-		tlog.debug("busy call done")
+		log.debug("busy call done")
 	end)
 
 	skynet.timeout(200, function()
 		for i = 1, 10 do
-			tlog.debug("normal call:%d", i)
+			log.debug("normal call:%d", i)
 			skynet.call(".testpool", "lua", "normal", i)
 		end
-		tlog.debug("normal call done")
+		log.debug("normal call done")
 	end)
 
 	-- skynet.exit()

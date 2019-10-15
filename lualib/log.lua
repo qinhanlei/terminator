@@ -2,11 +2,14 @@ local skynet = require "skynet"
 
 
 local function send_log(level, fmt, ...)
-	local ok, str = pcall(string.format, fmt, ...)
-	if not ok then
-		print("format error: %s", str)
-		return
+	local ok, str
+	if select('#', ...) ~= 0 then
+		ok, str = pcall(string.format, fmt, ...)
+		if not ok then
+			level, str = 4, str..'\n'..debug.traceback()
+		end
 	end
+	str = str or fmt
 	local info = debug.getinfo(3)
 	if info then
 		local filename = string.match(info.short_src, "[^/.]+.lua")

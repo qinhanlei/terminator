@@ -7,7 +7,6 @@ luaDirList=(
 	"./service"
 	"./testing"
 	"./theone"
-	"./training"
 )
 
 ignoreFiles=(

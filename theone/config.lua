@@ -2,6 +2,7 @@
 
 nodename = "$NODE_NAME"
 
+--TODO: setup as machine CPU number
 thread = 4
 harbor = 0
 

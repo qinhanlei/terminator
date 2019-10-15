@@ -1,2 +1,3 @@
 
+require "stdex"
 require "func"

@@ -1,6 +1,5 @@
 local skynet = require "skynet"
-local util = require "util"
-local tlog = require "tlog"
+local log = require "log"
 
 local _cmd = table.pack(...)
 
@@ -15,12 +14,12 @@ function CMD.number(n)
 	local begin_time = skynet.hpc()
 
 	for i = 1, n do
-		tlog.debug("here is logging:%d", i)
+		log.debug("here is logging:%d", i)
 	end
 
 	local end_time = skynet.hpc()
 	local cost = (end_time - begin_time)*ns
-	tlog.debug("writed %d logs, cost time:%fs", n, cost)
+	log.debug("writed %d logs, cost time:%fs", n, cost)
 end
 
 
@@ -32,12 +31,12 @@ function CMD.time(sec)
 	skynet.fork(function()
 		while not is_time_up do
 			cnt = cnt + 1
-			tlog.debug("here is logging:%d", cnt)
+			log.debug("here is logging:%d", cnt)
 			skynet.yield()
 		end
 		local end_time = skynet.hpc()
 		local cost = (end_time - begin_time)*ns
-		tlog.debug("writed %d logs, cost time:%fs", cnt, cost)
+		log.debug("writed %d logs, cost time:%fs", cnt, cost)
 	end)
 
 	skynet.timeout(sec*100, function()
@@ -46,14 +45,27 @@ function CMD.time(sec)
 end
 
 
-skynet.start(function()
-	tlog.debug("Test of logger.")
+function process(cmd, ...)
+	if not cmd then
+		return
+	end
+	local f = CMD[cmd]
+	if not f then
+		log.error("cmd %s not found", tostring(cmd))
+		return
+	end
+	f(...)
+end
 
-	for k, logger in pairs(tlog) do
+
+skynet.start(function()
+	log.debug("Test of logger.")
+
+	for k, logger in pairs(log) do
 		logger("this is logging of `%s`", k)
 	end
 
-	util.process(CMD, table.unpack(_cmd))
+	process(table.unpack(_cmd))
 
 	-- skynet.exit()
 end)

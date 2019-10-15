@@ -1,11 +1,11 @@
 local skynet = require "skynet"
-local tlog = require "tlog"
+local log = require "log"
 
 local CMD = {}
 
 
 function CMD.hi()
-	tlog.info("Hello! this is Terminator :)")
+	log.info("Hello! this is Terminator :)")
 end
 
 
@@ -15,7 +15,7 @@ skynet.start(function()
 		if f then
 			skynet.retpack(f(...))
 		else
-			tlog.error("from[%s:%s] cmd:%s not found", session, source, cmd)
+			log.error("from[%s:%s] cmd:%s not found", session, source, cmd)
 			assert(false, "dispatch failed!")
 		end
 	end)

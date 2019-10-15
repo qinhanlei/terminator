@@ -2,7 +2,7 @@ local skynet = require "skynet"
 require "skynet.manager"
 local mongo = require "skynet.db.mongo"
 
-local tlog = require "tlog"
+local log = require "log"
 local mconf = require("config_db").mongo
 
 local CMD = {}
@@ -16,6 +16,6 @@ skynet.start(function()
 		local f = assert(CMD[cmd], cmd .. " not found")
 		skynet.retpack(f(...))
 	end)
-	tlog.info("mongo service start")
+	log.info("mongo service start")
 	skynet.register(".tmongo")
 end)

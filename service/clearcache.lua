@@ -1,9 +1,9 @@
 local skynet = require "skynet"
 local codecache = require "skynet.codecache"
-local tlog = require "tlog"
+local log = require "log"
 
 skynet.start(function()
-	tlog.info("clear codecache ...")
+	log.info("clear codecache ...")
 	codecache.clear()
 	skynet.exit()
 end)

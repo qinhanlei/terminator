@@ -1,24 +1,23 @@
 local skynet = require "skynet"
-local util = require "util"
-local tlog = require "tlog"
-
-local timer = util.newtimer(1)
+local log = require "log"
+local timer = require "timerfactory".new()
 
 
 skynet.start(function()
-	tlog.debug("Test of Timer.")
+	log.debug("Test of Timer.")
 
-	timer.timeout(5, function()
-		tlog.info("Hi there!")
-		timer.clear()
-		timer.watch(2)
+	timer.watch(0.5*100)
+	timer.timeout(5*100, function()
+		log.info("Hi there!")
+		-- timer.clear()
+		timer.watch(2*100)
 	end)
 
-	timer.timeout(60, function()
-		tlog.info("Still there?")
+	timer.timeout(60*100, function()
+		log.info("Still there?")
 	end)
 
-	timer.timeout(1, no_func)
+	timer.timeout(1, nil)
 
 	-- skynet.exit()
 end)
