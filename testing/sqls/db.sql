@@ -8,16 +8,20 @@ SET FOREIGN_KEY_CHECKS = 0;
 
 use tgame;
 
+DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
-  `userid` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(127) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(127) NOT NULL,
+  `age` int(11) NOT NULL DEFAULT '0',
   `record_time` datetime NOT NULL,
-  PRIMARY KEY (`userid`)
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 use tlogs;
 
+DROP TABLE IF EXISTS `login`;
 CREATE TABLE `login` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL,
@@ -26,6 +30,7 @@ CREATE TABLE `login` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
+DROP TABLE IF EXISTS `logout`;
 CREATE TABLE `logout` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL,

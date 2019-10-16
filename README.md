@@ -5,4 +5,4 @@ A project based on [skynet](https://github.com/cloudwu/skynet)
 ## Test
 - `sh runtest.sh`
 - type `testxxx` to run any `testxxx.lua` skynet service
-- run `db/test*.sql`, before you run `testmysql`
+- run `sqls/*.sql`, before you run `testmysql`

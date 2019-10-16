@@ -18,12 +18,17 @@ function sqlaux.exec(db, fmt, ...)
 		end
 	end
 
-	ok, t = pcall(skynet.call, ".tmysql", "lua", "query", db, sql or fmt)
+	local agent = skynet.call(".mysqld", "lua", "agent", db)
+	if not agent then
+		log.error("db:%s connection not exist", db)
+		return nil, "connection not exist"
+	end
+
+	ok, t = pcall(skynet.call, agent, "lua", "query", sql or fmt)
 	if not ok then
 		log.error("call failed: %s", tostring(t))
 		return nil, tostring(t)
 	end
-
 	if t.badresult then
 		log.error("sql: %s. err: %d %s", sql, t.errno, t.err)
 		return nil, t.err
@@ -55,9 +60,8 @@ end
 -- conditions: {key = value}/string, can be {}/""
 function sqlaux.query(db, tbl, columns, conditions, others)
 	columns = columns or "*"
-	local typ = type(columns)
 	local columnstr = ""
-	if typ == "table" then
+	if type(columns) == "table" then
 		for _, v in ipairs(columns) do
 			if type(v) == "string" and #v > 0 then
 				if #columnstr > 0 then
@@ -66,7 +70,7 @@ function sqlaux.query(db, tbl, columns, conditions, others)
 				columnstr = columnstr .. '`' .. v .. '`'
 			end
 		end
-	elseif typ == "string" then
+	elseif type(columns) == "string" then
 		columnstr = columns
 	else
 		return nil, "query columns type invalid!"
@@ -76,9 +80,8 @@ function sqlaux.query(db, tbl, columns, conditions, others)
 	end
 
 	assert(conditions, "`conditions` must explicit!")
-	typ = type(conditions)
 	local condstr = ""
-	if typ == "table" then
+	if type(conditions) == "table" then
 		for k, v in pairs(conditions) do
 			if #condstr > 0 then
 				condstr = condstr .. " AND "
@@ -88,10 +91,10 @@ function sqlaux.query(db, tbl, columns, conditions, others)
 			end
 			condstr = condstr .. '`' .. k .. "`=" .. v
 		end
-	elseif type == "string" then
+	elseif type(conditions) == "string" then
 		condstr = conditions
 	else
-		return nil, "conditions invalid!"
+		return nil, "query conditions invalid!"
 	end
 	if #condstr ~= 0 then
 		condstr = " WHERE " .. condstr
@@ -123,9 +126,8 @@ function sqlaux.update(db, tbls, kvmap, conditions)
 	end
 
 	assert(conditions, "`conditions` must explicit!")
-	local typ = type(conditions)
 	local condstr = ""
-	if typ == "table" then
+	if type(conditions) == "table" then
 		for k, v in pairs(conditions) do
 			if #condstr > 0 then
 				condstr = condstr .. " AND "
@@ -135,10 +137,10 @@ function sqlaux.update(db, tbls, kvmap, conditions)
 			end
 			condstr = condstr .. '`' .. k .. "`=" .. v
 		end
-	elseif type == "string" then
+	elseif type(conditions) == "string" then
 		condstr = conditions
 	else
-		return nil, "conditions invalid!"
+		return nil, "update conditions invalid!"
 	end
 	if #condstr ~= 0 then
 		condstr = " WHERE " .. condstr
@@ -150,9 +152,8 @@ end
 
 function sqlaux.delete(db, tbl, conditions)
 	assert(conditions, "`conditions` must explicit!")
-	local typ = type(conditions)
 	local condstr = ""
-	if typ == "table" then
+	if type(conditions) == "table" then
 		for k, v in pairs(conditions) do
 			if #condstr > 0 then
 				condstr = condstr .. " AND "
@@ -162,10 +163,10 @@ function sqlaux.delete(db, tbl, conditions)
 			end
 			condstr = condstr .. '`' .. k .. "`=" .. v
 		end
-	elseif type == "string" then
+	elseif type(conditions) == "string" then
 		condstr = conditions
 	else
-		return nil, "conditions invalid!"
+		return nil, "delete conditions invalid!"
 	end
 	if #condstr ~= 0 then
 		condstr = " WHERE " .. condstr
