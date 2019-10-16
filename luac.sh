@@ -23,13 +23,11 @@ function check() {
 }
 
 function compile() {
-	for dir in ${luaDirList[@]}
-	do
+	for dir in ${luaDirList[@]}; do
 		dirc=$dir"-luac"
 		cp -r $dir $dirc
 		luaFiles=`find $dirc -name "*.lua"`
-		for file in $luaFiles
-		do
+		for file in $luaFiles; do
 			if check $file; then
 				$LUAC -o $file $file
 			fi
@@ -39,12 +37,10 @@ function compile() {
 }
 
 function inplace() {
-	for dir in ${luaDirList[@]}
-	do
+	for dir in ${luaDirList[@]}; do
 		cp -r $dir $dir"-bak"
 		luaFiles=`find $dir -name "*.lua"`
-		for file in $luaFiles
-		do
+		for file in $luaFiles; do
 			if check $file; then
 				$LUAC -o $file $file
 			fi
@@ -54,8 +50,7 @@ function inplace() {
 }
 
 function recover() {
-	for dir in ${luaDirList[@]}
-	do
+	for dir in ${luaDirList[@]}; do
 		if [ -d $dir"-bak" ]; then
 			rm -rf $dir
 			mv $dir"-bak" $dir
@@ -65,8 +60,7 @@ function recover() {
 }
 
 function clean() {
-	for dir in ${luaDirList[@]}
-	do
+	for dir in ${luaDirList[@]}; do
 		dirc=$dir"-luac"
 		if [ -d $dirc ]; then
 			rm -rf $dirc
