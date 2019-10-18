@@ -12,11 +12,19 @@ logpath = "./logs"
 logger = "tlogger"
 logservice = "snlua"
 
-cpath = "./skynet/cservice/?.so"
-lua_cpath = "./skynet/luaclib/?.so;./testing/?.so"
-lualoader = "./skynet/lualib/loader.lua"
-luaservice = "./skynet/service/?.lua;./service/?.lua;./testing/?.lua"
+
+cpath = "./skynet/cservice/?.so"..
+		"./cservice/?.so"
+lua_cpath = "./skynet/luaclib/?.so;"..
+			"./luaclib/?.so"..
+			"./testing/?.so"
+
+
+luaservice = "./skynet/service/?.lua;"..
+			"./service/?.lua;"..
+			"./testing/?.lua"
 lua_path = "./skynet/lualib/?.lua;"..
 			"./service/?.lua;"..
 			"./lualib/?.lua;"..
 			"./testing/?.lua"
+lualoader = "./skynet/lualib/loader.lua"
