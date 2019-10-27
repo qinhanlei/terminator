@@ -13,7 +13,7 @@ logger = "tlogger"
 logservice = "snlua"
 
 
-cpath = "./skynet/cservice/?.so"..
+cpath = "./skynet/cservice/?.so;"..
 		"./cservice/?.so"
 lua_cpath = "./skynet/luaclib/?.so;"..
 			"./luaclib/?.so"..

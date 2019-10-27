@@ -70,9 +70,11 @@ $(foreach v, $(CSERVICE), $(eval $(call CSERVICE_TEMP,$(v))))
 
 
 $(LUA_CLIB_PATH)/protobuf.so : pbc
-	cd 3rd/pbc/binding/lua53 && $(MAKE) CFLAGS="$(CFLAGS) $(SHARED)" LUADIR=../../../../../$(LUA_DIR)
-	mv 3rd/pbc/binding/lua53/protobuf.so $@
-	mv 3rd/pbc/binding/lua53/protobuf.lua lualib/
+	cd 3rd/pbc/binding/lua53; \
+		$(MAKE) CFLAGS="$(CFLAGS) $(SHARED)" LUADIR=../../../../../$(LUA_DIR)
+	cp -r 3rd/pbc/binding/lua53/protobuf.so* $(@D)/; \
+		rm -rf 3rd/pbc/binding/lua53/protobuf.so*
+	cp 3rd/pbc/binding/lua53/protobuf.lua lualib/
 
 
 clean :
