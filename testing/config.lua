@@ -1,7 +1,7 @@
 
 nodename = "test"
 
-thread = 4
+thread = $SKYNET_THREAD
 harbor = 0
 
 start = "main"

@@ -8,6 +8,7 @@ skynet.start(function()
 
 	log.info("==== Welcome to test ====")
 	log.info("type lua service filename to run it!")
+	log.info("current skynet thread:%s", skynet.getenv("thread"))
 
 	skynet.exit()
 end)
