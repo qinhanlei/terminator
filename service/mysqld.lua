@@ -9,9 +9,6 @@ local db2balance = {}
 
 
 local function stopall()
-	if table.size(db2agents) == 0 then
-		return
-	end
 	for _, v in ipairs(db2agents) do
 		local ok, e = pcall(skynet.call, v, "lua", "stop")
 		if not ok then
