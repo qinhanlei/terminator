@@ -15,6 +15,5 @@ elif [[ `uname` == 'Darwin' ]]; then
 fi
 export SKYNET_THREAD=`expr $CPU_NUM \* 2`
 
-
-echo "start testing..."
+export NODE_NAME="test"
 skynet/skynet testing/config.lua

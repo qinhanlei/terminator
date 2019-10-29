@@ -1,9 +1,7 @@
 -- this is all in one node, could be cluster
 
 nodename = "$NODE_NAME"
-
---TODO: setup as machine CPU number
-thread = 4
+thread = "$SKYNET_THREAD"
 harbor = 0
 
 start = "main"
@@ -13,11 +11,17 @@ preload = "./lualib/preload.lua"
 logpath = "./logs"
 logger = "tlogger"
 logservice = "snlua"
-
-cpath = "./skynet/cservice/?.so"
-lua_cpath = "./skynet/luaclib/?.so;./theone/?.so"
 lualoader = "./skynet/lualib/loader.lua"
-luaservice = "./skynet/service/?.lua;./service/?.lua;./theone/?.lua"
+
+cpath = "./skynet/cservice/?.so;"..
+		"./cservice/?.so"
+lua_cpath = "./skynet/luaclib/?.so;"..
+			"./luaclib/?.so"..
+			"./theone/?.so"
+
+luaservice = "./skynet/service/?.lua;"..
+			"./service/?.lua;"..
+			"./theone/?.lua"
 lua_path = "./skynet/lualib/?.lua;"..
 			"./service/?.lua;"..
 			"./lualib/?.lua;"..
