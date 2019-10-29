@@ -1,7 +1,7 @@
 #!/bin/sh
 
-echo "stopping all skynet programs..."
+echo "kill all skynet ..."
 
 killall skynet
 
-echo "stop done."
+echo "done."

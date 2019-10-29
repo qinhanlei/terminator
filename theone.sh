@@ -15,5 +15,5 @@ elif [[ `uname` == 'Darwin' ]]; then
 fi
 export SKYNET_THREAD=`expr $CPU_NUM \* 2`
 
-export NODE_NAME="Testing"
-skynet/skynet testing/config.lua
+export NODE_NAME="TheOne"
+skynet/skynet theone/config.lua
