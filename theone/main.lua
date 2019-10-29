@@ -1,22 +1,16 @@
 local skynet = require "skynet"
 local log = require "log"
 
-local CMD = {}
-
-
-function CMD.hi()
-	log.info("Hello! this is Terminator :)")
-end
-
-
 skynet.start(function()
-	skynet.dispatch("lua", function(session, source, cmd, ...)
-		local f = CMD[cmd]
-		if f then
-			skynet.retpack(f(...))
-		else
-			log.error("from[%s:%s] cmd:%s not found", session, source, cmd)
-			assert(false, "dispatch failed!")
-		end
-	end)
+	log.info("Hello! this is Terminator :)")
+
+	skynet.uniqueservice("database/mgr")
+	skynet.uniqueservice("dungeon/mgr")
+	skynet.uniqueservice("gateway/mgr")
+	skynet.uniqueservice("logic/mgr")
+	skynet.uniqueservice("user/mgr")
+
+	skynet.newservice("console")
+	skynet.newservice("debug_console", 9600)
+	skynet.exit()
 end)
