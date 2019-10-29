@@ -43,7 +43,7 @@ update3rd :
 pbc:
 	cd 3rd/pbc && $(MAKE) lib
 
-all : skynet \
+all :  \
   $(foreach v, $(CSERVICE), $(CSERVICE_PATH)/$(v).so) \
   $(foreach v, $(LUA_CLIB), $(LUA_CLIB_PATH)/$(v).so) 
 
@@ -73,4 +73,5 @@ $(LUA_CLIB_PATH)/protobuf.so : pbc
 		$(MAKE) CFLAGS="$(CFLAGS) $(SHARED)" LUADIR=../../../../../$(LUA_DIR)
 	cp -r 3rd/pbc/binding/lua53/protobuf.so* $(@D)/; \
 		rm -rf 3rd/pbc/binding/lua53/protobuf.so*
+	cp 3rd/pbc/binding/lua/parser.lua lualib/
 	cp 3rd/pbc/binding/lua53/protobuf.lua lualib/
