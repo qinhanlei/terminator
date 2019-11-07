@@ -12,7 +12,7 @@ skynet.start(function()
 			log.error("from[%s:%s] cmd:%s not found", session, source, cmd)
 		end
 	end)
-	
+
 	local gated = skynet.uniqueservice("gateway/gated")
 	skynet.send(gated, "lua", "start", "localhost", 10086)
 

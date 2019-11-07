@@ -3,6 +3,14 @@ local log = require "log"
 
 local CMD = {}
 
+function CMD.register()
+	--TODO:...
+end
+
+function CMD.auth()
+	--TODO:...
+end
+
 skynet.start(function()
 	skynet.dispatch("lua", function(session, source, cmd, ...)
 		local f = CMD[cmd]

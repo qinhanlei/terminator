@@ -1,11 +1,11 @@
 local skynet = require "skynet"
 local socket = require "skynet.socket"
-local service = require "skynet.service"
 local websocket = require "http.websocket"
 local log = require "log"
 
 local handle = {}
 local MODE = ...
+local SERVICE_NAME = _G.SERVICE_NAME
 
 if MODE == "agent" then
     local idx = 0
@@ -88,9 +88,9 @@ else
         local balance = 1
         local protocol = "ws"
 
-        local id = socket.listen("0.0.0.0", 9948)
+        local lfd = socket.listen("0.0.0.0", 9948)
         skynet.error(string.format("Listen websocket port 9948 protocol:%s", protocol))
-        socket.start(id, function(id, addr)
+        socket.start(lfd, function(id, addr)
             log.debug(string.format("accept client socket_id: %s addr:%s", id, addr))
             skynet.send(agent[balance], "lua", id, protocol, addr)
             balance = balance + 1

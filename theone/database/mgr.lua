@@ -13,7 +13,7 @@ skynet.start(function()
 			log.error("from[%s:%s] cmd:%s not found", session, source, cmd)
 		end
 	end)
-	
+
 	local mysqld, err = skynet.uniqueservice("mysqld")
 	if not mysqld then
 		log.error("launch mysqld failed:%s", err)

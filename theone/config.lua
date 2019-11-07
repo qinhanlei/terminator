@@ -16,7 +16,7 @@ lualoader = "./skynet/lualib/loader.lua"
 cpath = "./skynet/cservice/?.so;"..
 		"./cservice/?.so"
 lua_cpath = "./skynet/luaclib/?.so;"..
-			"./luaclib/?.so"..
+			"./luaclib/?.so;"..
 			"./theone/?.so"
 
 luaservice = "./skynet/service/?.lua;"..

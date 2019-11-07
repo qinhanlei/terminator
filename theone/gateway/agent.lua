@@ -2,6 +2,10 @@ local skynet = require "skynet"
 local websocket = require "http.websocket"
 local log = require "log"
 
+require "protobuf"
+local parser = require "parser"
+parser.register("msg.proto", "./theone")
+
 local CMD = {}
 
 --NOTE: handler API list by websocket.lua, see simplewebsocket.lua
