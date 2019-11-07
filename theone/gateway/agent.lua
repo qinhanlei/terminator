@@ -2,7 +2,6 @@ local skynet = require "skynet"
 local websocket = require "http.websocket"
 local log = require "log"
 
-require "protobuf"
 local parser = require "parser"
 parser.register("msg.proto", "./theone")
 
@@ -48,7 +47,10 @@ end
 
 function CMD.start(id, addr, protocol)
 	log.info("start fd:%d addr:%s protocol:%s", id, addr, protocol)
-	websocket.accept(id, handle, protocol, addr)
+	local ok, err = websocket.accept(id, handle, protocol, addr)
+	if not ok then
+		log.error("accept failed:%s", err)
+	end
 end
 
 
