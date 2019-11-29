@@ -1,7 +1,9 @@
 local skynet = require "skynet"
-local log = require "log"
-local timer = require "timerfactory".new()
 
+local log = require "tm.log"
+local time = require "tm.time"
+
+local timer = time.newtimer()
 
 skynet.start(function()
 	log.debug("Test of Timer.")

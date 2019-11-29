@@ -5,10 +5,9 @@ harbor = 0
 
 start = "main"
 bootstrap = "snlua bootstrap"
-preload = "./lualib/preload.lua"
 
 logpath = "./logs"
-logger = "tlogger"
+logger = "tm/logger"
 logservice = "snlua"
 lualoader = "./skynet/lualib/loader.lua"
 

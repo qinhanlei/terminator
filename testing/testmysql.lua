@@ -1,7 +1,9 @@
 local skynet = require "skynet"
-local log = require "log"
-local time = require "time"
-local sqlaux = require "sqlaux"
+
+local log = require "tm.log"
+local time = require "tm.time"
+local sqlaux = require "tm.sqlaux"
+
 local mconf = require("config_db").mysql
 
 
@@ -54,7 +56,7 @@ end
 skynet.start(function()
 	log.debug("Test of MySQL")
 
-	local tmysql, e = skynet.uniqueservice("mysqld")
+	local tmysql, e = skynet.uniqueservice("tm/mysqld")
 	if not tmysql then
 		log.error("failed:%s", e)
 	end

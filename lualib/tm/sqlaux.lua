@@ -1,7 +1,7 @@
 -- SQL auxiliary
 local skynet = require "skynet"
 local mysql = require "skynet.db.mysql"
-local log = require "log"
+local log = require "tm.log"
 
 local sqlaux = {}
 

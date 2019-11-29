@@ -1,29 +1,27 @@
 local skynet = require "skynet"
-local log = require "log"
+local log = require "tm.log"
+local xtable = require "tm.xtable"
 
-local TM_TIMEOUT_LIMIT = 60 * 100
-
-local mt = {
-	__tostring = function(obj)
-		return string.format("timer[%x-%x]", skynet.self(), obj.id)
-	end,
-}
 local M = {}
-local idx = 0
+local _timeridx = 0
 
 
-function M.new()
+function M.newtimer()
 	local handles = {}
 	local watcher = nil
-	local timer = setmetatable({id = idx}, mt)
-	idx = idx + 1
+	local timer = setmetatable({id = _timeridx}, {
+		__tostring = function(obj)
+			return string.format("timer[%x-%x]", skynet.self(), obj.id)
+		end,
+	})
+	_timeridx = _timeridx + 1
 
 	function timer.timeout(ti, f)
 		if not f then
 			log.warn("timeout callback is nil %s", debug.traceback())
 			return
 		end
-		if ti > TM_TIMEOUT_LIMIT then
+		if ti > 60 * 100 then
 			log.warn("long timeout:%d! %s", ti, debug.traceback())
 		end
 		local function tf()
@@ -57,7 +55,7 @@ function M.new()
 		skynet.timeout(42, function()
 			watcher = skynet.fork(function()
 				while watcher do
-					log.debug("%s task number:%d", timer, table.size(handles))
+					log.debug("%s task number:%d", timer, xtable.size(handles))
 					if cb then cb() end
 					skynet.sleep(ti)
 				end
@@ -67,6 +65,12 @@ function M.new()
 	end
 
 	return timer
+end
+
+
+function M.nowstr()
+	local t = os.date("*t")
+	return string.format("%04d-%02d-%02d %02d:%02d:%02d", t.year, t.month, t.day, t.hour, t.min, t.sec)
 end
 
 

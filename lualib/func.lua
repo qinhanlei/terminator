@@ -1,1 +1,0 @@
--- global functions, less is better

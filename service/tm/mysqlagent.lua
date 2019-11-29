@@ -1,7 +1,7 @@
 local skynet = require "skynet"
 require "skynet.manager"
 local mysql = require "skynet.db.mysql"
-local log = require "log"
+local log = require "tm.log"
 
 local TM_DB_PING_INTERVAL = 60*100
 
@@ -51,14 +51,6 @@ function CMD.start(id, db, conf, mconf)
 	conn = c
 	index = id
 	database = db
-end
-
-
-function CMD.stop()
-	if conn then
-		conn:disconnect()
-		conn = nil
-	end
 end
 
 

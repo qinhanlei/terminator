@@ -1,22 +1,11 @@
 local skynet = require "skynet"
 require "skynet.manager"
-local log = require "log"
+local log = require "tm.log"
 
 local CMD = {}
 
 local db2agents = {}  -- { db => agents:array }
 local db2balance = {}
-
-
-local function stopall()
-	for _, v in ipairs(db2agents) do
-		local ok, e = pcall(skynet.call, v, "lua", "stop")
-		if not ok then
-			log.error("call stop agent failed: %s", e)
-		end
-	end
-	db2agents = {}
-end
 
 
 function CMD.agent(db)
@@ -36,7 +25,6 @@ function CMD.start(mconf)
 		log.error("no mysql config!")
 		return
 	end
-	stopall()
 	for k, v in pairs(mconf) do
 		if type(v) == "table" then
 			db2agents[k] = {}
@@ -44,17 +32,12 @@ function CMD.start(mconf)
 			local n = v.connects or mconf.connects or 1
 			local database = v.database or k
 			for i = 1, n do
-				local agent = skynet.newservice("mysqlagent")
+				local agent = skynet.newservice("tm/mysqlagent")
 				skynet.call(agent, "lua", "start", i, database, v, mconf)
 				table.insert(db2agents[k], agent)
 			end
 		end
 	end
-end
-
-
-function CMD.stop()
-	stopall()
 end
 
 

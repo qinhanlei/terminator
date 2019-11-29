@@ -1,2 +1,0 @@
-require "stdex"
-require "func"

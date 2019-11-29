@@ -4,7 +4,6 @@ require "skynet.manager"
 local nodename = skynet.getenv("nodename")
 local logpath = skynet.getenv("logpath")
 
---TODO: let configurable or update dynamically
 local LOG_LEVEL = 1  -- see LOG_LEVEL_TYPE
 local LOG_CONSOLE = true  -- also print logs to screen console
 local LOG_FILE_LIMIT = 32 * 1024*1024

@@ -1,8 +1,10 @@
 local table = table
 local string = string
 
+local xstring = setmetatable({}, {__index = string})
 
-function string.split(input, delimiter)
+
+function xstring.split(input, delimiter)
 	input = tostring(input)
 	delimiter = tostring(delimiter)
 	if delimiter == '' then
@@ -18,26 +20,19 @@ function string.split(input, delimiter)
 end
 
 
-function string.ltrim(input)
+function xstring.ltrim(input)
 	return string.gsub(input, "^[ \t\n\r]+", "")
 end
 
 
-function string.rtrim(input)
+function xstring.rtrim(input)
 	return string.gsub(input, "[ \t\n\r]+$", "")
 end
 
 
-function string.trim(input)
-	input = string.gsub(input, "^[ \t\n\r]+", "")
-	return string.gsub(input, "[ \t\n\r]+$", "")
+function xstring.trim(input)
+	return xstring.rtrim(xstring.ltrim(input))
 end
 
 
-function table.size(t)
-	local count = 0
-	for _ in pairs(t) do
-		count = count + 1
-	end
-	return count
-end
+return xstring

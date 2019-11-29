@@ -1,7 +1,7 @@
 local skynet = require "skynet"
 local socket = require "skynet.socket"
 local websocket = require "http.websocket"
-local log = require "log"
+local log = require "tm.log"
 
 local handle = {}
 local MODE = ...

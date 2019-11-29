@@ -1,5 +1,5 @@
 local skynet = require "skynet"
-local log = require "log"
+local log = require "tm.log"
 
 local _cmd = table.pack(...)
 

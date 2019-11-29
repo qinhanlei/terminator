@@ -73,5 +73,5 @@ $(LUA_CLIB_PATH)/protobuf.so : pbc
 		$(MAKE) CFLAGS="$(CFLAGS) $(SHARED)" LUADIR=../../../../../$(LUA_DIR)
 	cp -r 3rd/pbc/binding/lua53/protobuf.so* $(@D)/; \
 		rm -rf 3rd/pbc/binding/lua53/protobuf.so*
-	cp 3rd/pbc/binding/lua/parser.lua lualib/
-	cp 3rd/pbc/binding/lua53/protobuf.lua lualib/
+	cp 3rd/pbc/binding/lua/parser.lua ./lualib/tm/
+	cp 3rd/pbc/binding/lua53/protobuf.lua ./lualib/tm/
