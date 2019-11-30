@@ -12,14 +12,29 @@ function xtable.size(t)
 end
 
 function xtable.dump(t, dep)
+	if not t then return "nil" end
+	if type(t) == "string" then return '"'..t..'"' end
+	if type(t) ~= "table" then return tostring(t) end
+	if xtable.size(t) == 0 then return "{}" end
+	dep = dep or 1
+	if dep > 5 then return "{ ** MAX DEPTH ** }" end
 	local vlst = {}
-	local tabs = string.rep(" ", (dep or 1) * 2)
+	local tabs0 = string.rep(" ", (dep-1) * 2)
+	local tabs1 = string.rep(" ", dep * 2)
 	for k, v in pairs(t) do
-		xtable.dump(t)
+		if type(k) == "number" then
+			k = "["..k.."]"
+		end
+		if type(v) == "table" then
+			v = xtable.dump(v, dep+1)
+		elseif type(v) == "string" then
+			v = '"'..v..'"'
+		end
+		table.insert(vlst, tostring(k).." = "..tostring(v)..',')
 	end
-	if xtable.size(vlst) > 1 then
-		return "" .. table.concat(vlst, "\n"..sep, i, j)
-	end
+	return "{\n"..tabs1..
+			table.concat(vlst, "\n"..tabs1)..
+			"\n"..tabs0.."}"
 end
 
 -- https://blog.codingnow.com/cloud/LuaSerializeTable
