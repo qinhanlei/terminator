@@ -2,6 +2,7 @@ local table = table
 local string = string
 
 local xtable = setmetatable({}, {__index = table})
+local INDENT = string.rep(" ", 2)
 
 function xtable.size(t)
 	local count = 0
@@ -11,30 +12,35 @@ function xtable.size(t)
 	return count
 end
 
-function xtable.dump(t, dep)
+function xtable.dump(t)
 	if not t then return "nil" end
 	if type(t) == "string" then return '"'..t..'"' end
 	if type(t) ~= "table" then return tostring(t) end
-	if xtable.size(t) == 0 then return "{}" end
-	dep = dep or 1
-	if dep > 5 then return "{ ** MAX DEPTH ** }" end
-	local vlst = {}
-	local tabs0 = string.rep(" ", (dep-1) * 2)
-	local tabs1 = string.rep(" ", dep * 2)
-	for k, v in pairs(t) do
-		if type(k) == "number" then
-			k = "["..k.."]"
+	local cache = { [t] = "." }
+	local function dump(tbl, dep, tag)
+		if xtable.size(tbl) == 0 then return "{}" end
+		if dep > 8 then return "{ * MAX DEPTH * }" end
+		local vlst = { "{" }
+		for k, v in pairs(tbl) do
+			if type(k) ~= "string" then
+				k = "["..tostring(k).."]"
+			end
+			if type(v) == "table" then
+				if cache[v] then
+					v = "{ "..cache[v].." }"
+				else
+					cache[v] = tag..'.'..k
+					v = dump(v, dep+1, tag..'.'..k)
+				end
+			elseif type(v) == "string" then
+				v = '"'..v..'"'
+			end
+			table.insert(vlst, tostring(k).." = "..tostring(v)..',')
 		end
-		if type(v) == "table" then
-			v = xtable.dump(v, dep+1)
-		elseif type(v) == "string" then
-			v = '"'..v..'"'
-		end
-		table.insert(vlst, tostring(k).." = "..tostring(v)..',')
+		return table.concat(vlst, "\n"..string.rep(INDENT, dep))..
+				"\n"..string.rep(INDENT, dep-1).."}"
 	end
-	return "{\n"..tabs1..
-			table.concat(vlst, "\n"..tabs1)..
-			"\n"..tabs0.."}"
+	return dump(t, 1, "")
 end
 
 -- https://blog.codingnow.com/cloud/LuaSerializeTable
