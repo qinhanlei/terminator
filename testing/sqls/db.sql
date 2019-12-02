@@ -1,10 +1,21 @@
 
+CREATE DATABASE IF NOT EXISTS `tconf` DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_general_ci;
 CREATE DATABASE IF NOT EXISTS `tgame` DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_general_ci;
 CREATE DATABASE IF NOT EXISTS `tlogs` DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_general_ci;
 
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+use tconf;
+
+DROP TABLE IF EXISTS `conf`;
+CREATE TABLE `conf` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `key` varchar(127) NOT NULL,
+  `value` varchar(127) NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 use tgame;
 

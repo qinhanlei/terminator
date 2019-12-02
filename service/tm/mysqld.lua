@@ -26,6 +26,7 @@ function CMD.start(mconf)
 		return
 	end
 	for k, v in pairs(mconf) do
+		if k == "database" then v = { database = v } end
 		if type(v) == "table" then
 			db2agents[k] = {}
 			db2balance[k] = 0
