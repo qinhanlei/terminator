@@ -20,21 +20,24 @@ function CMD.agent(db)
 end
 
 
-function CMD.start(mconf)
-	if not mconf then
+function CMD.start(conf)
+	if not conf then
 		log.error("no mysql config!")
 		return
 	end
-	for k, v in pairs(mconf) do
+	for k, v in pairs(conf) do
 		if k == "database" then v = { database = v } end
 		if type(v) == "table" then
 			db2agents[k] = {}
 			db2balance[k] = 0
-			local n = v.connects or mconf.connects or 1
-			local database = v.database or k
-			for i = 1, n do
+			v.host = v.host or conf.host
+			v.port = v.port or conf.port
+			v.user = v.user or conf.user
+			v.password = v.password or conf.password
+			v.database = v.database or k
+			for i = 1, v.connects or conf.connects or 2 do
 				local agent = skynet.newservice("tm/mysqlagent")
-				skynet.call(agent, "lua", "start", i, database, v, mconf)
+				skynet.call(agent, "lua", "start", i, v)
 				table.insert(db2agents[k], agent)
 			end
 		end

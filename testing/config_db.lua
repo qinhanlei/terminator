@@ -5,16 +5,16 @@ conf.mysql = {
     host = "127.0.0.1",
     port = 3306,
     user = "terminator",
-    pass = "I am not root",
-    connects = 2,
+    password = "I am not root",
     database = "tconf",
+    connects = 2,
 
     -- database info table
     tgame = {
         host = "127.0.0.1",
         port = 3306,
         user = "terminator",
-        pass = "I am not root",
+        password = "I am not root",
         connects = 4
     },
 
@@ -30,7 +30,7 @@ conf.mongo = {
     host = "127.0.0.1",
     port = 27017,
     user = "terminator",
-    pass = "I am not mongodb root",
+    password = "I am not mongodb root",
 
 }
 

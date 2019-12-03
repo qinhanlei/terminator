@@ -56,11 +56,7 @@ end
 skynet.start(function()
 	log.debug("Test of MySQL")
 
-	local tmysql, e = skynet.uniqueservice("tm/mysqld")
-	if not tmysql then
-		log.error("failed:%s", e)
-	end
-	skynet.call(tmysql, "lua", "start", mconf)
+	sqlaux.init(mconf)
 
 	test_insert()
 	test_query()

@@ -27,30 +27,29 @@ local function keep_alive()
 end
 
 
-function CMD.start(id, db, conf, mconf)
+function CMD.start(id, conf)
 	if conn then
 		conn:disconnect()
 	end
 
-	db = conf.database or db
 	local c = mysql.connect({
-		host = conf.host or mconf.host,
-		port = conf.port or mconf.port,
-		database = db,
-		user = conf.user or mconf.user,
-		password = conf.pass or mconf.pass,
-		max_packet_size = 1024 * 1024,
+		host = conf.host,
+		port = conf.port,
+		user = conf.user,
+		password = conf.password,
+		database = conf.database,
+		max_packet_size = 4 * 1024 * 1024,
 		on_connect = function(c)
 			local ok, t = pcall(c.query, c, "set charset utf8mb4")
 			if ok and not t.badresult then
-				log.info("connect %s:%d succeed!", db, id)
+				log.info("connect %s:%d succeed!", conf.database, id)
 			end
 		end
 	})
 
 	conn = c
 	index = id
-	database = db
+	database = conf.database
 end
 
 

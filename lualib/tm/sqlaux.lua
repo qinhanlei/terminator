@@ -6,6 +6,16 @@ local log = require "tm.log"
 local sqlaux = {}
 
 
+function sqlaux.init(conf)
+	local tmysql, e = skynet.uniqueservice("tm/mysqld")
+	if not tmysql then
+		log.error("create uniqueservice mysqld failed:%s", e)
+		return
+	end
+	skynet.call(tmysql, "lua", "start", conf)
+end
+
+
 --NOTE: use `mysql.quote_sql_str(s)` to avoid SQL injection
 function sqlaux.exec(db, fmt, ...)
 	local ok, sql, t
