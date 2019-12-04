@@ -5,7 +5,7 @@ local log = require "tm.log"
 local CMD = {}
 
 local db2agents = {}  -- { db => agents:array }
-local db2balance = {}
+local db2balance = {}  -- { db => balance:int }
 
 
 function CMD.agent(db)
@@ -14,9 +14,8 @@ function CMD.agent(db)
 		log.error("db:%s not exist!", db)
 		return nil
 	end
-	local balance = db2balance[db]
-	balance = (balance % #agents) + 1
-	return agents[balance]
+	db2balance[db] = (db2balance[db] % #agents) + 1
+	return agents[db2balance[db]]
 end
 
 
