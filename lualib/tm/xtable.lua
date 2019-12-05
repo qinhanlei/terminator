@@ -4,6 +4,7 @@ local string = string
 local xtable = setmetatable({}, {__index = table})
 local INDENT = string.rep(" ", 2)
 
+
 function xtable.size(t)
 	local count = 0
 	for _ in pairs(t) do
@@ -11,6 +12,7 @@ function xtable.size(t)
 	end
 	return count
 end
+
 
 function xtable.dump(t)
 	if not t then return "nil" end
@@ -43,6 +45,7 @@ function xtable.dump(t)
 	return dump(t, 1, "")
 end
 
+
 -- https://blog.codingnow.com/cloud/LuaSerializeTable
 function xtable.serialize(t)
 	local mark = {}
@@ -67,5 +70,6 @@ function xtable.serialize(t)
 	end
 	return "do local ret=" .. ser_table(t, "ret") .. table.concat(assign, " ") .. " return ret end"
 end
+
 
 return xtable

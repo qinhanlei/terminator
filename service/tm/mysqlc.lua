@@ -3,7 +3,7 @@ require "skynet.manager"
 local mysql = require "skynet.db.mysql"
 local log = require "tm.log"
 
-local TM_DB_PING_INTERVAL = 60*100
+local PING_INTERVAL = 60*100
 
 local CMD = {}
 
@@ -15,7 +15,7 @@ local database
 local function keep_alive()
 	local ok, err
 	while true do
-		skynet.sleep(TM_DB_PING_INTERVAL)
+		skynet.sleep(PING_INTERVAL)
 		if conn then
 			log.debug("keep alive %s:%d", database, index)
 			ok, err = pcall(conn.query, conn, "set charset utf8mb4")
@@ -28,17 +28,14 @@ end
 
 
 function CMD.start(id, conf)
-	if conn then
-		conn:disconnect()
-	end
-
-	local c = mysql.connect({
+	assert(not conn, "already started!")
+	conn = mysql.connect({
 		host = conf.host,
 		port = conf.port,
 		user = conf.user,
 		password = conf.password,
 		database = conf.database,
-		max_packet_size = 4 * 1024 * 1024,
+		max_packet_size = conf.max_packet_size,
 		on_connect = function(c)
 			local ok, t = pcall(c.query, c, "set charset utf8mb4")
 			if ok and not t.badresult then
@@ -46,8 +43,6 @@ function CMD.start(id, conf)
 			end
 		end
 	})
-
-	conn = c
 	index = id
 	database = conf.database
 end
@@ -59,7 +54,6 @@ function CMD.query(sql)
 		log.error("no connect with db:%s !", database)
 		return
 	end
-
 	local ok, t = pcall(conn.query, conn, sql)
 	if not ok then  -- will reconnect by socketchannel
 		ok, t = pcall(conn.query, conn, sql)  -- try again

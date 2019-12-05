@@ -2,17 +2,36 @@
 local skynet = require "skynet"
 local mysql = require "skynet.db.mysql"
 local log = require "tm.log"
+local xdump = require "tm.xtable".dump
 
 local sqlaux = {}
 
 
 function sqlaux.init(conf)
+	log.warn("sqlaux init by conf: %s", xdump(conf))
 	local tmysql, e = skynet.uniqueservice("tm/mysqld")
 	if not tmysql then
 		log.error("create uniqueservice mysqld failed:%s", e)
 		return
 	end
 	skynet.call(tmysql, "lua", "start", conf)
+end
+
+
+function sqlaux.use(db)
+	assert(type(db) == "string")
+	return setmetatable({}, {
+		__index = function(_, method)
+			local f = sqlaux[method]
+			if not f then
+				log.error("sqlaux have no: %s", tostring(method))
+				return
+			end
+			return function(...)
+				return f(db, ...)
+			end
+		end
+	})
 end
 
 
@@ -28,13 +47,13 @@ function sqlaux.exec(db, fmt, ...)
 		end
 	end
 
-	local agent = skynet.call(".mysqld", "lua", "agent", db)
-	if not agent then
+	local mycli = skynet.call(".mysqld", "lua", "client", db)
+	if not mycli then
 		log.error("db:%s connection not exist", db)
 		return nil, "connection not exist"
 	end
 
-	ok, t = pcall(skynet.call, agent, "lua", "query", sql or fmt)
+	ok, t = pcall(skynet.call, mycli, "lua", "query", sql or fmt)
 	if not ok then
 		log.error("call failed: %s", tostring(t))
 		return nil, tostring(t)
@@ -45,6 +64,7 @@ function sqlaux.exec(db, fmt, ...)
 	end
 	return t
 end
+
 
 -- -----------------------------------------------------------------------------
 

@@ -4,18 +4,19 @@ local log = require "tm.log"
 local time = require "tm.time"
 local sqlaux = require "tm.sqlaux"
 
-local mconf = require("config_db").mysql
+local conf = require("config_db").mysql
 
 
 local function test_insert()
-	sqlaux.exec("tgame", "delete from user;")
+	local db = sqlaux.use("tgame")
+	db.exec("delete from user;")
 	for i = 1, 42 do
 		local userinfo = {
 			name = "test"..i,
 			age = i,
 			record_time = time.nowstr(),
 		}
-		sqlaux.insert("tgame", "user", userinfo)
+		db.insert("user", userinfo)
 	end
 	log.info("test insert done")
 end
@@ -56,7 +57,7 @@ end
 skynet.start(function()
 	log.debug("Test of MySQL")
 
-	sqlaux.init(mconf)
+	sqlaux.init(conf)
 
 	test_insert()
 	test_query()
