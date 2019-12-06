@@ -1,7 +1,7 @@
 local table = table
 local string = string
 
-local xstring = setmetatable({}, {__index = string})
+local xstring = {}
 
 
 function xstring.split(input, delimiter)

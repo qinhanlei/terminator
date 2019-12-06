@@ -1,7 +1,7 @@
 local table = table
 local string = string
 
-local xtable = setmetatable({}, {__index = table})
+local xtable = {}
 local INDENT = string.rep(" ", 2)
 
 
