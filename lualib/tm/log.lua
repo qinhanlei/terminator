@@ -4,9 +4,14 @@ local skynet = require "skynet"
 local function send_log(level, fmt, ...)
 	local ok, str
 	if select('#', ...) ~= 0 then
-		ok, str = pcall(string.format, fmt, ...)
-		if not ok then
-			level, str = 4, str..'\n'..debug.traceback()
+		-- https://www.lua.org/manual/5.3/manual.html#pdf-string.format
+		if string.match(fmt, "%%[aAcdeEfgGioqsuxX]") then
+			ok, str = pcall(string.format, fmt, ...)
+			if not ok then
+				level, str = 4, str..'\n'..debug.traceback(nil, 3)
+			end
+		else
+			str = table.concat({fmt, ...}, " ")
 		end
 	end
 	str = str or fmt

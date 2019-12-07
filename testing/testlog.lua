@@ -65,6 +65,15 @@ skynet.start(function()
 		logger("this is logging of `%s`", k)
 	end
 
+	log.debug("single string log")
+	log.debug("single string log has valid option %s")
+	log.debug("log with two string parameters,", "will concat by whitespace.")
+
+	-- has format option will treat as string.format
+	log.debug("log has %d valid format %s", 2, "options")
+	log.debug("log has invalid option %z,", "will concat by whitespace.")
+	log.debug("log has valid and invalid %s %z", "option") -- will cause error!
+
 	process(table.unpack(_cmd))
 
 	-- skynet.exit()
