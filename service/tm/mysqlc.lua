@@ -3,7 +3,7 @@ require "skynet.manager"
 local mysql = require "skynet.db.mysql"
 local log = require "tm.log"
 
-local PING_INTERVAL = 60*100
+local PING_INTERVAL = 10*60*100
 
 local CMD = {}
 

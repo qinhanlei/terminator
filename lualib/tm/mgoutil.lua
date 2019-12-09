@@ -1,13 +1,12 @@
 --[[
-MongoDB eXecute
-
-create mongo logic service, then:
-	mongox.init(conf)
-	db = mongox.use("testdb")
-	db:findOne({test_key2 = 1})
+MongoDB utility
+Just a simple wrapper of `skynet.db.mongo`
+Create mongo logic service, then:
+	mgoutil.init(conf)
+	db = mgoutil.use("testdb")
+	db.testColl:findOne({test_key2 = 1})
 	...
 	do other CRUDs like above
-
 NOTE:
 	only one MongoDB instance connected per service!
 ]]--
@@ -17,9 +16,9 @@ local mongo = require "skynet.db.mongo"
 local log = require "tm.log"
 local xdump = require "tm.xtable".dump
 
-local PING_INTERVAL = 60*100
+local PING_INTERVAL = 10*60*100
 
-local mongox = {}
+local mgoutil = {}
 
 local cli
 
@@ -32,12 +31,12 @@ local function keep_alive()
 end
 
 
-function mongox.init(conf)
+function mgoutil.init(conf)
 	if cli then
-		log.error("mongox already initialized!")
+		log.error("mgoutil already initialized!")
 		return
 	end
-	log.warn("mongox init by conf: %s", xdump(conf))
+	log.warn("mgoutil init by conf: %s", xdump(conf))
 	cli = mongo.client({
 		host = conf.host,
 		port = conf.port,
@@ -50,14 +49,14 @@ function mongox.init(conf)
 end
 
 
-function mongox.client()
+function mgoutil.client()
 	return cli
 end
 
 
-function mongox.use(dbname)
+function mgoutil.use(dbname)
 	return cli[dbname]
 end
 
 
-return mongox
+return mgoutil

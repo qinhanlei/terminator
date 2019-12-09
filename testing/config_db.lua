@@ -9,12 +9,12 @@ conf.mysql = {
     user = "terminator",
     password = "I am not root",
     database = "tconf",
-    connects = 2,
+    connects = 4,
     max_packet_size = 2 * 1024 * 1024, -- default is 1MB
     -- another database info table
     {
         database = "tgame",
-        connects = 4,
+        connects = 8,
         -- others as default values
     },
     -- yet another database info table
@@ -30,9 +30,10 @@ conf.mysql = {
 conf.mongo = {
     host = "127.0.0.1",
     port = 27017,
-    username = "test",  -- nil is allowed
-    password = "test",  -- nil is allowed
-    authdb = "testdb",
+    username = "test",
+    password = "test",
+    authdb = "admin",
+    connects = 4,
 }
 
 
