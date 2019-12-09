@@ -26,7 +26,7 @@ function CMD.start(conf)
 		log.error("no MySQL config!")
 		return
 	end
-	log.info("MySQL config: %s", xtable.dump(conf))
+	-- log.info("MySQL config: %s", xtable.dump(conf))
 	local dbhash = {}
 	for k, v in pairs(conf) do
 		if k == "database" then v = { database = v } end

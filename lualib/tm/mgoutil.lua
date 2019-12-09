@@ -36,7 +36,7 @@ function mgoutil.init(conf)
 		log.error("mgoutil already initialized!")
 		return
 	end
-	log.warn("mgoutil init by conf: %s", xdump(conf))
+	log.debug("mgoutil init by conf: %s", xdump(conf))
 	cli = mongo.client({
 		host = conf.host,
 		port = conf.port,

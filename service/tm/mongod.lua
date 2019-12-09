@@ -25,10 +25,11 @@ function CMD.start(conf, logiclua)
 		log.error("no MongoDB config!")
 		return
 	end
-	log.info("MongoDB config: %s", xtable.dump(conf))
+	-- log.info("MongoDB config: %s", xtable.dump(conf))
 	for i = 1, conf.connects or 2 do
 		local cli = skynet.newservice("tm/mongoc")
 		skynet.call(cli, "lua", "start", i, conf, logiclua)
+		table.insert(clients, cli)
 	end
 end
 

@@ -1,17 +1,18 @@
--- SQL auxiliary
+-- MySQL auxiliary
 local skynet = require "skynet"
 local mysql = require "skynet.db.mysql"
 local log = require "tm.log"
 local xdump = require "tm.xtable".dump
 
 local sqlaux = {}
+local SERVICE_PATH = "tm/mysqld"
 
 
 function sqlaux.init(conf)
-	log.warn("sqlaux init by conf: %s", xdump(conf))
-	local tmysql, e = skynet.uniqueservice("tm/mysqld")
+	log.debug("sqlaux init by conf: %s", xdump(conf))
+	local tmysql, e = skynet.uniqueservice(SERVICE_PATH)
 	if not tmysql then
-		log.error("create uniqueservice mysqld failed:%s", e)
+		log.error("create uniqueservice:%s failed:%s", SERVICE_PATH, e)
 		return
 	end
 	skynet.call(tmysql, "lua", "start", conf)
