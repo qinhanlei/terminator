@@ -33,7 +33,6 @@ conf.mongo = {
     username = "test",  -- nil is allowed
     password = "test",  -- nil is allowed
     authdb = "testdb",
-    connects = 8,
 }
 
 
