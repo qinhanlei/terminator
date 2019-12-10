@@ -1,8 +1,8 @@
 local skynet = require "skynet"
 
 local log = require "tm.log"
-local mongoaux = require "tm.mongoaux"
-local mongoutil = require "tm.mongoutil"
+local mongoaux = require "tm.db.mongoaux"
+local mongoutil = require "tm.db.mongoutil"
 local mongotester = require "mongotester"
 
 local conf = require("config_db").mongo

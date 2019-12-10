@@ -1,6 +1,6 @@
 local skynet = require "skynet"
 require "skynet.manager"
-local mongoutil = require "tm.mongoutil"
+local mongoutil = require "tm.db.mongoutil"
 local log = require "tm.log"
 
 local CMD = {}

@@ -1,6 +1,6 @@
 local log = require "tm.log"
-local mongoutil = require "tm.mongoutil"
 -- local xdump = require "tm.xtable".dump
+local mongoutil = require "tm.db.mongoutil"
 
 
 local mongotester = {}

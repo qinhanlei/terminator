@@ -2,7 +2,7 @@ local skynet = require "skynet"
 
 local log = require "tm.log"
 local time = require "tm.time"
-local sqlaux = require "tm.sqlaux"
+local sqlaux = require "tm.db.sqlaux"
 
 local conf = require("config_db").mysql
 

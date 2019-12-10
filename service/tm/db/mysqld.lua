@@ -42,7 +42,7 @@ function CMD.start(conf)
 			v.password = v.password or conf.password
 			assert(v.database and type(v.database) == "string")
 			for i = 1, v.connects or conf.connects or 2 do
-				local cli = skynet.newservice("tm/mysqlc")
+				local cli = skynet.newservice("tm/db/mysqlc")
 				skynet.call(cli, "lua", "start", i, v)
 				table.insert(db2clients[k], cli)
 			end

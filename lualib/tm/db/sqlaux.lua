@@ -5,7 +5,7 @@ local log = require "tm.log"
 local xdump = require "tm.xtable".dump
 
 local sqlaux = {}
-local SERVICE_PATH = "tm/mysqld"
+local SERVICE_PATH = "tm/db/mysqld"
 
 
 function sqlaux.init(conf)

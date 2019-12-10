@@ -27,7 +27,7 @@ function CMD.start(conf, logicfile)
 	end
 	-- log.info("MongoDB config: %s", xtable.dump(conf))
 	for i = 1, conf.connects or 2 do
-		local cli = skynet.newservice("tm/mongoc")
+		local cli = skynet.newservice("tm/db/mongoc")
 		skynet.call(cli, "lua", "start", i, conf, logicfile)
 		table.insert(clients, cli)
 	end

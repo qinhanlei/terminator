@@ -5,7 +5,7 @@ local skynet = require "skynet"
 local log = require "tm.log"
 
 local mongoaux = {}
-local SERVICE_PATH = "tm/mongod"
+local SERVICE_PATH = "tm/db/mongod"
 
 
 function mongoaux.init(conf, logicfile)
