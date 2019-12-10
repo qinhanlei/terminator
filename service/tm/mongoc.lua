@@ -1,6 +1,6 @@
 local skynet = require "skynet"
 require "skynet.manager"
-local mgoutil = require "tm.mgoutil"
+local mongoutil = require "tm.mongoutil"
 local log = require "tm.log"
 
 local CMD = {}
@@ -8,10 +8,10 @@ local CMD = {}
 local logic
 
 
-function CMD.start(id, conf, logiclua)
+function CMD.start(id, conf, logicfile)
 	log.info("mongoc:%d start", id)
-	mgoutil.init(conf)
-	logic = assert(require(logiclua))
+	mongoutil.init(conf)
+	logic = assert(require(logicfile))
 	assert(type(logic.start) == "function", "have no start function")
 	skynet.fork(logic.start)
 end

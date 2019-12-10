@@ -2,9 +2,9 @@
 MongoDB utility
 Just a simple wrapper of `skynet.db.mongo`
 Create mongo logic service, then:
-	mgoutil.init(conf)
-	db = mgoutil.use("testdb")
-	db.testColl:findOne({test_key2 = 1})
+	mongoutil.init(conf)
+	db = mongoutil.use("testdb")
+	db.testcoll:findOne({test_key2 = 1})
 	...
 	do other CRUDs like above
 NOTE:
@@ -18,7 +18,7 @@ local xdump = require "tm.xtable".dump
 
 local PING_INTERVAL = 10*60*100
 
-local mgoutil = {}
+local mongoutil = {}
 
 local cli
 
@@ -31,12 +31,12 @@ local function keep_alive()
 end
 
 
-function mgoutil.init(conf)
+function mongoutil.init(conf)
 	if cli then
-		log.error("mgoutil already initialized!")
+		log.error("mongoutil already initialized!")
 		return
 	end
-	log.debug("mgoutil init by conf: %s", xdump(conf))
+	log.debug("mongoutil init by conf: %s", xdump(conf))
 	cli = mongo.client({
 		host = conf.host,
 		port = conf.port,
@@ -49,14 +49,14 @@ function mgoutil.init(conf)
 end
 
 
-function mgoutil.client()
+function mongoutil.client()
 	return cli
 end
 
 
-function mgoutil.use(dbname)
+function mongoutil.use(dbname)
 	return cli[dbname]
 end
 
 
-return mgoutil
+return mongoutil

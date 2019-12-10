@@ -1,41 +1,41 @@
 local skynet = require "skynet"
 
 local log = require "tm.log"
-local mgoaux = require "tm.mgoaux"
-local mgoutil = require "tm.mgoutil"
-local mgologic = require "mgologic"
+local mongoaux = require "tm.mongoaux"
+local mongoutil = require "tm.mongoutil"
+local mongotester = require "mongotester"
 
 local conf = require("config_db").mongo
-local test_mode = ...  -- mgoaux / mgoutil
+local test_mode = ...  -- mongoaux / mongoutil
 
 local CMD = {}
 
 
-function CMD.mgoaux()
-	log.info("test mgoaux ...")
-	mgoaux.init(conf, "mgologic")
-	mgoaux.call("hello", "this is test!")
-	mgoaux.call("test_insert")
-	mgoaux.call("test_query")
-	mgoaux.call("test_update")
-	mgoaux.call("test_delete")
+function CMD.mongoaux()
+	log.info("test mongoaux ...")
+	mongoaux.init(conf, "mongotester")
+	mongoaux.call("hello", "this is test!")
+	mongoaux.call("test_insert")
+	mongoaux.call("test_query")
+	mongoaux.call("test_update")
+	mongoaux.call("test_delete")
 end
 
 
-function CMD.mgoutil()
-	log.info("test mgoutil ...")
-	mgoutil.init(conf)
-	mgologic.test_insert()
-	mgologic.test_query()
-	mgologic.test_update()
-	mgologic.test_delete()
+function CMD.mongoutil()
+	log.info("test mongoutil ...")
+	mongoutil.init(conf)
+	mongotester.test_insert()
+	mongotester.test_query()
+	mongotester.test_update()
+	mongotester.test_delete()
 end
 
 
 skynet.start(function()
 	log.debug("Test of MongoDB")
 
-	test_mode = test_mode or "mgoaux"
+	test_mode = test_mode or "mongoaux"
 	log.debug("testmode:", test_mode)
 	local f = assert(CMD[test_mode])
 	f()

@@ -1,7 +1,7 @@
 local skynet = require "skynet"
 require "skynet.manager"
 local log = require "tm.log"
-local xtable = require "tm.xtable"
+-- local xtable = require "tm.xtable"
 
 local CMD = {}
 
@@ -19,7 +19,7 @@ function CMD.client()
 end
 
 
-function CMD.start(conf, logiclua)
+function CMD.start(conf, logicfile)
 	assert(#clients == 0, "already started!")
 	if not conf then
 		log.error("no MongoDB config!")
@@ -28,7 +28,7 @@ function CMD.start(conf, logiclua)
 	-- log.info("MongoDB config: %s", xtable.dump(conf))
 	for i = 1, conf.connects or 2 do
 		local cli = skynet.newservice("tm/mongoc")
-		skynet.call(cli, "lua", "start", i, conf, logiclua)
+		skynet.call(cli, "lua", "start", i, conf, logicfile)
 		table.insert(clients, cli)
 	end
 end
