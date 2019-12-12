@@ -1,31 +1,31 @@
--- MySQL auxiliary
+-- eXecute MySQL immediately utility
 local skynet = require "skynet"
 local mysql = require "skynet.db.mysql"
 local log = require "tm.log"
 -- local xdump = require "tm.xtable".dump
 
-local sqlaux = {}
+local xmysql = {}
 local SERVICE_PATH = "tm/db/mysqld"
 
 
-function sqlaux.init(conf)
+function xmysql.init(conf)
 	local service = skynet.uniqueservice(SERVICE_PATH)
 	skynet.call(service, "lua", "start", conf)
 end
 
 
-function sqlaux.clear()
+function xmysql.clear()
 	local service = skynet.uniqueservice(SERVICE_PATH)
 	skynet.call(service, "lua", "stop")
 end
 
 
-function sqlaux.use(dbname)
+function xmysql.use(dbname)
 	assert(type(dbname) == "string")
 	return setmetatable({}, {
 		__index = function(_, key)
 			return function(...)
-				return sqlaux[key](dbname, ...)
+				return xmysql[key](dbname, ...)
 			end
 		end
 	})
@@ -33,7 +33,7 @@ end
 
 
 --NOTE: use `mysql.quote_sql_str(s)` to avoid SQL injection
-function sqlaux.exec(db, fmt, ...)
+function xmysql.exec(db, fmt, ...)
 	local ok, sql, t
 
 	if select('#', ...) ~= 0 then
@@ -65,7 +65,7 @@ end
 
 -- -----------------------------------------------------------------------------
 
-function sqlaux.insert(db, tbl, kvmap)
+function xmysql.insert(db, tbl, kvmap)
 	local keys, vals = "", ""
 	for k, v in pairs(kvmap) do
 		if string.len(keys) > 0 then
@@ -79,13 +79,13 @@ function sqlaux.insert(db, tbl, kvmap)
 		vals = vals .. v
 	end
 	local q = "INSERT INTO "..tbl.."("..keys..") VALUE("..vals..");"
-	return sqlaux.exec(db, q)
+	return xmysql.exec(db, q)
 end
 
 
 -- colums: array
 -- conditions: {key = value}/string, can be {}/""
-function sqlaux.query(db, tbl, columns, conditions, others)
+function xmysql.query(db, tbl, columns, conditions, others)
 	columns = columns or "*"
 	local columnstr = ""
 	if type(columns) == "table" then
@@ -131,11 +131,11 @@ function sqlaux.query(db, tbl, columns, conditions, others)
 	if #others > 0 then others = " "..others end
 
 	local q = "SELECT "..columnstr.." FROM "..tbl..condstr..others..";"
-	return sqlaux.exec(db, q)
+	return xmysql.exec(db, q)
 end
 
 
-function sqlaux.update(db, tbls, kvmap, conditions)
+function xmysql.update(db, tbls, kvmap, conditions)
 	if type(tbls) == "table" then
 		tbls = table.concat(tbls, ",")
 	end
@@ -173,11 +173,11 @@ function sqlaux.update(db, tbls, kvmap, conditions)
 		condstr = " WHERE " .. condstr
 	end
 
-	return sqlaux.exec(db, "UPDATE "..tbls.." SET "..kvstr..condstr..";")
+	return xmysql.exec(db, "UPDATE "..tbls.." SET "..kvstr..condstr..";")
 end
 
 
-function sqlaux.delete(db, tbl, conditions)
+function xmysql.delete(db, tbl, conditions)
 	assert(conditions, "`conditions` must explicit!")
 	local condstr = ""
 	if type(conditions) == "table" then
@@ -198,8 +198,8 @@ function sqlaux.delete(db, tbl, conditions)
 	if #condstr ~= 0 then
 		condstr = " WHERE " .. condstr
 	end
-	return sqlaux.exec(db, "DELETE FROM "..tbl..condstr..";")
+	return xmysql.exec(db, "DELETE FROM "..tbl..condstr..";")
 end
 
 
-return sqlaux
+return xmysql

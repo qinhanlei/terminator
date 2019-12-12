@@ -2,14 +2,14 @@
 local skynet = require "skynet"
 
 local log = require "tm.log"
-local redisutil = require "tm.db.redisutil"
+local xredis = require "tm.db.xredis"
 
 local conf = require("config_db").redis
 
 
 local function test_strings()
 	log.info("Redis test strings ...")
-	local cli = redisutil.client()
+	local cli = xredis.client()
 	cli.set("hello", "world")
 	log.debug(cli.get("hello"))
 	cli.append("hello", 42)
@@ -53,7 +53,7 @@ end
 skynet.start(function()
 	log.debug("Test of Redis")
 
-	redisutil.init(conf)
+	xredis.init(conf)
 	test_strings()
 	test_lists()
 	test_sets()

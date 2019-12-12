@@ -12,7 +12,7 @@ local index
 local database
 
 
-local function keep_alive()
+local function watcher()
 	local ok, err
 	while true do
 		skynet.sleep(PING_INTERVAL)
@@ -79,5 +79,5 @@ skynet.start(function()
 		local f = assert(CMD[cmd], cmd .. " not found")
 		skynet.retpack(f(...))
 	end)
-	skynet.fork(keep_alive)
+	skynet.fork(watcher)
 end)

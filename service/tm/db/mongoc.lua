@@ -1,6 +1,6 @@
 local skynet = require "skynet"
 require "skynet.manager"
-local mongoutil = require "tm.db.mongoutil"
+local xmongo = require "tm.db.xmongo"
 local log = require "tm.log"
 
 local CMD = {}
@@ -11,13 +11,13 @@ local logic
 function CMD.start(id, conf, logicfile)
 	assert(not logic, "already started!")
 	log.info("mongoc:%d start", id)
-	mongoutil.init(conf)
+	xmongo.init(conf)
 	logic = assert(require(logicfile))
 end
 
 
 function CMD.stop()
-	mongoutil.clear()
+	xmongo.clear()
 	logic = nil
 	skynet.exit()
 end

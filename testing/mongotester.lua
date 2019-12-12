@@ -1,6 +1,6 @@
 local log = require "tm.log"
 -- local xdump = require "tm.xtable".dump
-local mongoutil = require "tm.db.mongoutil"
+local xmongo = require "tm.db.xmongo"
 
 local mongotester = {}
 
@@ -14,7 +14,7 @@ function mongotester.test_insert()
 	log.info("test insert ...")
 
 	local ok, err, ret
-	local db = mongoutil.use("testdb")
+	local db = xmongo.use("testdb")
 
 	log.info("test insert without index")
 	db.testcoll:dropIndex("*")
@@ -45,7 +45,7 @@ function mongotester.test_query()
 	log.info("test query ...")
 
 	local ok, err, ret
-	local db = mongoutil.use("testdb")
+	local db = xmongo.use("testdb")
 	db.testcoll:dropIndex("*")
 	db.testcoll:drop()
 
@@ -82,7 +82,7 @@ function mongotester.test_update()
 	log.info("test update ...")
 
 	local ok, err, ret
-	local db = mongoutil.use("testdb")
+	local db = xmongo.use("testdb")
 	db.testcoll:dropIndex("*")
 	db.testcoll:drop()
 
@@ -102,7 +102,7 @@ end
 function mongotester.test_delete()
 	log.info("test delete ...")
 
-	local db = mongoutil.use("testdb")
+	local db = xmongo.use("testdb")
 
 	db.testcoll:delete({test_key = 1})
 	db.testcoll:delete({test_key = 2})
