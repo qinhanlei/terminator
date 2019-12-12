@@ -6,8 +6,7 @@ eXecute MongoDB immediately utility
 		xmongo.init(conf)
 		local db = xmongo.use("testdb")
 		db.testcoll:findOne({test_key2 = 1})
-		...
-		-- do other CRUD operators like above
+		... do other CRUD operators like above ...
 		```
 		NOTE: one service one connection to one MongoDB instance
 
@@ -29,9 +28,10 @@ local PING_INTERVAL = 10*60*100
 local SERVICE_PATH = "tm/db/mongod"
 
 local xmongo = {}
-local firsttime = true
 
+-- simple mode only
 local cli
+local firsttime = true
 
 
 local function watcher()
@@ -50,12 +50,14 @@ end
 
 
 function xmongo.init(conf, logicfile)
+	-- multi mongoc services mode
 	if logicfile then
 		local service = skynet.uniqueservice(SERVICE_PATH)
 		skynet.call(service, "lua", "start", conf, logicfile)
 		return
 	end
 
+	-- simple xmongo utility mode
 	if cli then
 		log.warn("xmongo already initialized!")
 		return
@@ -90,11 +92,13 @@ end
 
 
 function xmongo.client()
+	assert(cli, "have no simple mode MongoDB client!")
 	return cli
 end
 
 
 function xmongo.use(dbname)
+	assert(cli, "have no simple mode MongoDB client!")
 	return cli[dbname]
 end
 

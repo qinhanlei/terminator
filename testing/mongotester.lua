@@ -34,7 +34,7 @@ function mongotester.test_insert()
 	ok, err, ret = db.testcoll:safe_insert({test_key = 2})
 	assert(ok and ret and ret.n == 1, err)
 
-	ok, err, ret = db.testcoll:safe_insert({test_key = 1})
+	ok, err = db.testcoll:safe_insert({test_key = 1})
 	assert(ok == false and string.find(err, "duplicate key error"))
 
 	return true

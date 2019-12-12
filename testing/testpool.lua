@@ -7,13 +7,13 @@ local CMD = {}
 
 
 function CMD.busy(source)
-	for k = 1, 100 do
-		for i = 1, 10000000 do
+	for _ = 1, 100 do
+		for _ = 1, 10000000 do
 			-- do nothing
 		end
 		-- log.debug("this is busy running for %x...", source)
 	end
-	log.debug("busy done.")
+	log.debug("busy for %x done.", source)
 end
 
 
@@ -23,7 +23,7 @@ end
 
 
 skynet.start(function()
-	skynet.dispatch("lua", function(session, source, cmd, ...)
+	skynet.dispatch("lua", function(_, source, cmd, ...)
 		local f = assert(CMD[cmd], cmd .. " not found")
 		skynet.retpack(f(source, ...))
 	end)

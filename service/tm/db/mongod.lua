@@ -4,6 +4,7 @@ local log = require "tm.log"
 local xdump = require "tm.xtable".dump
 
 local CMD = {}
+local SERVICE_MONGOC = "tm/db/mongoc"
 
 local config
 local logicf
@@ -35,7 +36,7 @@ function CMD.start(conf, logicfile)
 	balance = 0
 	-- log.info("MongoDB config: %s", xtable.dump(conf))
 	for i = 1, conf.connects or 2 do
-		local cli = skynet.newservice("tm/db/mongoc")
+		local cli = skynet.newservice(SERVICE_MONGOC)
 		skynet.call(cli, "lua", "start", i, conf, logicfile)
 		table.insert(clients, cli)
 	end
