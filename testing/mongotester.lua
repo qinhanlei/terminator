@@ -2,13 +2,7 @@ local log = require "tm.log"
 -- local xdump = require "tm.xtable".dump
 local mongoutil = require "tm.db.mongoutil"
 
-
 local mongotester = {}
-
-
-function mongotester.start()
-	log.info("mongotester start!")
-end
 
 
 function mongotester.hello(str)

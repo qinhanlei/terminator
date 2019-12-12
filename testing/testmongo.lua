@@ -6,12 +6,12 @@ local mongoutil = require "tm.db.mongoutil"
 local mongotester = require "mongotester"
 
 local conf = require("config_db").mongo
-local test_mode = ...  -- mongoaux / mongoutil
+local test_mode = ...
 
 local CMD = {}
 
 
-function CMD.mongoaux()
+function CMD.aux()
 	log.info("test mongoaux ...")
 	mongoaux.init(conf, "mongotester")
 	mongoaux.call("hello", "this is test!")
@@ -22,7 +22,7 @@ function CMD.mongoaux()
 end
 
 
-function CMD.mongoutil()
+function CMD.util()
 	log.info("test mongoutil ...")
 	mongoutil.init(conf)
 	mongotester.test_insert()
@@ -35,7 +35,7 @@ end
 skynet.start(function()
 	log.debug("Test of MongoDB")
 
-	test_mode = test_mode or "mongoaux"
+	test_mode = test_mode or "aux"
 	log.debug("testmode:", test_mode)
 	local f = assert(CMD[test_mode])
 	f()

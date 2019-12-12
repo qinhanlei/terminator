@@ -9,12 +9,14 @@ local SERVICE_PATH = "tm/db/mongod"
 
 
 function mongoaux.init(conf, logicfile)
-	local tmysql, e = skynet.uniqueservice(SERVICE_PATH)
-	if not tmysql then
-		log.error("create uniqueservice:%s failed:%s", SERVICE_PATH, e)
-		return
-	end
-	skynet.call(tmysql, "lua", "start", conf, logicfile)
+	local service = skynet.uniqueservice(SERVICE_PATH)
+	skynet.call(service, "lua", "start", conf, logicfile)
+end
+
+
+function mongoaux.clear()
+	local service = skynet.uniqueservice(SERVICE_PATH)
+	skynet.call(service, "lua", "stop")
 end
 
 

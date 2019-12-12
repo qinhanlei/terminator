@@ -48,6 +48,14 @@ function CMD.start(id, conf)
 end
 
 
+function CMD.stop()
+	if conn then
+		conn:disconnect()
+		skynet.exit()
+	end
+end
+
+
 function CMD.query(sql)
 	log.debug("DB:[%s] run SQL: %s", database, sql)
 	if not conn then

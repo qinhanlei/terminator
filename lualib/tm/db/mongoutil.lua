@@ -19,14 +19,22 @@ local xdump = require "tm.xtable".dump
 local PING_INTERVAL = 10*60*100
 
 local mongoutil = {}
+local firsttime = true
 
 local cli
 
 
 local function keep_alive()
+	local ok, ret
 	while true do
 		skynet.sleep(PING_INTERVAL)
-		log.info("ping MongDB:%s %s", cli, xdump(cli:runCommand("ping")))
+		if cli then
+			log.info("keep alive MongDB:%s ...", cli)
+			ok, ret = pcall(cli.runCommand, cli, "ping")
+			if not ok then
+				log.error("ping %s failed:%s", cli, ret)
+			end
+		end
 	end
 end
 
@@ -36,6 +44,7 @@ function mongoutil.init(conf)
 		log.error("mongoutil already initialized!")
 		return
 	end
+
 	log.debug("mongoutil init by conf: %s", xdump(conf))
 	cli = mongo.client({
 		host = conf.host,
@@ -45,7 +54,19 @@ function mongoutil.init(conf)
 		authdb = conf.authdb,
 	})
 	log.info("connect MongoDB %s:%d succeed!", conf.host, conf.port)
-	skynet.fork(keep_alive)
+
+	if firsttime then
+		firsttime = false
+		skynet.fork(keep_alive)
+	end
+end
+
+
+function mongoutil.clear()
+	if cli then
+		cli:disconnect()
+		cli = nil
+	end
 end
 
 

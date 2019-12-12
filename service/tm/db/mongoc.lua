@@ -9,11 +9,17 @@ local logic
 
 
 function CMD.start(id, conf, logicfile)
+	assert(not logic, "already started!")
 	log.info("mongoc:%d start", id)
 	mongoutil.init(conf)
 	logic = assert(require(logicfile))
-	assert(type(logic.start) == "function", "have no start function")
-	skynet.fork(logic.start)
+end
+
+
+function CMD.stop()
+	mongoutil.clear()
+	logic = nil
+	skynet.exit()
 end
 
 

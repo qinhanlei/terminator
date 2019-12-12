@@ -2,34 +2,30 @@
 local skynet = require "skynet"
 local mysql = require "skynet.db.mysql"
 local log = require "tm.log"
-local xdump = require "tm.xtable".dump
+-- local xdump = require "tm.xtable".dump
 
 local sqlaux = {}
 local SERVICE_PATH = "tm/db/mysqld"
 
 
 function sqlaux.init(conf)
-	log.debug("sqlaux init by conf: %s", xdump(conf))
-	local tmysql, e = skynet.uniqueservice(SERVICE_PATH)
-	if not tmysql then
-		log.error("create uniqueservice:%s failed:%s", SERVICE_PATH, e)
-		return
-	end
-	skynet.call(tmysql, "lua", "start", conf)
+	local service = skynet.uniqueservice(SERVICE_PATH)
+	skynet.call(service, "lua", "start", conf)
 end
 
 
-function sqlaux.use(db)
-	assert(type(db) == "string")
+function sqlaux.clear()
+	local service = skynet.uniqueservice(SERVICE_PATH)
+	skynet.call(service, "lua", "stop")
+end
+
+
+function sqlaux.use(dbname)
+	assert(type(dbname) == "string")
 	return setmetatable({}, {
-		__index = function(_, method)
-			local f = sqlaux[method]
-			if not f then
-				log.error("sqlaux have no: %s", tostring(method))
-				return
-			end
+		__index = function(_, key)
 			return function(...)
-				return f(db, ...)
+				return sqlaux[key](dbname, ...)
 			end
 		end
 	})
