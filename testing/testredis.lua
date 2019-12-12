@@ -5,6 +5,7 @@ local log = require "tm.log"
 local xredis = require "tm.db.xredis"
 
 local conf = require("config_db").redis
+local test_mode = ...
 
 
 local function test_strings()
@@ -12,8 +13,12 @@ local function test_strings()
 	local cli = xredis.client()
 	cli.set("hello", "world")
 	log.debug(cli.get("hello"))
+
+	cli = xredis.client()
 	cli.append("hello", 42)
 	log.debug(cli.get("hello"))
+
+	cli = xredis.client()
 	cli.set("ans", 41)
 	cli.incrby("ans", 1)
 	log.debug(cli.get("ans"))
@@ -53,7 +58,7 @@ end
 skynet.start(function()
 	log.debug("Test of Redis")
 
-	xredis.init(conf)
+	xredis.init(conf, test_mode)
 	test_strings()
 	test_lists()
 	test_sets()
