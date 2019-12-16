@@ -13,16 +13,6 @@ local clients
 local balance
 
 
-function CMD.client()
-	if not clients then
-		log.error("MongoDB clients not exist!")
-		return nil
-	end
-	balance = (balance % #clients) + 1
-	return clients[balance]
-end
-
-
 function CMD.start(conf, logicfile)
 	if clients then
 		log.warn("already started by: %s - %s", logicf, xdump(config))
@@ -50,6 +40,16 @@ function CMD.stop()
 	end
 	clients = nil
 	skynet.exit()
+end
+
+
+function CMD.client()
+	if not clients then
+		log.error("MongoDB clients not exist!")
+		return nil
+	end
+	balance = (balance % #clients) + 1
+	return clients[balance]
 end
 
 

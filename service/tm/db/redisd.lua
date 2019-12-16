@@ -13,17 +13,6 @@ local clients
 local balance
 
 
-function CMD.client()
-	if not clients then
-		log.error("RedisDB clients not exist!")
-		return nil
-	end
-	balance = (balance % #clients) + 1
-	-- log.debug("get balance: %d", balance)
-	return clients[balance]
-end
-
-
 function CMD.start(conf)
 	if clients then
 		log.warn("already started by: %s", xdump(config))
@@ -50,6 +39,17 @@ function CMD.stop()
 	end
 	clients = nil
 	skynet.exit()
+end
+
+
+function CMD.client()
+	if not clients then
+		log.error("RedisDB clients not exist!")
+		return nil
+	end
+	balance = (balance % #clients) + 1
+	-- log.debug("get balance: %d", balance)
+	return clients[balance]
 end
 
 

@@ -12,19 +12,6 @@ local db2balance  -- { db => balance:int }
 local SERVICE_MYSQLC = "tm/db/mysqlc"
 
 
-function CMD.client(db)
-	assert(db2clients and xtable.size(db2clients) > 0)
-	local clients = db2clients[db]
-	if not clients then
-		log.error("db:%s clients not exist!", db)
-		return nil
-	end
-	db2balance = db2balance or {}
-	db2balance[db] = ((db2balance[db] or 0) % #clients) + 1
-	return clients[db2balance[db]]
-end
-
-
 function CMD.start(conf)
 	if db2clients then
 		log.warn("already started by: %s", xdump(config))
@@ -72,6 +59,19 @@ function CMD.stop()
 	db2clients = {}
 	db2balance = {}
 	skynet.exit()
+end
+
+
+function CMD.client(db)
+	assert(db2clients and xtable.size(db2clients) > 0)
+	local clients = db2clients[db]
+	if not clients then
+		log.error("db:%s clients not exist!", db)
+		return nil
+	end
+	db2balance = db2balance or {}
+	db2balance[db] = ((db2balance[db] or 0) % #clients) + 1
+	return clients[db2balance[db]]
 end
 
 
