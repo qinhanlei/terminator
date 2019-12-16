@@ -50,7 +50,7 @@ end
 
 function CMD.stop()
 	if conn then
-		conn:disconnect()
+		pcall(conn.disconnect, conn)
 		skynet.exit()
 	end
 end

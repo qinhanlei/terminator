@@ -59,12 +59,15 @@ skynet.start(function()
 	log.debug("Test of Redis")
 
 	xredis.init(conf, test_mode)
+
 	test_strings()
 	test_lists()
 	test_sets()
 	test_hashes()
 	test_sorted_sets()
 	test_hyperloglogs()
+
+	xredis.clear()
 
 	log.debug("Test of Redis done")
 end)

@@ -17,6 +17,7 @@ function CMD.simple()
 	mongotester.test_query()
 	mongotester.test_update()
 	mongotester.test_delete()
+	xmongo.clear()
 end
 
 
@@ -28,6 +29,7 @@ function CMD.multi()
 	xmongo.call("test_query")
 	xmongo.call("test_update")
 	xmongo.call("test_delete")
+	xmongo.clear()
 end
 
 

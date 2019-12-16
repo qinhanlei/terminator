@@ -46,9 +46,10 @@ end
 
 function CMD.stop()
 	for _, cli in ipairs(clients) do
-		skynet.call(cli, "lua", "stop")
+		skynet.send(cli, "lua", "stop")
 	end
 	clients = nil
+	skynet.exit()
 end
 
 

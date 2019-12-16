@@ -15,8 +15,10 @@ end
 
 
 function xmysql.clear()
-	local service = skynet.uniqueservice(SERVICE_PATH)
-	skynet.call(service, "lua", "stop")
+	local service = skynet.localname(".mysqld")
+	if service then
+		skynet.send(service, "lua", "stop")
+	end
 end
 
 

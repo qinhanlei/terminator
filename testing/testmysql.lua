@@ -64,5 +64,7 @@ skynet.start(function()
 	test_update()
 	test_delete()
 
+	xmysql.clear()
+
 	log.debug("Test of MySQL done")
 end)

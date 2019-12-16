@@ -66,7 +66,7 @@ end
 function CMD.stop()
 	for _, clients in pairs(db2clients) do
 		for _, cli in ipairs(clients) do
-			skynet.call(cli, "lua", "stop")
+			skynet.send(cli, "lua", "stop")
 		end
 	end
 	db2clients = {}

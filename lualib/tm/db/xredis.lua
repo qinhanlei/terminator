@@ -81,8 +81,10 @@ function xredis.clear()
 		cli = nil
 		cfg = nil
 	else
-		local service = skynet.uniqueservice(SERVICE_PATH)
-		skynet.call(service, "lua", "stop")
+		local service = skynet.localname(".redisd")
+		if service then
+			skynet.send(service, "lua", "stop")
+		end
 	end
 end
 
