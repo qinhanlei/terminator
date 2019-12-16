@@ -16,4 +16,4 @@ fi
 export SKYNET_THREAD=`expr $CPU_NUM \* 2`
 
 export NODE_NAME="Testing"
-skynet/skynet testing/config.lua
+skynet/skynet test_config.lua
