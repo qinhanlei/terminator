@@ -25,7 +25,6 @@ local log = require "tm.log"
 local xdump = require "tm.xtable".dump
 
 local PING_INTERVAL = 10*60*100
-local SERVICE_PATH = "tm/db/mongod"
 
 local xmongo = {}
 
@@ -52,7 +51,7 @@ end
 function xmongo.init(conf, logicfile)
 	-- multi mongoc services mode
 	if logicfile then
-		local service = skynet.uniqueservice(SERVICE_PATH)
+		local service = skynet.uniqueservice("tm/db/mongod")
 		skynet.call(service, "lua", "start", conf, logicfile)
 		return
 	end

@@ -5,7 +5,6 @@ local log = require "tm.log"
 local xdump = require "tm.xtable".dump
 
 local CMD = {}
-local SERVICE_REDISC = "tm/db/redisc"
 
 local config
 
@@ -25,7 +24,7 @@ function CMD.start(conf)
 	clients = {}
 	balance = 0
 	for i = 1, conf.connects or 2 do
-		local cli = skynet.newservice(SERVICE_REDISC)
+		local cli = skynet.newservice("tm/db/redisc")
 		skynet.call(cli, "lua", "start", i, conf)
 		table.insert(clients, cli)
 	end

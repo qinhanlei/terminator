@@ -9,7 +9,6 @@ local CMD = {}
 local config
 local db2clients  -- { db => clients:array }
 local db2balance  -- { db => balance:int }
-local SERVICE_MYSQLC = "tm/db/mysqlc"
 
 
 function CMD.start(conf)
@@ -38,7 +37,7 @@ function CMD.start(conf)
 			v.password = v.password or conf.password
 			assert(v.database and type(v.database) == "string")
 			for i = 1, v.connects or conf.connects or 2 do
-				local cli = skynet.newservice(SERVICE_MYSQLC)
+				local cli = skynet.newservice("tm/db/mysqlc")
 				skynet.call(cli, "lua", "start", i, v)
 				table.insert(mapcli[k], cli)
 			end

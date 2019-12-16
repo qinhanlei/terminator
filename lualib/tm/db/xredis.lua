@@ -22,7 +22,6 @@ local log = require "tm.log"
 local xdump = require "tm.xtable".dump
 
 local PING_INTERVAL = 10*60*100
-local SERVICE_PATH = "tm/db/redisd"
 
 local xredis = {}
 
@@ -50,7 +49,7 @@ end
 function xredis.init(conf, uniquesvr)
 	-- multi redisc services mode
 	if uniquesvr then
-		local service = skynet.uniqueservice(SERVICE_PATH)
+		local service = skynet.uniqueservice("tm/db/redisd")
 		skynet.call(service, "lua", "start", conf)
 		return
 	end

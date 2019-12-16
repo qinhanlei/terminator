@@ -5,11 +5,10 @@ local log = require "tm.log"
 -- local xdump = require "tm.xtable".dump
 
 local xmysql = {}
-local SERVICE_PATH = "tm/db/mysqld"
 
 
 function xmysql.init(conf)
-	local service = skynet.uniqueservice(SERVICE_PATH)
+	local service = skynet.uniqueservice("tm/db/mysqld")
 	skynet.call(service, "lua", "start", conf)
 end
 
