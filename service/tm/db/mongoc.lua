@@ -11,8 +11,12 @@ local logic
 function CMD.start(id, conf, logicfile)
 	assert(not logic, "already started!")
 	log.info("mongoc:%d start", id)
-	xmongo.init(conf)
+	local ok = xmongo.init(conf)
+	if not ok then
+		return false
+	end
 	logic = assert(require(logicfile))
+	return true
 end
 
 

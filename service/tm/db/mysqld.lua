@@ -14,11 +14,11 @@ local db2balance  -- { db => balance:int }
 function CMD.start(conf)
 	if db2clients then
 		log.warn("already started by: %s", xdump(config))
-		return
+		return false
 	end
 	if not conf then
-		log.error("no MySQL config!")
-		return
+		log.error("have no config!")
+		return false
 	end
 	log.debug("start by conf: %s", xdump(conf))
 	-- log.info("MySQL config: %s", xtable.dump(conf))
@@ -38,14 +38,17 @@ function CMD.start(conf)
 			assert(v.database and type(v.database) == "string")
 			for i = 1, v.connects or conf.connects or 2 do
 				local cli = skynet.newservice("tm/db/mysqlc")
-				skynet.call(cli, "lua", "start", i, v)
+				local ok = skynet.call(cli, "lua", "start", i, v)
+				if not ok then
+					return false
+				end
 				table.insert(mapcli[k], cli)
 			end
 		end
 	end
 	db2clients = mapcli
 	config = conf
-	log.info("done")
+	return true
 end
 
 

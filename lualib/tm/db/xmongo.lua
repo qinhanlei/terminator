@@ -38,7 +38,7 @@ local function watcher()
 	while true do
 		skynet.sleep(PING_INTERVAL)
 		if cli then
-			log.info("keep alive MongDB:%s ...", cli)
+			log.info("keep alive %s ...", cli)
 			ok, ret = pcall(cli.runCommand, cli, "ping")
 			if not ok then
 				log.error("ping %s failed:%s", cli, ret)
@@ -52,17 +52,16 @@ function xmongo.init(conf, logicfile)
 	-- multi mongoc services mode
 	if logicfile then
 		local service = skynet.uniqueservice("tm/db/mongod")
-		skynet.call(service, "lua", "start", conf, logicfile)
-		return
+		return skynet.call(service, "lua", "start", conf, logicfile)
 	end
 
 	-- simple xmongo utility mode
 	if cli then
-		log.warn("xmongo already initialized!")
-		return
+		log.warn("already initialized!")
+		return false
 	end
 
-	log.debug("xmongo init by conf: %s", xdump(conf))
+	log.debug("init by conf: %s", xdump(conf))
 	cli = mongo.client({
 		host = conf.host,
 		port = conf.port,
@@ -70,12 +69,13 @@ function xmongo.init(conf, logicfile)
 		password = conf.password,
 		authdb = conf.authdb,
 	})
-	log.info("connect MongoDB %s:%d succeed!", conf.host, conf.port)
+	log.info("connect %s:%d succeed!", conf.host, conf.port)
 
 	if firsttime then
 		firsttime = false
 		skynet.fork(watcher)
 	end
+	return true
 end
 
 
@@ -93,13 +93,13 @@ end
 
 
 function xmongo.client()
-	assert(cli, "have no simple mode MongoDB client!")
+	assert(cli, "have no simple mode client!")
 	return cli
 end
 
 
 function xmongo.use(dbname)
-	assert(cli, "have no simple mode MongoDB client!")
+	assert(cli, "have no simple mode client!")
 	return cli[dbname]
 end
 
@@ -107,16 +107,14 @@ end
 function xmongo.call(method, ...)
 	local c = skynet.call(".mongod", "lua", "client")
 	if not c then
-		log.error("have no mongo client!")
-		return nil, "connection not exist"
+		log.error("have no client")
+		return nil, "have no client"
 	end
-
 	local ok, t = pcall(skynet.call, c, "lua", "logic", method, ...)
 	if not ok then
 		log.error("call failed: %s", t)
-		return nil, tostring(t)
+		return nil, t
 	end
-
 	return t
 end
 

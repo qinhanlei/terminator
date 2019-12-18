@@ -15,11 +15,11 @@ local balance
 function CMD.start(conf, logicfile)
 	if clients then
 		log.warn("already started by: %s - %s", logicf, xdump(config))
-		return
+		return false
 	end
 	if not conf then
-		log.error("no MongoDB config!")
-		return
+		log.error("have no config!")
+		return false
 	end
 	clients = {}
 	balance = 0
@@ -30,6 +30,7 @@ function CMD.start(conf, logicfile)
 		table.insert(clients, cli)
 	end
 	config, logicf = conf, logicfile
+	return true
 end
 
 
@@ -44,7 +45,7 @@ end
 
 function CMD.client()
 	if not clients then
-		log.error("MongoDB clients not exist!")
+		log.error("clients not exist!")
 		return nil
 	end
 	balance = (balance % #clients) + 1

@@ -9,7 +9,7 @@ local xmysql = {}
 
 function xmysql.init(conf)
 	local service = skynet.uniqueservice("tm/db/mysqld")
-	skynet.call(service, "lua", "start", conf)
+	return skynet.call(service, "lua", "start", conf)
 end
 
 
@@ -35,25 +35,24 @@ end
 
 --NOTE: use `mysql.quote_sql_str(s)` to avoid SQL injection
 function xmysql.exec(db, fmt, ...)
-	local ok, sql, t
+	local mycli = skynet.call(".mysqld", "lua", "client", db)
+	if not mycli then
+		log.error("have no client for db: %s", db)
+		return nil, "have no client"
+	end
 
+	local ok, sql, t
 	if select('#', ...) ~= 0 then
 		ok, sql = pcall(string.format, fmt, ...)
 		if not ok then
-			log.error("format sql failed:%s", tostring(sql))
-			return nil, tostring(sql)
+			log.error("format sql failed: %s", tostring(sql))
+			return nil, sql
 		end
 	end
-
-	local mycli = skynet.call(".mysqld", "lua", "client", db)
-	if not mycli then
-		log.error("db:%s connection not exist", db)
-		return nil, "connection not exist"
-	end
-
-	ok, t = pcall(skynet.call, mycli, "lua", "query", sql or fmt)
+	sql = sql or fmt
+	ok, t = pcall(skynet.call, mycli, "lua", "query", sql)
 	if not ok then
-		log.error("call failed: %s", tostring(t))
+		log.error("call failed: %s", t)
 		return nil, tostring(t)
 	end
 	if t.badresult then

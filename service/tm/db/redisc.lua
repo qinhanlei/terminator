@@ -8,7 +8,7 @@ local CMD = {}
 
 function CMD.start(id, conf)
 	log.info("redisc:%d start", id)
-	xredis.init(conf)
+	return xredis.init(conf)
 end
 
 

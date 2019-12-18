@@ -15,20 +15,24 @@ local balance
 function CMD.start(conf)
 	if clients then
 		log.warn("already started by: %s", xdump(config))
-		return
+		return false
 	end
 	if not conf then
-		log.error("no Redis config!")
-		return
+		log.error("have no config!")
+		return false
 	end
 	clients = {}
 	balance = 0
 	for i = 1, conf.connects or 2 do
 		local cli = skynet.newservice("tm/db/redisc")
-		skynet.call(cli, "lua", "start", i, conf)
+		local ok = skynet.call(cli, "lua", "start", i, conf)
+		if not ok then
+			return false
+		end
 		table.insert(clients, cli)
 	end
 	config = conf
+	return true
 end
 
 

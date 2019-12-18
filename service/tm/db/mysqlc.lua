@@ -43,8 +43,12 @@ function CMD.start(id, conf)
 			end
 		end
 	})
+	if not conn then
+		return false
+	end
 	index = id
 	database = conf.database
+	return true
 end
 
 

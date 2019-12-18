@@ -36,7 +36,7 @@ local function watcher()
 	while true do
 		skynet.sleep(PING_INTERVAL)
 		if cli then
-			log.info("keep alive redis[%s:%s] ...", cfg.host, cfg.port)
+			log.info("keep alive [%s:%s] ...", cfg.host, cfg.port)
 			ok, ret = pcall(cli.ping, cli)
 			if not ok then
 				log.error("ping %s:%s failed:%s", cfg.host, cfg.port, ret)
@@ -50,27 +50,33 @@ function xredis.init(conf, uniquesvr)
 	-- multi redisc services mode
 	if uniquesvr then
 		local service = skynet.uniqueservice("tm/db/redisd")
-		skynet.call(service, "lua", "start", conf)
-		return
+		return skynet.call(service, "lua", "start", conf)
 	end
 
 	-- simple xredis utility mode
 	if cli then
-		log.warn("xredis already initialized!")
-		return
+		log.warn("already initialized!")
+		return true
 	end
 
 	if type(conf.auth) == "string" and #conf.auth == 0 then
 		conf.auth = nil
 	end
-	log.debug("xredis init by conf: %s", xdump(conf))
-	cli = redis.connect(conf)
+
+	log.debug("init by conf: %s", xdump(conf))
+	local ok, c = pcall(redis.connect, conf)
+	if not ok then
+		log.error("connect failed! %s", c)
+		return false, c
+	end
+	cli = c
 	cfg = conf
 
 	if firsttime then
 		firsttime = false
 		skynet.fork(watcher)
 	end
+	return true
 end
 
 
@@ -101,13 +107,13 @@ local multimodeclient = setmetatable({}, {
 		return function(...)
 			local c = skynet.call(".redisd", "lua", "client")
 			if not c then
-				log.error("have no redis client!")
-				return nil, "connection not exist"
+				log.error("have no client!")
+				return nil, "have no client"
 			end
 			local ok, t = pcall(skynet.call, c, "lua", "exec", key, ...)
 			if not ok then
 				log.error("call failed: %s", t)
-				return nil, tostring(t)
+				return nil, t
 			end
 			return t
 		end
