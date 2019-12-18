@@ -40,7 +40,7 @@ local function logging(source, level, str)
 	end
 	local typ = LOG_LEVEL_TYPE[level]
 	local t = os.date("*t")
-	str = string.format("%s %s [%s:%x] %s", timetag(t), typ, nodename, source, str)
+	str = string.format("%s %-5s [%s:%04x] %s", timetag(t), typ, nodename, source, str)
 	if LOG_CONSOLE then
 		print(LOG_COLOR_MAP[typ]..str..LOG_COLOR_MAP.DEBUG)
 	end

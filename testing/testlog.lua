@@ -72,7 +72,14 @@ skynet.start(function()
 	-- has format option will treat as string.format
 	log.debug("log has %d valid format %s", 2, "options")
 	log.debug("log has invalid option %z,", "will concat by whitespace.")
-	log.debug("log has valid and invalid %s %z", "option") -- will cause error!
+	-- log.debug("log has valid and invalid %s %z", "option") -- will cause error!
+
+	log.debug("number %d", 42)
+	log.debug("number with pads %5d", 42)
+	log.debug("number with signed pads %+5d", 42)
+	log.debug("number with signed pads %+5d", -42)
+	log.debug("number with reversed pads %-5d", 42)
+	log.debug("number with maximum pads %99d", 42)
 
 	process(table.unpack(_cmd))
 
