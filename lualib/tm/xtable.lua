@@ -1,8 +1,23 @@
 local table = table
 local string = string
+local tostring = tostring
 
 local xtable = {}
 local INDENT = string.rep(" ", 2)
+
+
+function xtable.concat(list, sep)
+	local result
+	sep = sep or ""
+	for _, v in pairs(list) do
+		if result then
+			result = result .. sep .. tostring(v)
+		else
+			result = tostring(v)
+		end
+	end
+	return result
+end
 
 
 function xtable.size(t)

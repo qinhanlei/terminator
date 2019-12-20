@@ -68,6 +68,9 @@ skynet.start(function()
 	log.debug("single string log")
 	log.debug("single string log has valid option %s")
 	log.debug("log with two string parameters,", "will concat by whitespace.")
+	log.debug("log with nil", nil)
+	log.debug("log with nil hole", 1, nil, 3)
+	log.debug("log with table", { hello="world" })
 
 	-- has format option will treat as string.format
 	log.debug("log has %d valid format %s", 2, "options")

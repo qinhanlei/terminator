@@ -1,4 +1,8 @@
 local skynet = require "skynet"
+local xtable = require "tm.xtable"
+
+local debug = debug
+local string = string
 
 
 local function send_log(level, fmt, ...)
@@ -11,7 +15,7 @@ local function send_log(level, fmt, ...)
 				level, str = 4, str..'\n'..debug.traceback(nil, 3)
 			end
 		else
-			str = table.concat({fmt, ...}, " ")
+			str = xtable.concat({fmt, ...}, " ")
 		end
 	end
 	str = str or fmt
