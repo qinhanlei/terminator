@@ -16,7 +16,7 @@ function M.newtimer()
 	})
 	_timeridx = _timeridx + 1
 
-	function timer.timeout(ti, f)
+	function timer.timeout(ti, f, ...)
 		if not f then
 			log.warn("timeout callback is nil %s", debug.traceback())
 			return
@@ -24,10 +24,11 @@ function M.newtimer()
 		if ti > 60 * 100 then
 			log.warn("long timeout:%d! %s", ti, debug.traceback())
 		end
+		local p = table.pack(...)
 		local function tf()
 			if handles[tf] then
 				handles[tf] = nil
-				f()
+				f(table.unpack(p))
 			end
 		end
 		skynet.timeout(ti, tf)

@@ -21,7 +21,10 @@ local function send_log(level, fmt, ...)
 	str = str or fmt
 	local info = debug.getinfo(3)
 	if info then
-		local filename = string.match(info.short_src, "[^/%.]+%.lua")
+		local filename = info.short_src
+		if level < 3 then
+			filename = string.match(info.short_src, "[^/%.]+%.lua")
+		end
 		str = string.format("[%s:%d] %s", filename, info.currentline, str)
 	end
 	skynet.send(".logger", "lua", "logging", level, str)
