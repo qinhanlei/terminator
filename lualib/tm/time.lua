@@ -21,7 +21,7 @@ function M.newtimer()
 			log.warn("timeout callback is nil %s", debug.traceback())
 			return
 		end
-		if ti > 60 * 100 then
+		if ti > 60*60 * 100 then
 			log.warn("long timeout:%d! %s", ti, debug.traceback())
 		end
 		local p = table.pack(...)

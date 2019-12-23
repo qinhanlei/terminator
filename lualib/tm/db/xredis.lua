@@ -71,6 +71,7 @@ function xredis.init(conf, uniquesvr)
 	end
 	cli = c
 	cfg = conf
+	log.info("connect %s:%d succeed!", conf.host, conf.port)
 
 	if firsttime then
 		firsttime = false

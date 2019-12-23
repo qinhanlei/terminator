@@ -7,13 +7,14 @@ local INDENT = string.rep(" ", 2)
 
 
 function xtable.concat(list, sep)
-	local result
+	local result, v
 	sep = sep or ""
-	for _, v in pairs(list) do
+	for i = 1, #list do
+		v = tostring(list[i])
 		if result then
-			result = result .. sep .. tostring(v)
+			result = result .. sep .. v
 		else
-			result = tostring(v)
+			result = v
 		end
 	end
 	return result
