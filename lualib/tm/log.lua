@@ -7,12 +7,13 @@ local string = string
 
 local function send_log(level, fmt, ...)
 	local ok, str
-	if select('#', ...) ~= 0 then
+	if select('#', ...) > 0 then
 		-- https://www.lua.org/manual/5.3/manual.html#pdf-string.format
 		if string.match(fmt, "%%[+-]?[0-9]*[aAcdeEfgGioqsuxX]") then
 			ok, str = pcall(string.format, fmt, ...)
 			if not ok then
-				level, str = 4, str..'\n'..debug.traceback(nil, 3)
+				level = 3
+				str = xtable.concat({fmt, ...}, " ") .. " ERROR: " .. str
 			end
 		else
 			str = xtable.concat({fmt, ...}, " ")
@@ -21,10 +22,7 @@ local function send_log(level, fmt, ...)
 	str = str or fmt
 	local info = debug.getinfo(3)
 	if info then
-		local filename = info.short_src
-		if level < 3 then
-			filename = string.match(info.short_src, "[^/%.]+%.lua")
-		end
+		local filename = string.match(info.short_src, "[^/]*/?[^/]+%.lua")
 		str = string.format("[%s:%d] %s", filename, info.currentline, str)
 	end
 	skynet.send(".logger", "lua", "logging", level, str)

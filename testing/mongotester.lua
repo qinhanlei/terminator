@@ -67,12 +67,14 @@ function mongotester.test_query()
 	ret = db.testcoll:find({test_key2 = {['$gt'] = 0}}):sort({test_key = 1}, {test_key2 = -1}):skip(1):limit(1)
 	assert(ret:count() == 3)
 	assert(ret:count(true) == 1)
+
+	local v
 	-- log.debug("find: %s", xdump(ret))
-	if ret:hasNext() then
-		ret = ret:next()
-		-- log.debug("find next: %s", xdump(ret))
+	while ret:hasNext() do
+		v = ret:next()
+		-- log.debug("find next: %s", xdump(v))
 	end
-	assert(ret and ret.test_key2 == 1)
+	assert(v and v.test_key2 == 1)
 
 	return true
 end
